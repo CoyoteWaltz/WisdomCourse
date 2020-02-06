@@ -1,0 +1,52 @@
+{
+  "name": "autoxk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A Quasar Framework app",
+  "author": "aoru45 <479192742@qq.com>",
+  "scripts": {
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "ajv": "^6.11.0",
+    "axios": "^0.18.0",
+    "fibers": "^4.0.2",
+    "quasar": "^1.0.0",
+    "sass": "^1.3.0",
+    "webpack": "^4.36.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "babel-plugin-transform-imports": "1.5.0",
+    "eslint": "^4.18.2",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "^4.3.0",
+    "node-sass": "^4.13.0",
+    "postcss-rtl": "^1.2.3",
+    "quasar-cli": "^0.17.0",
+    "sass-loader": "^8.0.0",
+    "strip-ansi": "=3.0.1",
+    "vue-cli-plugin-quasar": "^2.0.0",
+    "vue-particles": "^1.0.9"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
+  "cordovaId": "org.cordova.quasar.app",
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "productName": "Quasar App"
+}
