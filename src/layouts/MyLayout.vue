@@ -64,7 +64,7 @@
               公告
           </div>
           <div id="content">
-            Testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+            {{$q}}
           </div>
         </div>
       </div>
@@ -77,9 +77,13 @@
 </template>
 
 <script>
-
 export default {
   name: 'MyLayout',
+  computed: {
+    boardInfo () {
+      return this.$q
+    }
+  },
   props: {
     user: {
       type: Object,
