@@ -56,7 +56,6 @@
           <q-item-side :icon="item.icon" />
           <q-item-main :label="item.label" :sublabel="item.sublabel"/>
         </q-item>
-        
       </q-list>
       <div class="flex justify-center">
         <div class="notice">
