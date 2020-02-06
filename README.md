@@ -6,6 +6,11 @@ Using Quasar Framework
 
 BY-Xue aoru
 
+## 依赖安装
+
+@vue/cli3/4
+@quasar/cli
+
 ## 启动
 
 解压之后进入文件所在目录的命令行，输入`npm install`安装依赖包
