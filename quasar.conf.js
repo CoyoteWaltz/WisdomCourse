@@ -1,7 +1,15 @@
 // Configuration for your app
 
+const path = require('path');
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 module.exports = function (ctx) {
   return {
+    // sourceFiles: {
+      //   common: 'src/common'
+      // },
     // app plugins (/src/plugins)
     plugins: [
       'axios'
@@ -31,15 +39,34 @@ module.exports = function (ctx) {
           loader: 'eslint-loader',
           exclude: /(node_modules|quasar)/
         })
+      //   cfg.resolve.alias
+      //     .set('@', resolve('src'))
+      //     .set('assets',resolve('src/assets'))
+      //     .set('components',resolve('src/components'))
+      //     .set('layout',resolve('src/layout'))
+      //     .set('common',resolve('src/common'))
+      //     .set('static',resolve('src/static'))
+      //     .set('pages',resolve('src/pages'))
+      },
+      chainWebpack: (config)=>{
+        config.resolve.alias
+          .set('@', resolve('src'))
+          .set('assets',resolve('src/assets'))
+          .set('components',resolve('src/components'))
+          .set('layout',resolve('src/layout'))
+          .set('common',resolve('src/common'))
+          .set('static',resolve('src/static'))
+          .set('pages',resolve('src/pages'))
       }
     },
     devServer: {
       // https: true,
-      // port: 8080,
+      // port: 8088,
       open: true // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {
+      // all: true,
       components: [
         'QLayout',
         'QLayoutHeader',
@@ -68,7 +95,10 @@ module.exports = function (ctx) {
         'QSelect',
         'QRange',
         'QField',
-        'QRadio'
+        'QRadio',
+        'QChip'
+        // 'QBreadcrumbs',
+        // 'QBreadcrumbsEl'
       ],
       directives: [
         'Ripple'
@@ -76,7 +106,15 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify'
-      ]
+      ],
+      config: {
+        notify: {
+          timeout: 1200,
+          color: 'secondary',
+          textColor: 'blue-grey-1',
+          icon: 'announcement'
+        }
+      }
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       // i18n: 'de' // Quasar language
     },

@@ -1,12 +1,12 @@
 /**
- * Created by ÏþÙ» on 2017/4/3.
+ * Created by ï¿½ï¿½Ù» on 2017/4/3.
  */
 class Circle {
-    //´´½¨¶ÔÏó
-    //ÒÔÒ»¸öÔ²Îª¶ÔÏó
-    //ÉèÖÃËæ»úµÄ x£¬y×ø±ê£¬r°ë¾¶£¬_mx£¬_myÒÆ¶¯µÄ¾àÀë
-    //this.rÊÇ´´½¨Ô²µÄ°ë¾¶£¬²ÎÊýÔ½´ó°ë¾¶Ô½´ó
-    //this._mx,this._myÊÇÒÆ¶¯µÄ¾àÀë£¬²ÎÊýÔ½´óÒÆ¶¯
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    //ï¿½ï¿½Ò»ï¿½ï¿½Ô²Îªï¿½ï¿½ï¿½ï¿½
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½yï¿½ï¿½ï¿½ê£¬rï¿½ë¾¶ï¿½ï¿½_mxï¿½ï¿½_myï¿½Æ¶ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½
+    //this.rï¿½Ç´ï¿½ï¿½ï¿½Ô²ï¿½Ä°ë¾¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ë¾¶Ô½ï¿½ï¿½
+    //this._mx,this._myï¿½ï¿½ï¿½Æ¶ï¿½ï¿½Ä¾ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½Æ¶ï¿½
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -16,12 +16,12 @@ class Circle {
 
     }
 
-    //canvas »­Ô²ºÍ»­Ö±Ïß
-    //»­Ô²¾ÍÊÇÕý³£µÄÓÃcanvas»­Ò»¸öÔ²
-    //»­Ö±ÏßÊÇÁ½¸öÔ²Á¬Ïß£¬ÎªÁË±ÜÃâÖ±Ïß¹ý¶à£¬¸øÔ²È¦¾àÀëÉèÖÃÁËÒ»¸öÖµ£¬¾àÀëºÜÔ¶µÄÔ²È¦£¬¾Í²»×öÁ¬Ïß´¦Àí
+    //canvas ï¿½ï¿½Ô²ï¿½Í»ï¿½Ö±ï¿½ï¿½
+    //ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½canvasï¿½ï¿½Ò»ï¿½ï¿½Ô²
+    //ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ß£ï¿½Îªï¿½Ë±ï¿½ï¿½ï¿½Ö±ï¿½ß¹ï¿½ï¿½à£¬ï¿½ï¿½Ô²È¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Ô²È¦ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
     drawCircle(ctx) {
         ctx.beginPath();
-        //arc() ·½·¨Ê¹ÓÃÒ»¸öÖÐÐÄµãºÍ°ë¾¶£¬ÎªÒ»¸ö»­²¼µÄµ±Ç°×ÓÂ·¾¶Ìí¼ÓÒ»Ìõ»¡¡£
+        //arc() ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Í°ë¾¶ï¿½ï¿½ÎªÒ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ç°ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         ctx.arc(this.x, this.y, this.r, 0, 360)
         ctx.closePath();
         ctx.fillStyle = 'rgba(204, 204, 204, 0.3)';
@@ -34,17 +34,17 @@ class Circle {
         let d = Math.sqrt(dx * dx + dy * dy)
         if (d < 150) {
             ctx.beginPath();
-            //¿ªÊ¼Ò»ÌõÂ·¾¶£¬ÒÆ¶¯µ½Î»ÖÃ this.x,this.y¡£´´½¨µ½´ïÎ»ÖÃ _circle.x,_circle.y µÄÒ»ÌõÏß£º
-            ctx.moveTo(this.x, this.y);   //ÆðÊ¼µã
-            ctx.lineTo(_circle.x, _circle.y);   //ÖÕµã
+            //ï¿½ï¿½Ê¼Ò»ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½Î»ï¿½ï¿½ this.x,this.yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ _circle.x,_circle.y ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ß£ï¿½
+            ctx.moveTo(this.x, this.y);   //ï¿½ï¿½Ê¼ï¿½ï¿½
+            ctx.lineTo(_circle.x, _circle.y);   //ï¿½Õµï¿½
             ctx.closePath();
             ctx.strokeStyle = 'rgba(204, 204, 204, 0.3)';
             ctx.stroke();
         }
     }
 
-    // Ô²È¦ÒÆ¶¯
-    // Ô²È¦ÒÆ¶¯µÄ¾àÀë±ØÐëÔÚÆÁÄ»·¶Î§ÄÚ
+    // Ô²È¦ï¿½Æ¶ï¿½
+    // Ô²È¦ï¿½Æ¶ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½Î§ï¿½ï¿½
     move(w, h) {
         this._mx = (this.x < w && this.x > 0) ? this._mx : (-this._mx);
         this._my = (this.y < h && this.y > 0) ? this._my : (-this._my);
@@ -52,7 +52,7 @@ class Circle {
         this.y += this._my / 2;
     }
 }
-//Êó±êµã»­Ô²ÉÁË¸±ä¶¯
+//ï¿½ï¿½ï¿½ã»­Ô²ï¿½ï¿½Ë¸ï¿½ä¶¯
 class currentCirle extends Circle {
     constructor(x, y) {
         super(x, y)
@@ -60,7 +60,7 @@ class currentCirle extends Circle {
 
     drawCircle(ctx) {
         ctx.beginPath();
-        //×¢ÊÍÄÚÈÝÎªÊó±ê½¹µãµÄµØ·½Ô²È¦°ë¾¶±ä»¯
+        //×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ê½¹ï¿½ï¿½ÄµØ·ï¿½Ô²È¦ï¿½ë¾¶ï¿½ä»¯
         //this.r = (this.r < 14 && this.r > 1) ? this.r + (Math.random() * 2 - 1) : 2;
         this.r = 8;
         ctx.arc(this.x, this.y, this.r, 0, 360);
@@ -71,7 +71,7 @@ class currentCirle extends Circle {
 
     }
 }
-//¸üÐÂÒ³ÃæÓÃrequestAnimationFrameÌæ´úsetTimeout
+//ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½requestAnimationFrameï¿½ï¿½ï¿½setTimeout
 window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
 let canvas = document.getElementById('canvas');

@@ -23,8 +23,8 @@
 }
 </style>
 <script>
-import myClasses from '../components/myClasses.vue'
-import searchClasses from '../components/searchClasses.vue'
+import myClasses from 'components/myClasses.vue'
+import searchClasses from 'components/searchClasses.vue'
 export default {
   name: 'PageQueryClass',
   components: {

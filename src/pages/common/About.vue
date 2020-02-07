@@ -9,7 +9,7 @@
             <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
             <div class="carousel-item">
                 <div id="content" style="background-color:#027be3;text-align:center;">
-                  <img src="../images/front.png" alt="">
+                  <img src="~assets/images/front.png" alt="">
                   <div id="right" class="flex justify-center" style="background-color:#26a69a">
                     <ul>
                       <li>
@@ -31,7 +31,7 @@
             <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
             <div class="carousel-item">
                 <div id="content" style="background-color:#26a69a;text-align:center;">
-                  <img src="../images/back.png" alt="">
+                  <img src="~assets/images/back.png" alt="">
                   <div id="right" class="flex justify-center" style="background-color:#21ba54">
                     <ul>
                       <li>
@@ -53,7 +53,7 @@
             <input class="carousel-open" type="radio" id="carousel-3" name="carousel" aria-hidden="true" hidden="">
             <div class="carousel-item">
                 <div id="content" style="background-color:#21ba54;text-align:center;">
-                  <img src="../images/data.png" alt="">
+                  <img src="~assets/images/data.png" alt="">
                   <div id="right" class="flex justify-center" style="background-color:#027be3">
                     <ul>
                       <li>
@@ -96,7 +96,7 @@
       开源
     </blockquote>
     <div id="bottom">
-      <img src="../images/github.png" alt=""> Github
+      <img src="~assets/images/github.png" alt=""> Github
     </div>
   </q-page>
 </template>

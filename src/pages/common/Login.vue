@@ -8,9 +8,9 @@
                 上大智课 Ver 1.0
               </div>
               <div id="input">
-                <q-input color="blue" v-model="userName" stack-label="一卡通账号" :before="[{icon: 'cloud', handler () {}}]"/>
-                <q-input color="blue" v-model="passWord" type="password" stack-label="一卡通密码" :before="[{icon: 'lock', handler () {}}]" style="margin-top:20px"/>
-                <q-select filled v-model="identity" :options="idOptions" float-label="选择身份" icon="person" />
+                <q-input color="blue" v-model="userInfo.username" stack-label="一卡通账号" :before="[{icon: 'cloud', handler () {}}]"/>
+                <q-input color="blue" v-model="userInfo.password" type="password" stack-label="一卡通密码" :before="[{icon: 'lock', handler () {}}]" style="margin-top:20px"/>
+                <q-select filled v-model="userInfo.identity" :options="idOptions" float-label="选择身份" icon="person" />
                   <!-- <template v-slot:selected>
                     第三方
                   </template>
@@ -45,9 +45,73 @@
 </vue-particles>
   </div>
 </template>
+
+<script>
+import {IDINDEX} from 'common/const'
+import {request} from '@/network/request'
+
+export default {
+  name: 'PageLogin',
+  data () {
+    return {
+      userInfo: {
+        username: '',
+        password: '',
+        identity: IDINDEX.student.value
+      },
+      idOptions: [
+        IDINDEX.student,
+        IDINDEX.teacher,
+        IDINDEX.admin
+      ]
+    }
+  },
+  methods: {
+    login () {
+      let obj = {
+        // 用户信息 临时
+        username: '行为发生',
+        identity: this.userInfo.identity,
+        stuNo: '123241',
+        lastTime: '2019-02-11', // 上次登陆时间
+        intergal: 11 // 积分
+      }
+      if (this.checkLoginInfo()) {
+        // 登录 发送网络请求
+        request()
+        this.$store.commit('user/login', {info: obj})
+        window.sessionStorage.setItem('token', 'temp_fake_token')
+        this.$q.notify({
+          message: '登录成功~',
+          icon: 'success'
+        })
+        this.$router.push('/index')
+      }
+    },
+    checkLoginInfo () {
+      if (
+        !this.userInfo.username ||
+        !this.userInfo.password ||
+        this.idOptions.includes(this.userInfo.identity)
+      ) {
+        this.$q.notify({
+          message: '有内容没填哦~',
+          icon: 'zoom_in',
+          color: 'red-5'
+        })
+        return false
+      }
+      return true
+    }
+  }
+}
+
+</script>
+
 <style>
 .lizi{
   background-color: #5FCEC0;
+  /* background-color: #26c7b1; */
   height: 100vh;
 }
 #input{
@@ -99,39 +163,4 @@
 #bg{
   overflow: hidden;
 }
-
 </style>
-<script>
-export default {
-  name: 'PageLogin',
-  data () {
-    return {
-      userName: '',
-      passWord: '',
-      identity: 0,
-      idOptions: [
-        {
-          value: 0,
-          label: '学生'
-        },
-        {
-          value: 1,
-          label: '老师'
-        },
-        {
-          value: 2,
-          label: '管理员'
-        }
-      ]
-    }
-  },
-  methods: {
-    login: function () {
-      // todo
-      console.log('login')
-      this.$router.push('/index')
-    }
-  }
-}
-
-</script>
