@@ -5,7 +5,7 @@
       <q-search icon="pages" placeholder="课程名" v-model="search" style="margin-bottom:10px" />
         <q-search icon="person" placeholder="教师名" v-model="search" style="margin-right:10%;" />
         <q-search icon="reorder" placeholder="学分" v-model="search" />
-        <q-search icon="timer" placeholder="时间(格式1-2)" v-model="search" style="margin-right:10%;"/>
+        <q-search icon="timer" placeholder="时间(格式一1-2)" v-model="search" style="margin-right:10%;"/>
         <q-select
           icon="school"
           v-model="area"
