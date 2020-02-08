@@ -119,3 +119,64 @@ info: {
 #### store
 
 #### router
+
+
+## 数据库(初稿)
+
+```python
+user:
+	id
+	u_name
+	password_hash	密码哈希
+	sex
+	u_number
+	intergal	用户积分，目前没用
+	college_id
+	privilege	身份权限 0 1 2表示
+
+college: 学院
+	id
+	name
+	
+course: 课程信息
+	id
+	c_number
+	credit	学分
+	hour	学时
+	college_id
+
+teacher2course:开课表 绑定课程和教师 开课学期 上课时间 上课教室？
+	id
+	course_id
+	teacher_id(user)
+	semester_id
+	time 上课时间
+	classroom 教室
+
+user2course: 选课表
+	id
+	user_id
+	open_course_id 开课表 外键fk	
+	grade	成绩
+	rate 课程评价
+
+semester_info:
+	id
+	semester 学期 2019学年秋季
+	selection_start  选课时间段
+	selection_duration  选课时间长
+	register_start	教师登分开始
+	register_duration
+	credit_ceiling 学分上限
+
+    
+boardcast:公告
+	id
+	to_who	给谁的公告 对应privilege
+	status 	开启1 关闭0
+	content
+	from_id	谁发布的 fk
+    
+管理员开课日志记录？
+...待完善
+```
