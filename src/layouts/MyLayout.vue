@@ -37,16 +37,18 @@
     </q-layout-drawer>
 
     <q-page-container>
+      <keep-alive>
         <router-view />
+      </keep-alive>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
 
-import BulletinBoard from 'components/BulletinBoard.vue'
-import LeftNavigation from 'components/LeftNavigation.vue'
-import UserProfile from 'components/UserProfile.vue'
+import BulletinBoard from './BulletinBoard.vue'
+import LeftNavigation from './LeftNavigation.vue'
+import UserProfile from './UserProfile.vue'
 
 export default {
   name: 'MyLayout',

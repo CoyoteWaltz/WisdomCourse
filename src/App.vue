@@ -6,7 +6,13 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    // 获取localStorage 更新state
+  },
+  beforeDestroy () {
+    // 清空localStorage
+  }
 }
 </script>
 

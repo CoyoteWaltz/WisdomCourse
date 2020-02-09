@@ -39,6 +39,6 @@
 </style>
 <script type="text/javascript">
 export default {
-  name: 'toc'
+  name: 'Toc'
 }
 </script>

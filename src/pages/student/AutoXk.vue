@@ -100,10 +100,10 @@
 
 </style>
 <script>
-import selectedClasses from '../../components/selectedClasses.vue'
+import selectedClasses from '../../components/SelectedClasses.vue'
 import toc from '../../components/Tocs.vue'
 export default {
-  name: 'PageQueryClass',
+  name: 'AutoXk',
   components: {
     selectedClasses,
     toc

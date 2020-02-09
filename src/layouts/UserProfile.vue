@@ -54,7 +54,8 @@ export default {
         // console.log('注销')
         // 下面的else必须在两个括号的中间'
         // 清空token in sessionStorage
-        window.sessionStorage.clear()
+        // window.sessionStorage.clear()
+        window.localStorage.clear()
         this.$store.commit('user/logout')
         console.log(this.$store.state.user.info)
         console.log(this.userInfo)

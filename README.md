@@ -2,7 +2,7 @@
 
 ## Front-end
 
-Using Quasar Framework
+Using Quasar Framework **0.x**
 
 BY-Xue aoru
 
