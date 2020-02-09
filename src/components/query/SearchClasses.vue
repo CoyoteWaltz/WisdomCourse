@@ -50,7 +50,7 @@
 </style>
 <script>
 export default{
-  name: 'searchClasses',
+  name: 'SearchClasses',
   data () {
     return {
       area: {},

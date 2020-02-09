@@ -8,6 +8,6 @@
 </style>
 <script>
 export default {
-  name: 'PageRecommend'
+  name: 'Recommend'
 }
 </script>

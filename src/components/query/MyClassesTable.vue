@@ -24,7 +24,7 @@
 </style>
 <script>
 export default{
-  name: 'myClasses',
+  name: 'MyClassesTable',
   data () {
     return {
       mycolor: 'red',

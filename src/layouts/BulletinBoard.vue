@@ -6,7 +6,7 @@
           公告
         </div>
         <div id="content">
-          test
+          {{$store.state.bulletin.message}}
         </div>
     </div>
   </div>

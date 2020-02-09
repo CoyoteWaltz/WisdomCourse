@@ -96,7 +96,8 @@ module.exports = function (ctx) {
         'QRange',
         'QField',
         'QRadio',
-        'QChip'
+        'QChip',
+        'QBtnGroup'
         // 'QBreadcrumbs',
         // 'QBreadcrumbsEl'
       ],
@@ -105,7 +106,8 @@ module.exports = function (ctx) {
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'Dialog'
       ],
       config: {
         notify: {

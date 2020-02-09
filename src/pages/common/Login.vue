@@ -10,7 +10,7 @@
               <div id="input">
                 <q-input color="blue" v-model="userInfo.username" stack-label="一卡通账号" :before="[{icon: 'cloud', handler () {}}]"/>
                 <q-input color="blue" v-model="userInfo.password" type="password" stack-label="一卡通密码" :before="[{icon: 'lock', handler () {}}]" style="margin-top:20px"/>
-                <q-select filled v-model="userInfo.identity" :options="idOptions" float-label="选择身份" icon="person" />
+                <q-select radio filled v-model="userInfo.identity" :options="idOptions" float-label="选择身份" icon="person" />
                   <!-- <template v-slot:selected>
                     第三方
                   </template>
@@ -70,9 +70,9 @@ export default {
     login () {
       let obj = {
         // 用户信息 临时
-        username: '行为发生',
+        username: '我是上大人',
         identity: this.userInfo.identity,
-        stuNo: '123241',
+        userNo: '123241',
         lastTime: '2019-02-11', // 上次登陆时间
         intergal: 11 // 积分
       }
@@ -80,11 +80,15 @@ export default {
         // 登录 发送网络请求
         request()
         this.$store.commit('user/login', {info: obj})
-        window.sessionStorage.setItem('token', 'temp_fake_token')
+        // window.sessionStorage.setItem('token', 'temp_fake_token')
+        window.localStorage.setItem('token', 'temp_fake_token')
         this.$q.notify({
-          message: '登录成功~',
-          icon: 'success'
+          message: '登录成功~欢迎',
+          icon: 'done'
         })
+
+        this.$store.commit('bulletin/replaceMsg', 'Welcome!')
+
         this.$router.push('/index')
       }
     },

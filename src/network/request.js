@@ -13,7 +13,8 @@ export function request (config) {
   instance.interceptors.request.use(config => {
     // window.console.log(config)
     // 头部添加Authorization: token
-    config.headers.Authorization = window.sessionStorage.getItem('token')
+    // config.headers.Authorization = window.sessionStorage.getItem('token')
+    config.headers.Authorization = window.localStorage.getItem('token')
     return config
   }, err => {
     // window.console.log(err)

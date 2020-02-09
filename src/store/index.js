@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import user from './user'
+import bulletin from './bulletin'
 
 // import example from './module-example'
 
@@ -20,7 +21,8 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       // example
-      user
+      user,
+      bulletin
     },
 
     // enable strict mode (adds overhead!)

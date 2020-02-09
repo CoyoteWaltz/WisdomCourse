@@ -3,6 +3,8 @@ export function someMutation (state) {
 }
 */
 export function login (state, userPayload) {
+  // 从sessionStorage里面获取token，将数据同步
+  // 在app的created钩子中更新所有的state
   console.log(state)
   console.log(userPayload)
   state.info = userPayload.info

@@ -3,7 +3,7 @@ export default {
   info: {
     username: '游客',
     identity: -1,
-    stuNo: '',
+    userNo: '',
     lastTime: '', // 上次登陆时间
     intergal: null // 积分
   }
