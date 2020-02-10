@@ -69,7 +69,7 @@ created阶段
 外层不关心数据获取操作
 */
 
-import Utils from 'common/util'
+import Utils from 'common/utils'
 
 export default {
   name: 'StudentClassList',

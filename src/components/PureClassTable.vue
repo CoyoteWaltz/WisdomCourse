@@ -12,6 +12,8 @@
       :hide-bottom="hideBottom"
       :pagination.sync="paginationControl"
       table-style="max-height: 45vh"
+      rows-per-page-label="每页显示行数"
+
     >
       <!-- <template slot="top" slot-scope="props"> -->
         <!-- 这个项目的quasar 0.8..只支持vue < 2.5的slot语法 -->
@@ -19,6 +21,7 @@
       <q-tr slot="body" slot-scope="props" :props="props" id="table">
         <q-td key="operation" :props="props">
           <q-btn
+            push
             size="sm"
             :icon="operationBtn.icon"
             :color="operationBtn.color"
@@ -27,20 +30,22 @@
             @click="btnClick(props.row)"
           />
         </q-td>
-        <q-td key="className" :props="props">{{ props.row.className}}</q-td>
         <q-td key="classNo" :props="props">{{ props.row.classNo }}</q-td>
+        <q-td key="className" :props="props">{{ props.row.className}}</q-td>
         <q-td key="teacherName" :props="props">{{ props.row.teacherName }}</q-td>
         <q-td key="teacherNo" :props="props">{{ props.row.teacherNo }}</q-td>
         <q-td key="time" :props="props">{{ props.row.time }}</q-td>
         <q-td key="capacity" :props="props">{{ props.row.capacity }}</q-td>
+        <q-td key="selectedNum" :props="props">{{ props.row.selectedNum }}</q-td>
         <q-td key="classroom" :props="props">{{ props.row.classroom }}</q-td>
+        <q-td key="collegeName" :props="props">{{ props.row.collegeName }}</q-td>
         <q-td key="area" :props="props">{{ props.row.area }}</q-td>
         <q-td key="grade" :props="props" v-if="props.row.grade"></q-td>
         <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
-        <q-td key="state" :props="props" v-if="props.row.state">
+        <q-td key="selectStatus" :props="props" v-if="props.row.selectStatus">
           <q-btn label="成功" color="secondary" size="sm" disable />
         </q-td>
-        <q-td key="state" v-else :props="props">
+        <q-td key="selectStatus" v-else :props="props">
           <q-btn label="失败" color="negative" size="sm" disable />
         </q-td>
         <q-td key="info" :props="props">{{ props.row.info }}</q-td>
@@ -57,6 +62,21 @@ export default {
     btnClick (clsObj) {
       // 直接调给父组件
       this.$emit('classOperation', clsObj)
+      // clsObj: {
+      //   className,
+      //   classNo,
+      //   teacherName,
+      //   teacherNo,
+      //   collegeName,
+      //   selectedNum,
+      //   capacity,
+      //   area,
+      //   hour,
+      //   classroom,
+      //   time,
+      //   credit,
+      //   selectStatus
+      // }
     }
   },
   data () {
@@ -113,11 +133,24 @@ export default {
           required: true
         },
         {
-          name: 'classroom',
+          name: 'selectedNum',
+          label: '选课人数',
+          align: 'center',
+          field: 'selectedNum'
+        },
+        {
+          name: 'collegeName',
           label: '教室',
           align: 'center',
           field: 'classroom',
           required: true
+        },
+        {
+          name: 'college',
+          label: '学院',
+          align: 'left',
+          field: 'college',
+          sortable: true
         },
         {
           name: 'area',

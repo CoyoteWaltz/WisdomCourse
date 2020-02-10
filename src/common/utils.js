@@ -2,6 +2,6 @@ function deepCopy (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
 
-export default{
+export default {
   deepCopy
 }

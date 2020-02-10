@@ -11,7 +11,8 @@
         <my-classes-table v-if="userId === studentId || userId === teacherId"/>
         <!-- 课程list -->
         <student-class-list  v-if="userId === studentId"/>
-        <teacher-class-list v-if="userId === teacherId || userId === adminId"/>
+        <teacher-class-list v-if="userId === teacherId"/>
+        <admin-class-list v-if="userId === adminId"/>
       </q-tab-pane>
       <q-tab-pane name="queryClasses" keep-alive>
         <searchClasses />
@@ -20,7 +21,7 @@
   </q-page>
 </template>
 
-<style>
+<style scoped>
 .content{
   padding: 20px 20px 0px 20px;
   background-color: #fafafa;
@@ -31,6 +32,7 @@ import MyClassesTable from 'components/query/MyClassesTable.vue'
 import StudentClassList from 'components/query/StudentClassList.vue'
 import SearchClasses from 'components/query/SearchClasses.vue'
 import TeacherClassList from 'components/query/TeacherClassList.vue'
+import AdminClassList from 'components/query/AdminClassList.vue'
 
 import {IDINDEX} from 'common/const'
 
@@ -40,7 +42,8 @@ export default {
     MyClassesTable,
     StudentClassList,
     SearchClasses,
-    TeacherClassList
+    TeacherClassList,
+    AdminClassList
   },
   data () {
     return {

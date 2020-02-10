@@ -1,6 +1,6 @@
 <template>
-  <!-- 教师  查看课程   -->
-  <div class="teacher-classes">
+  <!-- 管理员  查看课程   -->
+  <div class="admin-classes">
     <div v-show="!isManage" class="class-list" key="classList">
       <class-list
         :operationBtn="operationBtn"
@@ -10,10 +10,11 @@
     </div>
     <!-- 居然要用两个v-show来处理这样的开关 保证组件不销毁。。。 -->
     <div v-show="isManage" key="management">
+      <!-- <manage-class :classObj="operatedCls" @closeManage="closeManage"></manage-class> -->
       <manage-class :classObj="operatedCls" @closeManage="closeManage">
-        <template slot="btn1">
-          <q-btn icon-right="save" @click="commit" label="提交" color="green-4" style="margin-left:25%" push ></q-btn>
-        </template>
+        <!-- <template slot="btn1"> -->
+          <!-- <q-btn icon-right="save" @click="commit" label="提交" color="green-4" style="margin-left:25%" push ></q-btn> -->
+        <!-- </template> -->
       </manage-class>
     </div>
   </div>
@@ -25,7 +26,7 @@ import ClassList from '../ClassList'
 import ManageClass from '../ManageClass'
 
 export default {
-  name: 'TeacherClassList',
+  name: 'AdminClassList',
   components: {
     ClassList,
     ManageClass
@@ -35,8 +36,8 @@ export default {
       operatedCls: Object(),
       isManage: false,
       pureClassTableOption: {
-        title: '我上的课',
-        hideBottom: true,
+        title: '所有课程',
+        hideBottom: false,
         visibleColumns: ['operation']
       },
       operationBtn: {
@@ -56,10 +57,6 @@ export default {
     },
     closeManage () {
       this.isManage = false
-    },
-    commit () {
-      // 提交课程信息到后台
-      console.log(this.operatedCls)
     }
   }
 }

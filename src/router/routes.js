@@ -10,6 +10,7 @@ const Recommend = () => import('pages/student/Recommend.vue')
 // teacher
 
 // admin
+const Course = () => import('pages/admin/Course.vue')
 
 const routes = [
   {
@@ -55,6 +56,14 @@ const routes = [
         path: 'recommend',
         name: 'recommend',
         component: Recommend,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'course',
+        name: 'course',
+        component: Course,
         meta: {
           requiresAuth: true
         }
