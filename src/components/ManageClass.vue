@@ -11,10 +11,18 @@
     >
     </pure-user-table>
     <div id="btnGroup">
-      <q-btn-group outline>
-        <q-btn label="返回" color="secondary" push @click="$emit('closeManage')"></q-btn>
-        <q-btn label="提交" color="green-4" push @click="commitClick"></q-btn>
-      </q-btn-group>
+        <!-- <q-btn label="清空" style="margin-right:25%"  @click="reset" color="primary"/>
+        <q-btn label="搜索" @click="search" color="secondary"/>
+      <q-btn-group outline> -->
+      <div class="flex justify-center" style="margin-top:15px;">
+        <q-btn icon="keyboard_arrow_left" label="返回" color="secondary" push @click="$emit('closeManage')"></q-btn>
+        <!-- <q-btn icon-right="save" label="提交" color="green-4" style="margin-left:25%" push @click="commitClick"></q-btn> -->
+        <!-- 这里的其余按钮改为slot 注意是vue < 2.5的语法 -->
+        <slot name="btn1"></slot>
+        <slot name="btn2"></slot>
+        <slot name="btn3"></slot>
+      </div>
+      <!-- </q-btn-group> -->
     </div>
   </div>
 </template>

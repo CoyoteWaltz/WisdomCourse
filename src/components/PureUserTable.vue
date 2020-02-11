@@ -16,6 +16,7 @@
     <q-tr slot="body" slot-scope="props" :props="props" id="table">
       <q-td key="operation" :props="props">
         <q-btn
+          push
           size="sm"
           :icon="operationBtn.icon"
           :color="operationBtn.color"

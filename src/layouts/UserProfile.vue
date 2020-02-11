@@ -4,9 +4,9 @@
     <img src="https://cn.vuejs.org/images/logo.png" style="width: 50px;height:50px" class="col-1">
     <div class="col-6 column">
       <div class="col">{{userInfo.username}}</div>
-      <div class="col">{{userInfo.stuNo}}</div>
+      <div class="col">{{userInfo.userNo}}</div>
       <div class="col">
-        <q-chip outline color="info" text-color="white">
+        <q-chip outline color="info" text-color="white" style="margin-bottom:10px">
           {{userIdentity}}
         </q-chip>
       </div>

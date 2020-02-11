@@ -1,40 +1,373 @@
 <template id="">
   <div style="background-color:#fbfbfb">
     <div id="search_content">
-      <q-search icon="poll" placeholder="课程号" v-model="search" style="margin-right:10%;margin-bottom:10px"/>
-      <q-search icon="pages" placeholder="课程名" v-model="search" style="margin-bottom:10px" />
-        <q-search icon="person" placeholder="教师名" v-model="search" style="margin-right:10%;" />
-        <q-search icon="reorder" placeholder="学分" v-model="search" />
-        <q-search icon="timer" placeholder="时间(格式一1-2)" v-model="search" style="margin-right:10%;"/>
-        <q-select
-          icon="school"
-          v-model="area"
-          float-label="校区"
-          radio
-         :options="selectOptions"
-        />
+      <q-search icon="poll" float-label="课程号" placeholder="课程号" v-model.lazy="searchInfo.classNo" style="margin-right:10%;margin-bottom:10px"/>
+      <q-search icon="pages" float-label="课程名" placeholder="课程名" v-model.lazy="searchInfo.className" style="margin-bottom:10px" />
+      <q-search icon="person" float-label="教师名" placeholder="教师名" v-model.lazy="searchInfo.teacherName" style="margin-right:10%;" />
+      <q-search icon="reorder" float-label="学分" placeholder="学分" v-model.lazy.number="searchInfo.credit" />
+      <q-search icon="timer" float-label="时间(格式一1-2)" placeholder="时间(格式一1-2)" v-model="searchInfo.time" style="margin-right:10%;"/>
+      <q-select
+        icon="school"
+        v-model="searchInfo.area"
+        float-label="校区"
+        radio
+        :options="areaSelectOptions"
+      />
+      <div class="flex justify-center" style="margin-top:15px;">
+        <q-btn label="清空" style="margin-right:25%"  @click="reset" color="primary"/>
+        <q-btn label="搜索" @click="search" color="secondary"/>
+      </div>
     </div>
-
-    <q-table
-    :data="tableData"
-    :columns="columns"
-    row-key="operation"
-    rows-per-page-label="每页显示行数"
-    :rows-per-page-options="rowsPerPageOpts"
+    <add-selection
+      :tableItems="searchResult"
     >
-    <q-tr slot="body" slot-scope="props" :props="props" id="table">
-        <q-td key="operation" :props="props"><q-btn round icon="add" size="sm" color="secondary"/></q-td>
-        <q-td key="className" :props="props">{{ props.row.className }}</q-td>
-        <q-td key="classNo" :props="props">{{ props.row.classNo }}</q-td>
-        <q-td key="teacherName" :props="props">{{ props.row.teacherName }}</q-td>
-        <q-td key="time" :props="props">{{ props.row.time }}</q-td>
-        <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
-        <q-td key="personNum" :props="props">{{ props.row.personNum }}</q-td>
-        <q-td key="school" :props="props">{{ props.row.school }}</q-td>
-      </q-tr>
-  </q-table>
+    </add-selection>
   </div>
 </template>
+
+<script>
+/*
+查课 添加到已选课列表
+选课模块获得的选项 搜索 网络请求 送去下面的组件 AddSelection
+AddSelection 负责渲染table 操作 保存
+
+*/
+import AddSelection from './AddSelection'
+
+export default {
+  name: 'SearchClasses',
+  components: {
+    AddSelection
+  },
+  created () {
+    // 获取校区信息
+    this.areaSelectOptions = [
+      {
+        id: 1,
+        label: '宝山校区',
+        value: 1
+      },
+      {
+        id: 2,
+        label: '嘉定校区',
+        value: 2
+      },
+      {
+        id: 3,
+        label: '延长校区',
+        value: 3
+      }
+    ]
+  },
+  methods: {
+    search () {
+      console.log('to search')
+      console.log(this.searchInfo)
+      this.searchResult = [
+        {
+          id: 1,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 271,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 431,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 3451,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 4531,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 135,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 1768,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 661,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 177,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 16,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 11,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 4,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 2,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课程2',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 2,
+          capacity: 50,
+          classroom: '教室',
+          area: '校区'
+        },
+        {
+          id: 113,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课ds程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 5,
+          capacity: 50,
+          classroom: '教室b123',
+          area: '校区'
+        },
+        {
+          id: 53,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课dds程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 5,
+          capacity: 50,
+          classroom: '教室b123',
+          area: '校区'
+        },
+        {
+          id: 333,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课das程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 5,
+          capacity: 50,
+          classroom: '教室b123',
+          area: '校区'
+        },
+        {
+          id: 43,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课ddds程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 5,
+          capacity: 50,
+          classroom: '教室b123',
+          area: '校区'
+        },
+        {
+          id: 23,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课dggs程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 5,
+          capacity: 50,
+          classroom: '教室b123',
+          area: '校区'
+        },
+        {
+          id: 13,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课dszc程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 5,
+          capacity: 50,
+          classroom: '教室b123',
+          area: '校区'
+        },
+        {
+          id: 31,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课dsxcv程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 5,
+          capacity: 50,
+          classroom: '教室b123',
+          area: '校区'
+        },
+        {
+          id: 33,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课dzxs程',
+          classNo: '13231',
+          teacherName: '老师name',
+          time: '三3-4, 五1-3',
+          credit: 5,
+          capacity: 50,
+          classroom: '教室b123',
+          area: '校区'
+        },
+        {
+          id: 4,
+          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
+          // 只需要传递对应name的属性就行，q会匹配！爽啊
+          className: '课ag2程',
+          classNo: '222',
+          teacherName: '老师nssame',
+          time: '三3-4, 五1-3',
+          credit: 1,
+          capacity: 10,
+          classroom: '教室a111',
+          area: '校区1'
+        }
+      ]
+    },
+    reset () {
+      this.searchInfo = {
+        classNo: null,
+        className: '',
+        teacherName: '',
+        credit: null,
+        time: '',
+        area: null
+      }
+    }
+  },
+  data () {
+    return {
+      searchResult: [],
+      // area发起网络请求获取吧
+      areaSelectOptions: [],
+      searchInfo: {
+        classNo: null,
+        className: '',
+        teacherName: '',
+        credit: null,
+        time: '',
+        area: null // v-model绑定之后得到的是valu
+      }
+    }
+  }
+}
+</script>
+
 <style media="screen">
 #search_content{
   border-color: #fafafa;
@@ -48,102 +381,3 @@
   color: #7b7b7b;
 }
 </style>
-<script>
-export default{
-  name: 'SearchClasses',
-  data () {
-    return {
-      area: {},
-      rowsPerPageOpts: [5, 10, 0],
-      selectOptions: [
-        {
-          label: '宝山校区',
-          value: 1
-        },
-        {
-          label: '嘉定校区',
-          value: 2
-        },
-        {
-          label: '延长校区',
-          value: 3
-        }
-      ],
-      search: '',
-      columns:
-    [
-      {
-        name: 'operation',
-        required: true,
-        label: '操作',
-        align: 'center',
-        field: 'operation'
-      },
-      {
-        name: 'className',
-        label: '课程名',
-        align: 'left',
-        field: 'className'
-      },
-      {
-        label: '课程号',
-        name: 'classNo',
-        align: 'left',
-        field: 'classNo'
-      },
-      {
-        name: 'teacherName',
-        label: '教师名',
-        align: 'left',
-        field: 'teacherName'
-      },
-      {
-        name: 'time',
-        label: '时间',
-        align: 'left',
-        field: 'time'
-      },
-      {
-        name: 'credit',
-        label: '学分',
-        align: 'left',
-        field: 'credit'
-      },
-      {
-        name: 'personNum',
-        label: '人数',
-        align: 'left',
-        field: 'personNum'
-      },
-      {
-        name: 'school',
-        label: '校区',
-        align: 'left',
-        field: 'school'
-      }
-    ],
-      tableData:
-    [
-      {
-        className: '环境与绿色发展',
-        classNo: '1100LH01',
-        teacherName: '赵兵',
-        time: '三7-8(6-10周)',
-        credit: '4',
-        personNum: '0/70',
-        school: '宝山校区'
-      },
-      {
-        className: '环境与绿色发展',
-        classNo: '1100LH01',
-        teacherName: '赵兵',
-        time: '二3-4 五3-4',
-        credit: '4',
-        personNum: '0/70',
-        school: '宝山校区'
-      }
-    ]
-    }
-  }
-}
-</script>
