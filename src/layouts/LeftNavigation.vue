@@ -1,6 +1,6 @@
 <template>
   <div id="left-navigation">
-    <q-item v-for="item in items" :key="item.index" :to="item.to" style="padding: 13px">
+    <q-item v-for="item in items" :key="item.to" :to="item.to" style="padding: 13px">
       <q-item-side :icon="item.icon" />
       <q-item-main :label="item.label" :sublabel="item.sublabel"/>
     </q-item>
@@ -121,7 +121,7 @@ export default {
             {
               icon: 'date_range',
               label: '教学安排',
-              to: '/arragement ',
+              to: '/arrangement',
               sublabel: '设置教学计划，安排老师'
             },
             {

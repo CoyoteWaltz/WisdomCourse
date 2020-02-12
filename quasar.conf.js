@@ -97,7 +97,14 @@ module.exports = function (ctx) {
         'QField',
         'QRadio',
         'QChip',
-        'QBtnGroup'
+        'QBtnGroup',
+        'QDatetime',
+        'QCard',
+        'QCardTitle',
+        'QCardMain',
+        'QCardMedia',
+        'QCardSeparator',
+        'QCardActions'
         // 'QBreadcrumbs',
         // 'QBreadcrumbsEl'
       ],

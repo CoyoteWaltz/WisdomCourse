@@ -50,7 +50,7 @@ pureClassTableOption: {
 }
 学期切换函数 switchSemester 返回给父组件
 created阶段
-第一次网络请求得到 所有学期的列表 和 当前学期的所选课程
+第一次网络请求得到    所有学期的列表 和    当前学期的所选课程
 当前学期currentSemester的value为id，tableItems赋值
 渲染 学期选项列表 和课表
 当用户切换学期的时候捕获新的学期id
@@ -187,6 +187,7 @@ export default {
         label: '2015秋季'
       }
     ]
+    // 一个请求发送两个数据
     this.currentSemester = {
       id: 1,
       value: 1,

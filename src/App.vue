@@ -17,4 +17,7 @@ export default {
 </script>
 
 <style>
+body {
+  font-family: "Microsoft YaHei", "黑体", "宋体", "Arial", sans-serif;
+}
 </style>

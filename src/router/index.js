@@ -21,24 +21,24 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
   // 添加全局守卫
-  Router.beforeEach((to, _, next) => {
-    const allowPath = [
-      '/login',
-      '/index',
-      '/about'
-    ]
-    if (allowPath.includes(to.path)) {
-      // 这些页面不拦截
-      return next()
-    }
-    // const token = window.sessionStorage.getItem('token')
-    const token = window.localStorage.getItem('token')
-    if (!token) {
-      // 检查是否有token
-      return next('/login')
-    }
-    next()
-  })
+  // Router.beforeEach((to, _, next) => {
+  //   const allowPath = [
+  //     '/login',
+  //     '/index',
+  //     '/about'
+  //   ]
+  //   if (allowPath.includes(to.path)) {
+  //     // 这些页面不拦截
+  //     return next()
+  //   }
+  //   // const token = window.sessionStorage.getItem('token')
+  //   const token = window.localStorage.getItem('token')
+  //   if (!token) {
+  //     // 检查是否有token
+  //     return next('/login')
+  //   }
+  //   next()
+  // })
 
   return Router
 }

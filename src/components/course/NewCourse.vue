@@ -1,13 +1,12 @@
 <template>
   <div>
-    <p>课程填空</p>
     <div id="config_content">
-      <q-search icon="pages" float-label="课程名" placeholder="课程名" v-model.lazy="createInfo.courseName" style="margin-bottom:10px" />
-      <q-search icon="reorder" float-label="学分" placeholder="学分" v-model.lazy.number="createInfo.credit" />
-      <q-search icon="timer" float-label="学时" placeholder="学时" v-model.lazy.number="createInfo.hour" />
+      <q-search icon="pages" float-label="课程名" placeholder="课程名" v-model.lazy="newInfo.courseName" style="margin-bottom:10px" />
+      <q-search icon="reorder" float-label="学分" placeholder="学分" v-model.lazy.number="newInfo.credit" />
+      <q-search icon="timer" float-label="学时" placeholder="学时" v-model.lazy.number="newInfo.hour" />
       <q-select
         icon="school"
-        v-model="createInfo.collegeId"
+        v-model="newInfo.collegeId"
         float-label="学院"
         radio
         :options="collegeSelectOptions"
@@ -25,7 +24,7 @@ export default {
   name: 'NewCourse',
   data () {
     return {
-      createInfo: {
+      newInfo: {
         courseName: '',
         credit: null,
         collegeId: null,
@@ -36,7 +35,7 @@ export default {
   },
   methods: {
     reset () {
-      this.createInfo = {
+      this.newInfo = {
         courseName: '',
         credit: null,
         collegeId: null,
@@ -46,7 +45,7 @@ export default {
     create () {
       // 发起网络请求之前 先检查是否有空缺
       // 创建成功之后 通知外部组件 更新已有课程list
-      console.log(this.createInfo)
+      console.log(this.newInfo)
       new Promise((resolve, reject) => {
         setTimeout(() => {
           console.log('请求结束')
@@ -59,11 +58,11 @@ export default {
       }).then(v => {
         // 需不需要deepCopy一个？？
         this.$q.notify({
-          message: '成功 ' + this.createInfo.courseName,
+          message: '成功 ' + this.newInfo.courseName,
           color: 'primary'
         })
-        this.createInfo.id = v.id
-        this.$emit('newSuccess', this.createInfo)
+        this.newInfo.id = v.id
+        this.$emit('newSuccess', this.newInfo)
       }).catch(err => {
         this.$q.notify({
           message: err.message,
