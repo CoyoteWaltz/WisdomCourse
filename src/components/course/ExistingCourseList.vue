@@ -8,6 +8,7 @@
       @input="switchCollege"
     />
     <q-table
+      title="已创建课程"
       bordered
       :data="currentCollege.courseItems"
       :columns="columns"
@@ -109,6 +110,11 @@ export default {
     newCourse: {
       type: Object,
       required: true
+    },
+    // 外部传递来的需要删去的课程
+    removedCourse: {
+      type: Object,
+      required: true
     }
   },
   watch: {
@@ -131,6 +137,22 @@ export default {
           return
         }
       }
+    },
+    removedCourse (newValue) {
+      // 直接遍历currentCollege其实更好吧
+      console.log('删除')
+      this.currentCollege.courseItems.splice(
+        this.currentCollege.courseItems.findIndex(item => item.id === newValue.id),
+        1
+      )
+      this.currentCollege.courseItems.forEach((value, index) => {
+        value.index = index + 1
+      })
+      for (let college of this.allCourseItems) {
+        if (college.id === newValue.collegeId) {
+          college.courseItems = Utils.deepCopy(this.currentCollege.courseItems)
+        }
+      }
     }
   },
   created () {
@@ -149,6 +171,7 @@ export default {
             courseName: '课程大赛的发生',
             courseNo: '1241233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 12,
             hour: 12
           },
@@ -157,6 +180,7 @@ export default {
             courseName: '课程s大赛的发生',
             courseNo: '1241233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 12,
             hour: 12
           },
@@ -165,6 +189,7 @@ export default {
             courseName: '课程大赛的发生',
             courseNo: '1241233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 12,
             hour: 12
           },
@@ -173,6 +198,7 @@ export default {
             courseName: '课程大赛的发生',
             courseNo: '1241233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 12,
             hour: 12
           },
@@ -181,6 +207,7 @@ export default {
             courseName: '课程大赛的发生',
             courseNo: '1241233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 12,
             hour: 12
           },
@@ -189,6 +216,7 @@ export default {
             courseName: '课a地方撒发生',
             courseNo: '12gg233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 2,
             hour: 12
           },
@@ -197,6 +225,7 @@ export default {
             courseName: '课a地方撒发生',
             courseNo: '12gg233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 2,
             hour: 12
           },
@@ -205,6 +234,7 @@ export default {
             courseName: '课a地方撒发生',
             courseNo: '12gg233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 2,
             hour: 12
           },
@@ -213,6 +243,7 @@ export default {
             courseName: '课a地方撒发生',
             courseNo: '12gg233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 2,
             hour: 12
           },
@@ -221,6 +252,7 @@ export default {
             courseName: '课a地方撒发生',
             courseNo: '12gg233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 2,
             hour: 12
           },
@@ -229,6 +261,7 @@ export default {
             courseName: '课程大啊打发',
             courseNo: '12ag233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 4,
             hour: 4
           },
@@ -237,6 +270,7 @@ export default {
             courseName: '课程大赛的发生',
             courseNo: '12gs233',
             collegeName: '计算机学院',
+            collegeId: 1,
             credit: 2,
             hour: 2
           }
@@ -252,6 +286,7 @@ export default {
             courseName: '按时打发第三方',
             courseNo: '1342',
             collegeName: '理学院',
+            collegeId: 2,
             credit: 12,
             hour: 12
           },
@@ -260,6 +295,7 @@ export default {
             courseName: 'sdf阿道夫',
             courseNo: 'aahd2542',
             collegeName: '理学院',
+            collegeId: 2,
             credit: 2,
             hour: 12
           },
@@ -268,6 +304,7 @@ export default {
             courseName: '发广告法',
             courseNo: 'qrf23',
             collegeName: '理学院',
+            collegeId: 2,
             credit: 4,
             hour: 44
           },
@@ -276,6 +313,7 @@ export default {
             courseName: '五十度飞',
             courseNo: '23efdf',
             collegeName: '理学院',
+            collegeId: 2,
             credit: 4,
             hour: 12
           }

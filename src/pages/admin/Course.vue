@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <!-- <div>
       <h3>创建课程</h3>
       <p>设置学院 课程名 学分 学时</p>
       <p>创建</p>
@@ -21,7 +21,7 @@
         <li>新建课程</li>
         <li>新建开课</li>
       </ul>
-    </div>
+    </div> -->
     <q-page class="content">
       <q-tabs v-model="selectedTab" color="secondary" text-color="white">
         <!-- 选项卡 - 注意slot="title" -->
@@ -33,12 +33,18 @@
           <new-course @newSuccess="addToExistingCourse"/>
         </q-tab-pane>
         <q-tab-pane name="openCourse" keep-alive>
-          <!-- sth -->
+          <open-course
+            :selectedCourse.sync="selectedCourse"
+          />
         </q-tab-pane>
       </q-tabs>
       <div id="existing-course">
-        <p>已有课程 如果此时的tab是newCourse 传入的操作是删除课程 如果是openCourse 传入操作是选择课程</p>
-        <existing-course-list :operationBtn="courseOperatonBtn" :newCourse.sync="newCourse"/>
+        <!-- <p>已有课程 如果此时的tab是newCourse 传入的操作是删除课程 如果是openCourse 传入操作是选择课程</p> -->
+        <existing-course-list
+          :operationBtn="courseOperatonBtn"
+          :newCourse.sync="newCourse"
+          :removedCourse.sync="removedCourse"
+        />
       </div>
     </q-page>
   </div>
@@ -46,6 +52,7 @@
 
 <script>
 import NewCourse from 'components/course/NewCourse'
+import OpenCourse from 'components/course/OpenCourse'
 import ExistingCourseList from 'components/course/ExistingCourseList'
 import Utils from 'common/utils'
 
@@ -53,12 +60,15 @@ export default {
   name: 'Course',
   components: {
     NewCourse,
+    OpenCourse,
     ExistingCourseList
   },
   data () {
     return {
       selectedTab: 'newCourse',
-      newCourse: {}
+      newCourse: {},
+      removedCourse: {},
+      selectedCourse: {}
     }
   },
   computed: {
@@ -93,6 +103,7 @@ export default {
     },
     addToOpen (courseObj) {
       console.log(courseObj)
+      this.selectedCourse = Utils.deepCopy(courseObj)
     },
     removeCourse (courseObj) {
       // todo pop掉，网络请求
@@ -122,6 +133,10 @@ export default {
         }).then(res => {
           // 将这门课取消显示
           this.$q.notify(courseObj.courseName + '删除成功')
+          console.log(courseObj.courseName + '删除成功')
+          console.log(courseObj)
+          this.removedCourse = Utils.deepCopy(courseObj)
+          console.log(this.removedCourse)
         }).catch(err => {
           this.$q.notify({
             message: err.message + courseObj.courseName,

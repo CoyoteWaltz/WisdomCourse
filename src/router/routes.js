@@ -11,6 +11,7 @@ const Recommend = () => import('pages/student/Recommend.vue')
 
 // admin
 const Course = () => import('pages/admin/Course.vue')
+const Arrangement = () => import('pages/admin/Arrangement.vue')
 
 const routes = [
   {
@@ -64,6 +65,14 @@ const routes = [
         path: 'course',
         name: 'course',
         component: Course,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'arrangement',
+        name: 'arrangement',
+        component: Arrangement,
         meta: {
           requiresAuth: true
         }
