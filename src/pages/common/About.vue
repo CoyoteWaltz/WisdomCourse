@@ -96,13 +96,20 @@
       开源
     </blockquote>
     <div id="bottom">
-      <img src="~assets/images/github.png" alt=""> Github
+      <a target="_blank" href="https://github.com/CoyoteWaltz/WisdomCourse" >
+        <img src="~assets/images/github.png" alt=""> Github
+      </a>
     </div>
   </q-page>
 </template>
 
 <style lang="stylus">
 @import '~variables'
+a {
+  text-decoration:none;
+  -moz-user-focus: none;
+  -moz-user-select: none;
+}
 .carousel {
     position: relative;
     box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.64);

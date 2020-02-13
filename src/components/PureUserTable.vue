@@ -28,7 +28,8 @@
       <q-td key="index" :props="props">{{ props.row.index}}</q-td>
       <q-td key="username" :props="props">{{ props.row.username}}</q-td>
       <q-td key="userNo" :props="props">{{ props.row.userNo }}</q-td>
-      <q-td key="college" :props="props">{{ props.row.college }}</q-td>
+      <q-td key="sex" :props="props">{{ props.row.sex }}</q-td>
+      <q-td key="college" :props="props">{{ props.row.collegeName }}</q-td>
       <q-td key="scoreUsual" :props="props">
         <q-field
           style="width: 40px"
@@ -59,12 +60,6 @@
 export default {
   name: 'PureUserTable',
   mounted () {
-    // let arr = [0, 0, 0, 0, 0]
-    // arr.forEach((row, index) => {
-    //   row += index
-    //   console.log(index)
-    // })
-    // console.log(arr)
   },
   computed: {
   },
@@ -104,6 +99,14 @@ export default {
           name: 'userNo',
           align: 'center',
           field: 'userNo',
+          sortable: true,
+          required: true
+        },
+        {
+          label: '性别',
+          name: 'sex',
+          align: 'center',
+          field: 'sex',
           required: true
         },
         {
@@ -111,6 +114,7 @@ export default {
           label: '学院',
           align: 'center',
           field: 'college',
+          sortable: true,
           required: true
         },
         {

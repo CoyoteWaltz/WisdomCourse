@@ -22,6 +22,7 @@
           <semester-setting></semester-setting>
         </q-tab-pane>
         <q-tab-pane name="teacherManage" keep-alive>
+          <teacher-manage></teacher-manage>
         </q-tab-pane>
       </q-tabs>
     </q-page>
@@ -30,11 +31,13 @@
 
 <script>
 import SemesterSetting from 'components/arrangement/SemesterSetting'
+import TeacherManage from 'components/arrangement/TeacherManage'
 
 export default {
   name: 'Arrangement',
   components: {
-    SemesterSetting
+    SemesterSetting,
+    TeacherManage
   },
   data () {
     return {
