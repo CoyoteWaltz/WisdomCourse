@@ -8,9 +8,9 @@
       <semester-card
         v-if="isSelected"
         :semesterObj="selectedSemester"
-        :cardColor="'blue-grey-6'"
-        :title="'选择学期'"
-        :iconColor="'blue-grey-1'"
+        cardColor="blue-grey-6"
+        title="选择学期"
+        iconColor="blue-grey-1"
         style="margin-left:25px"
       >
         <template>

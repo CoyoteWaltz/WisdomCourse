@@ -76,6 +76,7 @@ export default {
     }
   },
   computed: {
+    // 记得处理得到的data
     semesterOptions () {
       return [
         {

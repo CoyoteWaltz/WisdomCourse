@@ -10,7 +10,7 @@
               <div id="input">
                 <q-input color="blue" v-model="userInfo.username" stack-label="一卡通账号" :before="[{icon: 'cloud', handler () {}}]"/>
                 <q-input color="blue" v-model="userInfo.password" type="password" stack-label="一卡通密码" :before="[{icon: 'lock', handler () {}}]" style="margin-top:20px"/>
-                <q-select radio filled v-model="userInfo.identity" :options="idOptions" float-label="选择身份" icon="person" />
+                <q-select :before="[{icon: 'person', handler () {}}]" radio filled v-model="userInfo.identity" :options="idOptions" float-label="选择身份"/>
                   <!-- <template v-slot:selected>
                     第三方
                   </template>

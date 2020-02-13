@@ -67,8 +67,9 @@ export default {
       {
         id: 1,
         username: '小明',
-        college: '计算机学院',
+        collegeName: '计算机学院',
         userNo: '134123',
+        sex: '男',
         scoreUsual: 66,
         scoreExam: 86,
         scoreFinal: 66
@@ -76,8 +77,9 @@ export default {
       {
         id: 2,
         username: '小x明',
-        college: '计算adfadf机学院',
+        collegeName: '计算adfadf机学院',
         userNo: '134123',
+        sex: '男',
         scoreUsual: 66,
         scoreExam: 86,
         scoreFinal: 66
@@ -85,8 +87,9 @@ export default {
       {
         id: 3,
         username: '小sf明',
-        college: '计算xcv学院',
+        collegeName: '计算xcv学院',
         userNo: '134123',
+        sex: '男',
         scoreUsual: 66,
         scoreExam: 86,
         scoreFinal: 623
@@ -94,8 +97,9 @@ export default {
       {
         id: 4,
         username: '小assd明',
-        college: '计zcv学院',
+        collegeName: '计zcv学院',
         userNo: '134123',
+        sex: '男',
         scoreUsual: 66,
         scoreExam: 85,
         scoreFinal: 66
@@ -103,8 +107,9 @@ export default {
       {
         id: 5,
         username: '小明adf',
-        college: 'cxvads学院',
+        collegeName: 'cxvads学院',
         userNo: '134123',
+        sex: '男',
         scoreUsual: 66,
         scoreExam: 46,
         scoreFinal: 66
@@ -112,8 +117,9 @@ export default {
       {
         id: 6,
         username: 'sdfa小明',
-        college: 'dssd学院',
+        collegeName: 'dssd学院',
         userNo: '134123',
+        sex: '女',
         scoreUsual: 56,
         scoreExam: 36,
         scoreFinal: 66
@@ -121,8 +127,9 @@ export default {
       {
         id: 7,
         username: '小明',
-        college: '计算机学院',
+        collegeName: '计算机学院',
         userNo: '134123',
+        sex: '女',
         scoreUsual: null,
         scoreExam: null,
         scoreFinal: null
