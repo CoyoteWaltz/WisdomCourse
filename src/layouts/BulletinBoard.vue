@@ -5,8 +5,9 @@
         <q-icon name="notifications" style="margin-right:3px;font-weight:bold;font-size:14px"/>
           公告
         </div>
-        <div id="content">
-          {{$store.state.bulletin.message}}
+        <div id="content" style="height: 100px">
+          <!-- {{$store.state.bulletin.message}} -->
+          <div v-html="$store.state.bulletin.message"></div>
         </div>
     </div>
   </div>

@@ -30,19 +30,19 @@
             @click="btnClick(props.row)"
           />
         </q-td>
-        <q-td key="classNo" :props="props">{{ props.row.classNo }}</q-td>
-        <q-td key="className" :props="props">{{ props.row.className}}</q-td>
-        <q-td key="teacherName" :props="props">{{ props.row.teacherName }}</q-td>
-        <q-td key="teacherNo" :props="props">{{ props.row.teacherNo }}</q-td>
+        <q-td key="classNo" :props="props">{{ props.row.course_no }}</q-td>
+        <q-td key="className" :props="props">{{ props.row.name}}</q-td>
+        <q-td key="teacherName" :props="props">{{ props.row.teacher_name }}</q-td>
+        <q-td key="teacherNo" :props="props">{{ props.row.teacher_no }}</q-td>
         <q-td key="time" :props="props">{{ props.row.time }}</q-td>
         <q-td key="capacity" :props="props">{{ props.row.capacity }}</q-td>
-        <q-td key="selectedNum" :props="props">{{ props.row.selectedNum }}</q-td>
+        <q-td key="selectedNum" :props="props">{{ props.row.selected_num }}</q-td>
         <q-td key="classroom" :props="props">{{ props.row.classroom }}</q-td>
-        <q-td key="collegeName" :props="props">{{ props.row.collegeName }}</q-td>
+        <q-td key="collegeName" :props="props">{{ props.row.college_name }}</q-td>
         <q-td key="area" :props="props">{{ props.row.area }}</q-td>
         <q-td key="grade" :props="props" v-if="props.row.grade"></q-td>
         <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
-        <q-td key="selectStatus" :props="props" v-if="props.row.selectStatus">
+        <q-td key="selectStatus" :props="props" v-if="props.row.select_status">
           <q-btn label="成功" color="secondary" size="sm" disable />
         </q-td>
         <q-td key="selectStatus" v-else :props="props">

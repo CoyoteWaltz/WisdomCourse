@@ -2,7 +2,7 @@
   <div class="class-list">
     <q-select
       radio
-      v-model="currentSemester.value"
+      v-model="selectedSemester.id"
       :options="semesterOptions"
       float-label="选择学期"
       @input="switchSemester"
@@ -11,7 +11,7 @@
     <pure-class-table
       :operationBtn="operationBtn"
       :title="pureClassTableOption.title"
-      :tableData="currentSemester.tableItems"
+      :tableData="selectedSemester.tableItems"
       :hide-bottom="pureClassTableOption.hideBottom"
       :visible-columns="pureClassTableOption.visibleColumns"
       @classOperation="operationBtn.btnClick"
@@ -70,6 +70,7 @@ created阶段
 */
 
 import Utils from 'common/utils'
+import semester from 'network/semester'
 
 export default {
   name: 'StudentClassList',
@@ -78,22 +79,22 @@ export default {
   },
   data () {
     return {
-      // 当前学期对象
-      currentSemester: {
-        value: -1,
-        id: -1,
+      // 必须是一个data的属性 不然不能model绑定
+      currentSemesterId: null,
+      selectedSemester: {
+        id: null,
         tableItems: []
-      },
-      // 学期列表信息: [{id, value, label}]
-      semesterOptions: [
-        {
-          id: -1,
-          value: -1,
-          label: '错误信息'
-        }
-      ],
-      // 全部课程: [{value, tableItems}] 元素是一个学期obj
-      allClasses: []
+      }
+    }
+  },
+  computed: {
+    semesterOptions () {
+      if (!this.$store.getters['semester/isGot']) {
+        return []
+      }
+      // return this.$store.state.semester.semester_list
+      // 返回历史学期
+      return this.$store.getters['semester/getHistoryOptions']
     }
   },
   props: {
@@ -123,352 +124,79 @@ export default {
     }
   },
   methods: {
+    // 封装一下切换当前选择的赋值操作
+    assignSemester (id, classList) {
+      this.selectedSemester = Utils.deepCopy({
+        id: id,
+        tableItems: classList
+      })
+    },
+    // 切换学期
     switchSemester (value) {
-      // 注意这里用 Utils.deepCopy!!!! TODO
-      // 如果allClasses里有 直接return 没有的 网络请求
-      console.log(this.currentSemester)
-      console.log(this.allClasses)
-      for (let cls of this.allClasses) {
-        if (value === cls.id) {
-          console.log(this.allClasses)
-          this.currentSemester = Utils.deepCopy(cls)
-          return
+      // 先查store里的对应学期对象有没有 class_list
+      console.log(this.$store.state.semester)
+      console.log(this.selectedSemester)
+      for (let item of this.$store.state.semester.semester_list) {
+        if (item.id === value) {
+          // this.currentSemesterId = value
+          this.selectedSemester.id = value
+          if (item.class_list !== undefined) {
+            // 如果对应的学期对象有课程 直接调用
+            this.assignSemester(value, item.class_list)
+          } else {
+            // 发起网络请求
+            semester.getClasses(value).then(res => {
+              console.log(res)
+              this.$store.commit('semester/addClassList', {
+                id: value,
+                data: res.data
+              })
+              this.assignSemester(value, res.data)
+            }).catch(err => {
+              console.log(err)
+            })
+          }
         }
       }
-      // 网络请求
-      this.$q.notify('发送网络请求中')
-      const temp = {
-        id: value,
-        value: value,
-        tableItems: [{
-          id: value + 6666,
-          className: '课程',
-          classNo: 'value+99900',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: value,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        }]
-      }
-      this.currentSemester = temp
-      this.allClasses.push(Utils.deepCopy(temp))
-      console.log(this.allClasses)
     }
   },
   created () {
-    console.log('crrree')
-    // 发送请求 获取所需数据
-    this.semesterOptions = [
-      {
-        id: 1,
-        value: 1,
-        label: '2019秋季'
-      },
-      {
-        id: 2,
-        value: 2,
-        label: '2018秋季'
-      },
-      {
-        id: 3,
-        value: 3,
-        label: '2017秋季'
-      },
-      {
-        id: 4,
-        value: 4,
-        label: '2016秋季'
-      },
-      {
-        id: 5,
-        value: 5,
-        label: '2015秋季'
-      }
-    ]
-    // 一个请求发送两个数据
-    this.currentSemester = {
-      id: 1,
-      value: 1,
-      tableItems: [
-        {
-          id: 1,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 271,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 431,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 3451,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 4531,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 135,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 1768,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 661,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 177,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 16,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 11,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 4,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 2,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课程2',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 2,
-          capacity: 50,
-          classroom: '教室',
-          area: '校区'
-        },
-        {
-          id: 113,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课ds程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 5,
-          capacity: 50,
-          classroom: '教室b123',
-          area: '校区'
-        },
-        {
-          id: 53,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课dds程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 5,
-          capacity: 50,
-          classroom: '教室b123',
-          area: '校区'
-        },
-        {
-          id: 333,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课das程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 5,
-          capacity: 50,
-          classroom: '教室b123',
-          area: '校区'
-        },
-        {
-          id: 43,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课ddds程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 5,
-          capacity: 50,
-          classroom: '教室b123',
-          area: '校区'
-        },
-        {
-          id: 23,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课dggs程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 5,
-          capacity: 50,
-          classroom: '教室b123',
-          area: '校区'
-        },
-        {
-          id: 13,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课dszc程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 5,
-          capacity: 50,
-          classroom: '教室b123',
-          area: '校区'
-        },
-        {
-          id: 31,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课dsxcv程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 5,
-          capacity: 50,
-          classroom: '教室b123',
-          area: '校区'
-        },
-        {
-          id: 33,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课dzxs程',
-          classNo: '13231',
-          teacherName: '老师name',
-          time: '三3-4, 五1-3',
-          credit: 5,
-          capacity: 50,
-          classroom: '教室b123',
-          area: '校区'
-        },
-        {
-          id: 4,
-          // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-          // 只需要传递对应name的属性就行，q会匹配！爽啊
-          className: '课ag2程',
-          classNo: '222',
-          teacherName: '老师nssame',
-          time: '三3-4, 五1-3',
-          credit: 1,
-          capacity: 10,
-          classroom: '教室a111',
-          area: '校区1'
+    // this.currentSemesterId 只需要 current_semester的id就可以了
+    // tableItem绑定的对象是 store.state.current_semester !!!!
+
+    // this.semesterOptions computed from store的getter getOptions
+    // 每次切换 直接检查store.state的semester_list
+    // 找到对应id的semester 如果他的class_list !== undefined 就mutation deepcopy 并deepcopy到this的current
+    // 如果store里面没有 啧网络请求
+    if (!this.$store.getters['semester/isGot']) {
+      // 发起网络请求
+      semester.get().then(res => {
+        if (res.code === '0') {
+          console.log(res.msg)
+          this.$store.commit('semester/init', res.data)
+          // 更新绑定的学期id
+          this.assignSemester(
+            this.$store.state.semester.current_semester.id,
+            this.$store.state.semester.current_semester.class_list
+          )
+        } else {
+          // TODO
+          console.log('后台错误 提示')
+          this.$q.notify({
+            message: res.msg
+          })
         }
-      ]
+      }).catch(err => {
+        this.$q.notify({
+          message: '网络错误' + err.message
+        })
+      })
+    } else { // 给this的赋值一下
+      this.assignSemester(
+        this.$store.state.semester.current_semester.id,
+        this.$store.state.semester.current_semester.class_list
+      )
     }
-    const temp = Utils.deepCopy(this.currentSemester)
-    this.allClasses.push(temp)
   }
 }
 </script>

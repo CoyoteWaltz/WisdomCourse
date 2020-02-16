@@ -4,6 +4,8 @@ const Login = () => import('pages/common/Login.vue')
 const Index = () => import('pages/common/Index.vue')
 const QueryClass = () => import('pages/common/QueryClass.vue')
 const About = () => import('pages/common/About.vue')
+const Bulletin = () => import('pages/common/Bulletin.vue')
+
 // student
 const AutoXk = () => import('pages/student/AutoXk.vue')
 const Recommend = () => import('pages/student/Recommend.vue')
@@ -73,6 +75,14 @@ const routes = [
         path: 'arrangement',
         name: 'arrangement',
         component: Arrangement,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'bulletin',
+        name: 'bulletin',
+        component: Bulletin,
         meta: {
           requiresAuth: true
         }

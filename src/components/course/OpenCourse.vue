@@ -2,10 +2,11 @@
   <div id="open-course">
     <div id="selected-course" style="margin-top:10px">
       选择课程：
+      <span v-show="!isSelected"><b>请在下方先选择课程</b></span>
       <div v-show="isSelected">
         <!-- 后期美化吧这里 -->
         <q-chip outline color="light-green-3" text-color="#666" style="font-size: 2vh">
-          {{selectedCourse.courseNo}} {{selectedCourse.courseName}} {{selectedCourse.collegeName}}
+          {{selectedCourse.course_no}} {{selectedCourse.name}} {{selectedCourse.college_name}}
         </q-chip>
         <q-btn @click="deselect" size="sm" color="negative" style="margin-left:20px" round icon="remove"></q-btn>
       </div>
@@ -44,6 +45,8 @@
 上课时间
 教室
 */
+import teacher from 'network/teacher'
+
 export default {
   name: 'OpenCourse',
   data () {
@@ -78,33 +81,11 @@ export default {
   computed: {
     // 记得处理得到的data
     semesterOptions () {
-      return [
-        {
-          id: 1,
-          value: 1,
-          label: '2019秋季'
-        },
-        {
-          id: 2,
-          value: 2,
-          label: '2018秋季'
-        },
-        {
-          id: 3,
-          value: 3,
-          label: '2017秋季'
-        },
-        {
-          id: 4,
-          value: 4,
-          label: '2016秋季'
-        },
-        {
-          id: 5,
-          value: 5,
-          label: '2015秋季'
-        }
-      ]
+      if (!this.$store.getters['semester/isGot']) {
+        this.$store.dispatch('semester/get')
+        return []
+      }
+      return this.$store.getters['semester/getFutureOptions']
     }
   },
   methods: {
@@ -126,37 +107,54 @@ export default {
       console.log('开课 清空老师')
       console.log(this.openInfo)
       this.openInfo.teacherId = null
+    },
+    formatData () {
+      this.teacherOptions.forEach((value, index) => {
+        value.label = value.name + ' ' + value.user_no + ' (' + value.college_name + ')'
+        value.value = value.id // 必须写
+      })
     }
   },
   created () {
     // 获取所有教师list 做处理
-    this.teacherOptions = [
-      {
-        id: 1,
-        userNo: '13233',
-        username: '王老师',
-        collegeName: '计算机学院',
-        collegeId: 1
-      },
-      {
-        id: 2,
-        userNo: '133',
-        username: 'sd老师',
-        collegeName: '计算机学院',
-        collegeId: 3
-      },
-      {
-        id: 3,
-        userNo: '13213',
-        username: 'gs老师',
-        collegeName: '文学院',
-        collegeId: 3
-      }
-    ]
-    this.teacherOptions.forEach((value, index) => {
-      value.label = value.username + ' ' + value.userNo + ' (' + value.collegeName + ')'
-      value.value = value.id // 必须写
-    })
+    if (!this.$store.getters['teacher/isGot']) {
+      // 发起网络请求
+      teacher.get().then(res => {
+        if (res.code === '0') {
+          this.$store.commit('teacher/init', res.data)
+          this.teacherOptions = res.data
+          this.formatData()
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    } else {
+      this.teacherOptions = this.$store.state.teacher.teacher_list
+      this.formatData()
+    }
+    // this.teacherOptions = [
+    //   {
+    //     id: 1,
+    //     userNo: '13233',
+    //     username: '王老师',
+    //     collegeName: '计算机学院',
+    //     collegeId: 1
+    //   },
+    //   {
+    //     id: 2,
+    //     userNo: '133',
+    //     username: 'sd老师',
+    //     collegeName: '计算机学院',
+    //     collegeId: 3
+    //   },
+    //   {
+    //     id: 3,
+    //     userNo: '13213',
+    //     username: 'gs老师',
+    //     collegeName: '文学院',
+    //     collegeId: 3
+    //   }
+    // ]
   }
 }
 </script>
