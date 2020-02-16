@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 import user from './user'
 import bulletin from './bulletin'
 import semester from './semester'
+import college from './college'
+import teacher from './teacher'
 
 // import example from './module-example'
 
@@ -24,7 +26,9 @@ export default function (/* { ssrContext } */) {
       // example
       user,
       bulletin,
-      semester
+      semester,
+      college,
+      teacher
     },
 
     // enable strict mode (adds overhead!)

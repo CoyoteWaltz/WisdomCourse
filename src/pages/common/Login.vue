@@ -47,8 +47,30 @@
 </template>
 
 <script>
+/*
+登录发送数据:
+  username
+  password
+  身份不用发了
+token + identity + username + userNo存localstorage
+登录之后得到数据:
+用户信息userInfo:
+  username: '游客',
+  identity: -1,
+  userNo: '',
+  lastTime: '', // 上次登陆时间
+  intergal: null // 积分
+公告栏信息bulletinInfo:
+  字符串
+  存store
+学期信息semesterInfo
+以及当前学期的课程
+  获取完都存到store mutations存得到的数据 getter返回处理之后的options
+  如果页面刷新 store没数据了 getter重新发起请求actions 然后返回
+*/
+
 import {IDINDEX} from 'common/const'
-import {request} from '@/network/request'
+// import {request} from '@/network/request'
 
 export default {
   name: 'PageLogin',
@@ -78,7 +100,7 @@ export default {
       }
       if (this.checkLoginInfo()) {
         // 登录 发送网络请求
-        request()
+        // request()
         this.$store.commit('user/login', {info: obj})
         // window.sessionStorage.setItem('token', 'temp_fake_token')
         window.localStorage.setItem('token', 'temp_fake_token')
@@ -89,7 +111,7 @@ export default {
 
         this.$store.commit('bulletin/replaceMsg', 'Welcome!')
 
-        this.$router.push('/index')
+        this.$router.push('/query')
       }
     },
     checkLoginInfo () {

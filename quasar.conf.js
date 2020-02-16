@@ -57,11 +57,22 @@ module.exports = function (ctx) {
           .set('common',resolve('src/common'))
           .set('static',resolve('src/static'))
           .set('pages',resolve('src/pages'))
+          .set('network',resolve('src/network'))
       }
     },
     devServer: {
       // https: true,
       // port: 8088,
+      proxy: {
+        // 将所有以/api开头的请求代理到jsonplaceholder
+        '/api': {
+          target: 'http://localhost:8088/api/v1.0',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api': ''
+          }
+        }
+      },
       open: true // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!

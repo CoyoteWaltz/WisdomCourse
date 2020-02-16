@@ -10,7 +10,7 @@
       <li>登分时间很多</li>
     </ul>
     <h3>设置学期</h3> -->
-    <h3>新建老师信息</h3>
+    <!-- <h3>新建老师信息</h3> -->
     <q-page class="content">
       <q-tabs v-model="selectedTab" color="secondary" text-color="white">
         <!-- 选项卡 - 注意slot="title" -->

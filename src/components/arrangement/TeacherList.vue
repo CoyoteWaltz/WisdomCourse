@@ -2,7 +2,7 @@
   <div>
     <pure-user-table
       title="All teachers"
-      :hide-bottom="false"
+      :hide-bottom="true"
       :tableData="teacherList"
     ></pure-user-table>
   </div>
@@ -24,7 +24,7 @@ export default {
     }
   },
   props: {
-    addTeacher: {
+    addedTeacher: {
       type: Object,
       default () {
         return {}
@@ -32,11 +32,11 @@ export default {
     }
   },
   watch: {
-    addTeacher (newValue) {
+    addedTeacher (newValue) {
       console.log('新建')
       console.log(newValue)
       newValue.username = newValue.name
-      newValue.index = this.teacherList.length
+      newValue.index = this.teacherList.length + 1
       newValue.id = parseInt(Math.random() * 1000)
       newValue.userNo = 'usdfdsf' + newValue.id
       this.teacherList.push(Utils.deepCopy(newValue))

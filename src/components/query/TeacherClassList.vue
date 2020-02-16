@@ -10,7 +10,7 @@
     </div>
     <!-- 居然要用两个v-show来处理这样的开关 保证组件不销毁。。。 -->
     <div v-show="isManage" key="management">
-      <manage-class :classObj="operatedCls" @closeManage="closeManage">
+      <manage-class :classObj.sync="operatedCls" @closeManage="closeManage">
         <template slot="btn1">
           <q-btn icon-right="save" @click="commit" label="提交" color="green-4" style="margin-left:25%" push ></q-btn>
         </template>
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-
 import ClassList from '../ClassList'
 import ManageClass from '../ManageClass'
 

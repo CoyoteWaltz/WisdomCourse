@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'NewCourse',
   data () {
@@ -29,8 +30,12 @@ export default {
         credit: null,
         collegeId: null,
         hour: null
-      },
-      collegeSelectOptions: []
+      }
+    }
+  },
+  computed: {
+    collegeSelectOptions () {
+      return this.$store.getters['college/selectOptions']
     }
   },
   methods: {
@@ -72,44 +77,18 @@ export default {
     }
   },
   created () {
-    // 网络请求获取
-    this.collegeSelectOptions = [
-      {
-        value: 1,
-        id: 1,
-        label: '计算机学院'
-      },
-      {
-        value: 2,
-        id: 2,
-        label: '计成都市学院'
-      },
-      {
-        value: 3,
-        id: 3,
-        label: '大师傅学院'
-      },
-      {
-        value: 4,
-        id: 4,
-        label: '清任务学院'
-      },
-      {
-        value: 5,
-        id: 5,
-        label: '计非的故事学院'
-      },
-      {
-        value: 6,
-        id: 6,
-        label: '单方事故的法规学院'
-      },
-      {
-        value: 7,
-        id: 7,
-        label: '大商股份算机学院'
-      }
-    ]
+    // 网络请求获取 从 store 获取
+    // if (this.$store.getters['college/isGot']) {
+    //   // 有了直接就从store拿
+    //   this.collegeSelectOptions = this.$store.state.college.college_list
+    // } else {
+    //   course.get().then(res => {
+    //     this.$store.commit('college/init', res.data)
+    //     this.collegeSelectOptions = this.$store.state.college.college_list
+    //   }).then(err => {
+    //     console.log(err)
+    //   })
+    // }
   }
 }
 </script>

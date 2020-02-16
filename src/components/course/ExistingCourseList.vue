@@ -10,7 +10,7 @@
     <q-table
       title="已创建课程"
       bordered
-      :data="currentCollege.courseItems"
+      :data="currentCollege.course_list"
       :columns="columns"
       row-key="id"
       :hide-bottom="true"
@@ -28,9 +28,9 @@
           />
         </q-td>
         <q-td key="index" :props="props">{{ props.row.index }}</q-td>
-        <q-td key="courseName" :props="props">{{ props.row.courseName }}</q-td>
-        <q-td key="courseNo" :props="props">{{ props.row.courseNo }}</q-td>
-        <q-td key="collegeName" :props="props">{{ props.row.collegeName }}</q-td>
+        <q-td key="courseName" :props="props">{{ props.row.name }}</q-td>
+        <q-td key="courseNo" :props="props">{{ props.row.course_no }}</q-td>
+        <q-td key="collegeName" :props="props">{{currentCollege.college_name}}</q-td>
         <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
         <q-td key="hour" :props="props">{{ props.row.hour }}</q-td>
       </q-tr>
@@ -40,6 +40,7 @@
 
 <script>
 import Utils from 'common/utils'
+import course from 'network/course'
 
 export default {
   name: 'ExistingCourseList',
@@ -48,6 +49,7 @@ export default {
   data () {
     return {
       paginationControl: {rowsPerPage: 0},
+      // 获取数据之后给第一个
       currentCollege: {
         value: null,
         courseItems: []
@@ -156,183 +158,27 @@ export default {
     }
   },
   created () {
-    // 获取所有课程的list {college, courses:[]}
+    // store or 网络 获取所有课程的list {college, courses:[]}
     // 将collegeOptions 生成
-    const a = Utils.deepCopy(1)
-    console.log(a)
-    this.allCourseItems = [
-      {
-        id: 1,
-        value: 1,
-        collegeName: '计算机学院',
-        courseItems: [
-          {
-            id: 123,
-            courseName: '课程大赛的发生',
-            courseNo: '1241233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 12,
-            hour: 12
-          },
-          {
-            id: 1223,
-            courseName: '课程s大赛的发生',
-            courseNo: '1241233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 12,
-            hour: 12
-          },
-          {
-            id: 12333,
-            courseName: '课程大赛的发生',
-            courseNo: '1241233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 12,
-            hour: 12
-          },
-          {
-            id: 11523,
-            courseName: '课程大赛的发生',
-            courseNo: '1241233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 12,
-            hour: 12
-          },
-          {
-            id: 115623,
-            courseName: '课程大赛的发生',
-            courseNo: '1241233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 12,
-            hour: 12
-          },
-          {
-            id: 14643,
-            courseName: '课a地方撒发生',
-            courseNo: '12gg233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 2,
-            hour: 12
-          },
-          {
-            id: 15445,
-            courseName: '课a地方撒发生',
-            courseNo: '12gg233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 2,
-            hour: 12
-          },
-          {
-            id: 173,
-            courseName: '课a地方撒发生',
-            courseNo: '12gg233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 2,
-            hour: 12
-          },
-          {
-            id: 183,
-            courseName: '课a地方撒发生',
-            courseNo: '12gg233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 2,
-            hour: 12
-          },
-          {
-            id: 343,
-            courseName: '课a地方撒发生',
-            courseNo: '12gg233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 2,
-            hour: 12
-          },
-          {
-            id: 13,
-            courseName: '课程大啊打发',
-            courseNo: '12ag233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 4,
-            hour: 4
-          },
-          {
-            id: 12,
-            courseName: '课程大赛的发生',
-            courseNo: '12gs233',
-            collegeName: '计算机学院',
-            collegeId: 1,
-            credit: 2,
-            hour: 2
-          }
-        ]
-      },
-      {
-        id: 2,
-        value: 2,
-        collegeName: '理学院',
-        courseItems: [
-          {
-            id: 123,
-            courseName: '按时打发第三方',
-            courseNo: '1342',
-            collegeName: '理学院',
-            collegeId: 2,
-            credit: 12,
-            hour: 12
-          },
-          {
-            id: 121,
-            courseName: 'sdf阿道夫',
-            courseNo: 'aahd2542',
-            collegeName: '理学院',
-            collegeId: 2,
-            credit: 2,
-            hour: 12
-          },
-          {
-            id: 133,
-            courseName: '发广告法',
-            courseNo: 'qrf23',
-            collegeName: '理学院',
-            collegeId: 2,
-            credit: 4,
-            hour: 44
-          },
-          {
-            id: 122,
-            courseName: '五十度飞',
-            courseNo: '23efdf',
-            collegeName: '理学院',
-            collegeId: 2,
-            credit: 4,
-            hour: 12
-          }
-        ]
-      }
-    ]
-    this.allCourseItems.forEach((item, _) => {
-      item.courseItems.forEach((value, index) => {
-        value.index = index + 1
+    if (this.$store.getters['college/isGot']) {
+      this.allCourseItems = this.$store.getters['college/copy']
+      this.formatData()
+    } else {
+      // 发起网络请求
+      course.get().then(res => {
+        if (res.code !== '0') {
+          console.log(res.msg)
+        } else {
+          console.log('yesss')
+          console.log(res)
+          this.$store.commit('college/init', res.data)
+          this.allCourseItems = this.$store.state.college.college_list
+          this.formatData()
+        }
+      }).catch(err => {
+        console.log(err)
       })
-    })
-    this.currentCollege = Utils.deepCopy(this.allCourseItems[0])
-    this.collegeOptions = this.allCourseItems.map((value, index) => {
-      return {
-        id: value.id,
-        value: value.id,
-        label: value.collegeName
-      }
-    })
+    }
   },
   methods: {
     btnClick (courseObj) {
@@ -340,6 +186,9 @@ export default {
       this.$emit('newSuccess', courseObj)
     },
     switchCollege (value) {
+      // console.log(this.allCourseItems)
+      // console.log(this.collegeOptions)
+      console.log(this.currentCollege)
       for (let college of this.allCourseItems) {
         if (value === college.id) {
           this.currentCollege = Utils.deepCopy(college)
@@ -347,6 +196,22 @@ export default {
           return
         }
       }
+    },
+    formatData () {
+      this.allCourseItems.forEach(item => {
+        item.value = item.id
+        item.course_list.forEach((value, index) => {
+          value.index = index + 1
+        })
+      })
+      this.currentCollege = Utils.deepCopy(this.allCourseItems[0])
+      this.collegeOptions = this.allCourseItems.map((value, index) => {
+        return {
+          id: value.id,
+          value: value.id,
+          label: value.college_name
+        }
+      })
     }
   }
 }

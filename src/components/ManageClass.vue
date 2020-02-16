@@ -5,7 +5,7 @@
       </q-field>
     </div> -->
     <pure-user-table
-      :tableData="studentItems"
+      :tableData.sync="studentItems"
       :visible-columns="['scoreUsual', 'scoreExam', 'scoreFinal']"
       :title="tableTitle"
     >
@@ -32,7 +32,7 @@
 管理班级学生组件
 从外部接受 课程的id 发起网络请求
 */
-
+import Utils from 'common/utils'
 import PureUserTable from './PureUserTable'
 export default {
   name: 'ManageClass',
@@ -58,86 +58,101 @@ export default {
     // 外部传入的课程信息
     classObj: {
       type: Object,
-      required: true
+      default () {
+        return {}
+      }
+    }
+  },
+  watch: {
+    classObj (newValue) {
+      console.log(newValue)
+      if (!newValue.students) {
+        console.log('没')
+        let temp = [
+          {
+            id: 1,
+            username: '小明',
+            collegeName: '计算机学院',
+            userNo: '134123',
+            sex: '男',
+            scoreUsual: 66,
+            scoreExam: 86,
+            scoreFinal: 66
+          },
+          {
+            id: 2,
+            username: '小x明',
+            collegeName: '计算adfadf机学院',
+            userNo: '134123',
+            sex: '男',
+            scoreUsual: 66,
+            scoreExam: 86,
+            scoreFinal: 66
+          },
+          {
+            id: 3,
+            username: '小sf明',
+            collegeName: '计算xcv学院',
+            userNo: '134123',
+            sex: '男',
+            scoreUsual: 66,
+            scoreExam: 86,
+            scoreFinal: 623
+          },
+          {
+            id: 4,
+            username: '小assd明',
+            collegeName: '计zcv学院',
+            userNo: '134123',
+            sex: '男',
+            scoreUsual: 66,
+            scoreExam: 85,
+            scoreFinal: 66
+          },
+          {
+            id: 5,
+            username: '小明adf',
+            collegeName: 'cxvads学院',
+            userNo: '134123',
+            sex: '男',
+            scoreUsual: 66,
+            scoreExam: 46,
+            scoreFinal: 66
+          },
+          {
+            id: 6,
+            username: 'sdfa小明',
+            collegeName: 'dssd学院',
+            userNo: '134123',
+            sex: '女',
+            scoreUsual: 56,
+            scoreExam: 36,
+            scoreFinal: 66
+          },
+          {
+            id: 7,
+            username: '小明',
+            collegeName: '计算机学院',
+            userNo: '134123',
+            sex: '女',
+            scoreUsual: null,
+            scoreExam: null,
+            scoreFinal: null
+          }
+        ]
+        temp.forEach((row, index) => {
+          row.index = this.classObj.id
+        })
+        newValue.students = Utils.deepCopy(temp)
+        this.studentItems = newValue.students
+      } else {
+        // this.studentItems = Utils.deepCopy(newValue.students)
+        this.studentItems = newValue.students
+      }
     }
   },
   created () {
     // 网络请求发起 获取课程学生信息list 一定要记得给index
-    this.studentItems = [
-      {
-        id: 1,
-        username: '小明',
-        collegeName: '计算机学院',
-        userNo: '134123',
-        sex: '男',
-        scoreUsual: 66,
-        scoreExam: 86,
-        scoreFinal: 66
-      },
-      {
-        id: 2,
-        username: '小x明',
-        collegeName: '计算adfadf机学院',
-        userNo: '134123',
-        sex: '男',
-        scoreUsual: 66,
-        scoreExam: 86,
-        scoreFinal: 66
-      },
-      {
-        id: 3,
-        username: '小sf明',
-        collegeName: '计算xcv学院',
-        userNo: '134123',
-        sex: '男',
-        scoreUsual: 66,
-        scoreExam: 86,
-        scoreFinal: 623
-      },
-      {
-        id: 4,
-        username: '小assd明',
-        collegeName: '计zcv学院',
-        userNo: '134123',
-        sex: '男',
-        scoreUsual: 66,
-        scoreExam: 85,
-        scoreFinal: 66
-      },
-      {
-        id: 5,
-        username: '小明adf',
-        collegeName: 'cxvads学院',
-        userNo: '134123',
-        sex: '男',
-        scoreUsual: 66,
-        scoreExam: 46,
-        scoreFinal: 66
-      },
-      {
-        id: 6,
-        username: 'sdfa小明',
-        collegeName: 'dssd学院',
-        userNo: '134123',
-        sex: '女',
-        scoreUsual: 56,
-        scoreExam: 36,
-        scoreFinal: 66
-      },
-      {
-        id: 7,
-        username: '小明',
-        collegeName: '计算机学院',
-        userNo: '134123',
-        sex: '女',
-        scoreUsual: null,
-        scoreExam: null,
-        scoreFinal: null
-      }
-    ]
-    this.studentItems.forEach((row, index) => {
-      row.index = index + 1
-    })
   }
 }
 </script>

@@ -1,7 +1,8 @@
 import axios from 'axios'
 // 如果以后要换框架，直接修改下面的函数体 重新用Promise封装就好了
 
-const serverUrl = ''
+// const serverUrl = 'http://127.0.0.1:8088/api/v1.0'
+const serverUrl = '/api'
 
 export function request (config) {
   const instance = axios.create({
@@ -15,20 +16,27 @@ export function request (config) {
     // 头部添加Authorization: token
     // config.headers.Authorization = window.sessionStorage.getItem('token')
     config.headers.Authorization = window.localStorage.getItem('token')
+    config.headers['content-type'] = 'application/json'
     return config
   }, err => {
     // window.console.log(err)
     return err
   })
+
   // response interceptor
   instance.interceptors.response.use(res => {
     // window.console.log(res)
     // 剥离出数据即可
     return res.data
   }, err => {
-    // window.console.log(err)
+    window.console.log(err)
     return err
   })
 
   return instance(config) // 直接返回promise对象 更粗暴
+  // instance(config).then(res => {
+  //   success(res)
+  // }).catch(err => {
+  //   failed(err)
+  // })
 }

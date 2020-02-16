@@ -63,7 +63,7 @@ export default {
             }
           }, 1200)
         }).then(res => {
-          // 将这门课取消显示
+          // 将这门课取消显示 从classlist中splice掉 得到成功的class id即可
           this.$q.notify('退课成功某某课程')
         }).catch(err => {
           this.$q.notify({

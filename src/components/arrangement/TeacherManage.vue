@@ -1,6 +1,6 @@
 <template>
   <div>
-    <teacher-list :addTeacher.sync="newTeacherObj"></teacher-list>
+    <teacher-list :addedTeacher.sync="newTeacherObj"></teacher-list>
     <div class="row justify-center">
       <new-teacher @addTeacher="addToTeacherList"></new-teacher>
     </div>
@@ -20,7 +20,7 @@ export default {
   },
   data () {
     return {
-      newTeacherObj: []
+      newTeacherObj: {}
     }
   },
   methods: {
