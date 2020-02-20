@@ -54,11 +54,12 @@
     <div class="flex justify-center" style="margin-top:15px;">
       <q-btn color="indigo-6" label="新建学期" push @click="create"/>
     </div>
-    {{newInfo}}
+    <!-- {{newInfo}} -->
   </div>
 </template>
 
 <script>
+import semester from 'network/semester'
 export default {
   name: 'NewSemester',
   computed: {
@@ -84,7 +85,23 @@ export default {
   methods: {
     create () {
       console.log('新建学期')
-      this.$emit('newSemester', this.newInfo)
+      // 网络请求
+      semester.newSemester({
+        name: this.newInfo.name,
+        selection_start: this.newInfo.selectionStart,
+        selection_end: this.newInfo.selectionEnd,
+        register_start: this.newInfo.registerStart,
+        register_end: this.newInfo.registerEnd,
+        credit_ceiling: this.newInfo.creditCeiling
+      }).then(res => {
+        console.log(res)
+        if (res.code === '0') {
+          this.$store.commit('semester/addSemester', res.data)
+          this.$emit('newSemester', res.data)
+        } else {
+          console.log(res.msg)
+        }
+      })
     }
   }
 }

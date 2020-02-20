@@ -12,7 +12,7 @@
         <q-item-main>
           <q-item-tile label>选课时间:</q-item-tile>
           <q-item-tile text-color="grey-1" sublabel>
-            {{semesterObj.selectionStart}} ~ {{semesterObj.selectionEnd}}
+            {{semesterObj.selection_start}} ~ {{semesterObj.selection_end}}
           </q-item-tile>
         </q-item-main>
       </q-item>
@@ -23,7 +23,7 @@
         <q-item-main>
           <q-item-tile label>登分时间:</q-item-tile>
           <q-item-tile text-color="grey-1" sublabel>
-            {{semesterObj.registerStart}} ~ {{semesterObj.registerEnd}}
+            {{semesterObj.register_start}} ~ {{semesterObj.register_end}}
           </q-item-tile>
         </q-item-main>
       </q-item>
@@ -32,7 +32,7 @@
           <q-item-tile :color="iconColor" icon="disc_full" />
         </q-item-side>
         <q-item-main>
-          <q-item-tile label>学分上限: {{semesterObj.creditCeiling}}</q-item-tile>
+          <q-item-tile label>学分上限: {{semesterObj.credit_ceiling}}</q-item-tile>
         </q-item-main>
       </q-item>
       <slot></slot>

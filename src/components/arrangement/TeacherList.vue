@@ -12,6 +12,7 @@
 // 获取已有老师的list
 import PureUserTable from '../PureUserTable'
 import Utils from 'common/utils'
+import teacher from 'network/teacher'
 
 export default {
   name: 'TeacherList',
@@ -33,6 +34,7 @@ export default {
   },
   watch: {
     addedTeacher (newValue) {
+      // 发送网络请求 成功后通知store mutation this的数据也要改变
       console.log('新建')
       console.log(newValue)
       newValue.username = newValue.name
@@ -43,59 +45,25 @@ export default {
     }
   },
   created () {
-    this.teacherList = [
-      {
-        id: 1,
-        username: '王老师',
-        userNo: '214dsfa',
-        collegeId: 3,
-        sex: '男',
-        collegeName: '计算机学院'
-      },
-      {
-        id: 23,
-        username: '打老师',
-        userNo: '242a',
-        collegeId: 3,
-        sex: '男',
-        collegeName: '计算机学院'
-      },
-      {
-        id: 441,
-        username: '是老师',
-        userNo: '2123fa',
-        collegeId: 2,
-        sex: '男',
-        collegeName: '几个号学院'
-      },
-      {
-        id: 121,
-        username: '让他老师',
-        userNo: '21sdds13',
-        collegeId: 4,
-        sex: '女',
-        collegeName: '小数点学院'
-      },
-      {
-        id: 21,
-        username: '哈佛老师',
-        userNo: '214dsfa',
-        collegeId: 4,
-        sex: '男',
-        collegeName: '小数点学院'
-      },
-      {
-        id: 31,
-        username: '啊哈老师',
-        userNo: '21214sfa',
-        collegeId: 4,
-        sex: '女',
-        collegeName: '小数点学院'
-      }
-    ]
-    this.teacherList.forEach((value, index) => {
-      value.index = index + 1
-    })
+    // store or network获取教师列表
+    if (this.$store.getters['teacher/isGot']) {
+      this.teacherList = Utils.deepCopy(this.$store.state.teacher.teacher_list)
+      this.teacherList.forEach((value, index) => {
+        value.index = index + 1
+      })
+    } else {
+      teacher.get().then(res => {
+        if (res.code === '0') {
+          this.$store.commit('teacher/init', res.data)
+          this.teacherList = Utils.deepCopy(res.data)
+          this.teacherList.forEach((value, index) => {
+            value.index = index + 1
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>

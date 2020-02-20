@@ -9,6 +9,7 @@
 import NewSemester from './NewSemester'
 import CurrentSemester from './CurrentSemester'
 import Utils from 'common/utils'
+
 export default {
   name: 'SemesterSetting',
   components: {
@@ -27,7 +28,6 @@ export default {
       console.log(semesterObj)
       this.addSemester = Utils.deepCopy(semesterObj)
       // 网络请求得到的返回数据应该是含有id的 这里就替代一下
-      this.addSemester.id = parseInt(Math.random() * 1000)
       this.addSemester.label = this.addSemester.name
       this.addSemester.value = this.addSemester.id
     }
