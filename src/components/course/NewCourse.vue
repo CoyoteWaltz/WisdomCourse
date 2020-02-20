@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import course from 'network/course'
 
 export default {
   name: 'NewCourse',
@@ -51,29 +52,45 @@ export default {
       // 发起网络请求之前 先检查是否有空缺
       // 创建成功之后 通知外部组件 更新已有课程list
       console.log(this.newInfo)
-      new Promise((resolve, reject) => {
-        setTimeout(() => {
-          console.log('请求结束')
-          if (parseInt((Math.random() * 100)) % 2 === 0) {
-            resolve({id: parseInt((Math.random() * 10000))})
-          } else {
-            reject(Error('失败了'))
-          }
-        }, 1200)
-      }).then(v => {
-        // 需不需要deepCopy一个？？
-        this.$q.notify({
-          message: '成功 ' + this.newInfo.courseName,
-          color: 'primary'
-        })
-        this.newInfo.id = v.id
-        this.$emit('newSuccess', this.newInfo)
+      course.newCourse({
+        course_name: this.newInfo.courseName,
+        hour: this.newInfo.hour,
+        credit: this.newInfo.credit,
+        college_id: this.newInfo.collegeId
+      }).then(res => {
+        console.log(res)
+        if (res.code === '0') {
+          this.$store.commit('college/addOne', res.data)
+          this.$emit('newSuccess', res.data)
+        } else {
+          console.log(res.msg)
+        }
       }).catch(err => {
-        this.$q.notify({
-          message: err.message,
-          color: 'negative'
-        })
+        console.log(err)
       })
+      // new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+      //     console.log('请求结束')
+      //     if (parseInt((Math.random() * 100)) % 2 === 0) {
+      //       resolve({id: parseInt((Math.random() * 10000))})
+      //     } else {
+      //       reject(Error('失败了'))
+      //     }
+      //   }, 1200)
+      // }).then(v => {
+      //   // 需不需要deepCopy一个？？
+      //   this.$q.notify({
+      //     message: '成功 ' + this.newInfo.courseName,
+      //     color: 'primary'
+      //   })
+      //   this.newInfo.id = v.id
+      //   this.$emit('newSuccess', this.newInfo)
+      // }).catch(err => {
+      //   this.$q.notify({
+      //     message: err.message,
+      //     color: 'negative'
+      //   })
+      // })
     }
   },
   created () {

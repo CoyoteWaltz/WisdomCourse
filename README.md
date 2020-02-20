@@ -559,7 +559,6 @@ returns:
 	failed:
 		code  msg    			data(null)
 		4003  "数据库操作失败(数据库中已存在等情况都返回这个)"
-
 ```
 
 #### 新建课程
@@ -632,7 +631,8 @@ methods: POST
 参数:	课程id 	course_id	int
 		上课时间  time		str
 		学期id  semester_id		int
-		教师id  teacherid		int
+		教师id  teacher_id		int
+		教室 classroom 		str
 returns:
 	success: {
 		data: {
@@ -666,7 +666,7 @@ returns:
 
 ```
 desc: 获取学期信息list和当前学期对象
-url: /semesters/<int:semester_id>
+url: /semesters/current/<int:semester_id>
 methods: PATCH
 returns:
 	success: {
@@ -732,6 +732,7 @@ methods: POST
 参数:	姓名	name
 		性别	sex
 		学院id	college_id
+		工号	user_no
 
 returns:
 	success: {

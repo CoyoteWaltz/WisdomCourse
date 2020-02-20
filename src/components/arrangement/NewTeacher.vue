@@ -9,9 +9,12 @@
         <q-input color="blue" v-model="newInfo.name" stack-label="姓名" :before="[{icon: 'person', handler () {}}]"/>
       </q-item>
       <q-item>
+        <q-input color="blue" v-model="newInfo.user_no" stack-label="工号" :before="[{icon: 'room', handler () {}}]"/>
+      </q-item>
+      <q-item>
         性别：
-        <q-radio style="margin-left:30px" icon="person" v-model="newInfo.sex" val="0" label="男" />
-        <q-radio style="margin-left:30px" icon="person" v-model="newInfo.sex" val="1" label="女" />
+        <q-radio style="margin-left:30px" icon="person" v-model="newInfo.sex" val="1" label="男" />
+        <q-radio style="margin-left:30px" icon="person" v-model="newInfo.sex" val="2" label="女" />
       </q-item>
       <q-item>
         <q-select
@@ -29,6 +32,8 @@
 </template>
 
 <script>
+import teacher from 'network/teacher'
+
 export default {
   name: 'NewTeacher',
   data () {
@@ -36,7 +41,8 @@ export default {
       newInfo: {
         name: '',
         collegeId: null,
-        sex: 0
+        userNo: '',
+        sex: 1
       },
       collegeOptions: []
     }
@@ -44,9 +50,27 @@ export default {
   methods: {
     create () {
       console.log('新建教师')
-      this.$q.notify('提示 用户名和密码相同 都是工号')
-      // 通知外面要加一个教师 创建成功返回的data
-      this.$emit('addTeacher', this.newInfo)
+      const data = {
+        name: this.newInfo.name,
+        sex: this.newInfo.sex,
+        college_id: this.newInfo.collegeId,
+        user_no: this.newInfo.user_no
+      }
+      teacher.create(data).then(res => {
+        if (res.code === '0') {
+          // 创建成功
+          this.$store.commit('teacher/addOne', res.data)
+          this.$emit('addTeacher', res.data)
+        } else {
+          this.$q.notify({
+            message: res.msg,
+            color: 'negative'
+          })
+        }
+      })
+      // this.$q.notify('提示 用户名和密码相同 都是工号')
+      // // 通知外面要加一个教师 创建成功返回的data
+      // this.$emit('addTeacher', this.newInfo)
     }
   },
   created () {

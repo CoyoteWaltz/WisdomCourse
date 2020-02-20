@@ -128,17 +128,18 @@ export default {
       console.log(this.allCourseItems)
       for (let college of this.allCourseItems) {
         console.log(college)
-        if (newValue.collegeId === college.id) {
-          console.log('插入' + college.collegeName)
-          newValue.index = college.courseItems.length + 1
+        if (newValue.college_id === college.id) {
+          console.log('插入' + college.college_name)
+          newValue.index = college.course_list.length + 1
           // 同时要考虑是不是currentCollege
-          if (newValue.collegeId === this.currentCollege.value) {
-            this.currentCollege.courseItems.push(newValue)
+          if (newValue.college_id === this.currentCollege.value) {
+            this.currentCollege.course_list.push(newValue)
           }
-          college.courseItems.push(newValue)
+          college.course_list.push(newValue)
           return
         }
       }
+      // this.allCourseItems = Utils.deepCopy(this.$store.state.college.course_list)
     },
     removedCourse (newValue) {
       // 直接遍历currentCollege其实更好吧
@@ -162,7 +163,7 @@ export default {
     // 将collegeOptions 生成
     if (this.$store.getters['college/isGot']) {
       this.allCourseItems = this.$store.getters['college/copy']
-      this.formatData()
+      this.allCourseItems = Utils.deepCopy(this.$store.state.college.college_list)
     } else {
       // 发起网络请求
       course.get().then(res => {
@@ -172,7 +173,7 @@ export default {
           console.log('yesss')
           console.log(res)
           this.$store.commit('college/init', res.data)
-          this.allCourseItems = this.$store.state.college.college_list
+          this.allCourseItems = Utils.deepCopy(this.$store.state.college.college_list)
           this.formatData()
         }
       }).catch(err => {

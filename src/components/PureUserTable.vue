@@ -26,29 +26,29 @@
         />
       </q-td>
       <q-td key="index" :props="props">{{ props.row.index}}</q-td>
-      <q-td key="username" :props="props">{{ props.row.username}}</q-td>
-      <q-td key="userNo" :props="props">{{ props.row.userNo }}</q-td>
+      <q-td key="username" :props="props">{{ props.row.name}}</q-td>
+      <q-td key="userNo" :props="props">{{ props.row.user_no }}</q-td>
       <q-td key="sex" :props="props">{{ props.row.sex }}</q-td>
-      <q-td key="college" :props="props">{{ props.row.collegeName }}</q-td>
+      <q-td key="college" :props="props">{{ props.row.college_name }}</q-td>
       <q-td key="scoreUsual" :props="props">
         <q-field
           style="width: 40px"
         >
-          <q-input v-model.number="props.row.scoreUsual" />
+          <q-input v-model.number="props.row.usual_score" />
         </q-field>
       </q-td>
       <q-td key="scoreExam" :props="props">
         <q-field
           style="width: 40px"
         >
-          <q-input v-model.number="props.row.scoreExam" />
+          <q-input v-model.number="props.row.exam_score" />
         </q-field>
       </q-td>
       <q-td key="scoreFinal" :props="props">
         <q-field
           style="width: 40px"
         >
-          <q-input v-model.number="props.row.scoreFinal" />
+          <q-input v-model.number="props.row.final_score" />
         </q-field>
       </q-td>
       <q-td key="info" :props="props">{{ props.row.info }}</q-td>

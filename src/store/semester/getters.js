@@ -4,6 +4,7 @@ export function someGetter (state) {
 */
 // 获取历史学期的options
 export function getHistoryOptions (state) {
+  console.log(state.semester_list)
   return state.semester_list.filter(value => {
     return value.name <= state.current_semester.name
   }).map((value) => {

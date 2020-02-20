@@ -46,6 +46,7 @@
 教室
 */
 import teacher from 'network/teacher'
+import openClass from 'network/openClass'
 
 export default {
   name: 'OpenCourse',
@@ -76,6 +77,7 @@ export default {
       this.isSelected = true
       this.openInfo.courseObj = newValue
       console.log('更新！')
+      console.log(this.$store.state.college)
     }
   },
   computed: {
@@ -97,16 +99,34 @@ export default {
       this.deselect()
       this.openInfo = {
         semesterId: null,
-        teacherObj: null,
+        teacherId: null,
         classroom: '',
         time: '',
         courseObj: null
       }
     },
     openCourse () {
+      // 网络请求
+      console.log(this.openInfo)
+      openClass.newOpen({
+        course_id: this.openInfo.courseObj.id,
+        time: this.openInfo.time,
+        teacher_id: this.openInfo.teacherId,
+        semester_id: this.openInfo.semesterId,
+        classroom: this.openInfo.classroom
+      }).then(res => {
+        if (res.code === '0') {
+          console.log(res.data)
+        } else {
+          console.log(res.msg)
+        }
+      })
+
       console.log('开课 清空老师')
       console.log(this.openInfo)
       this.openInfo.teacherId = null
+      this.openInfo.classroom = null
+      this.openInfo.time = null
     },
     formatData () {
       this.teacherOptions.forEach((value, index) => {
@@ -123,38 +143,15 @@ export default {
         if (res.code === '0') {
           this.$store.commit('teacher/init', res.data)
           this.teacherOptions = res.data
-          this.formatData()
+          // this.formatData()
         }
       }).catch(err => {
         console.log(err)
       })
     } else {
       this.teacherOptions = this.$store.state.teacher.teacher_list
-      this.formatData()
+      // this.formatData()
     }
-    // this.teacherOptions = [
-    //   {
-    //     id: 1,
-    //     userNo: '13233',
-    //     username: '王老师',
-    //     collegeName: '计算机学院',
-    //     collegeId: 1
-    //   },
-    //   {
-    //     id: 2,
-    //     userNo: '133',
-    //     username: 'sd老师',
-    //     collegeName: '计算机学院',
-    //     collegeId: 3
-    //   },
-    //   {
-    //     id: 3,
-    //     userNo: '13213',
-    //     username: 'gs老师',
-    //     collegeName: '文学院',
-    //     collegeId: 3
-    //   }
-    // ]
   }
 }
 </script>

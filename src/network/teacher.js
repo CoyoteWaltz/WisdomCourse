@@ -7,5 +7,12 @@ export default {
       method: 'get',
       url: '/teachers'
     })
+  },
+  create (newInfo) {
+    return request({
+      method: 'post',
+      url: '/teachers',
+      data: newInfo
+    })
   }
 }

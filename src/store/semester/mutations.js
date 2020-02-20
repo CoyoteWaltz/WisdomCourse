@@ -9,13 +9,13 @@ export function init (state, payload) {
   console.log('init')
   console.log(payload)
   state.current_semester = payload.current_semester
-  state.current_semester.value = state.current_semester.id
-  state.current_semester.label = state.current_semester.name
+  // state.current_semester.value = state.current_semester.id
+  // state.current_semester.label = state.current_semester.name
   state.semester_list = payload.semester_list
-  state.semester_list.forEach(value => {
-    value.value = value.id
-    value.label = value.name
-  })
+  // state.semester_list.forEach(value => {
+  //   value.value = value.id
+  //   value.label = value.name
+  // })
   state.semester_list.push(Utils.deepCopy(payload.current_semester))
   console.log(state)
 }
@@ -30,4 +30,9 @@ export function addClassList (state, payload) {
       i.class_list = payload.data
     }
   }
+}
+// 增加一个新学期
+export function addSemester (state, payload) {
+  let temp = Utils.deepCopy(payload)
+  state.semester_list.push(temp)
 }

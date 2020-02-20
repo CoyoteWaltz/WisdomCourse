@@ -31,5 +31,18 @@ export default {
         semester: semesterId
       }
     })
+  },
+  setCurrent (semesterId) {
+    return request({
+      method: 'patch',
+      url: '/semesters/current/' + semesterId
+    })
+  },
+  newSemester (newInfo) {
+    return request({
+      method: 'post',
+      url: '/semesters',
+      data: newInfo
+    })
   }
 }
