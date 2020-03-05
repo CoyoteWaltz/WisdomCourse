@@ -49,6 +49,7 @@ export default {
       }
     },
     create () {
+      // 检查参数是否都完全
       // 发起网络请求之前 先检查是否有空缺
       // 创建成功之后 通知外部组件 更新已有课程list
       console.log(this.newInfo)
@@ -68,45 +69,25 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-      // new Promise((resolve, reject) => {
-      //   setTimeout(() => {
-      //     console.log('请求结束')
-      //     if (parseInt((Math.random() * 100)) % 2 === 0) {
-      //       resolve({id: parseInt((Math.random() * 10000))})
-      //     } else {
-      //       reject(Error('失败了'))
-      //     }
-      //   }, 1200)
-      // }).then(v => {
-      //   // 需不需要deepCopy一个？？
-      //   this.$q.notify({
-      //     message: '成功 ' + this.newInfo.courseName,
-      //     color: 'primary'
-      //   })
-      //   this.newInfo.id = v.id
-      //   this.$emit('newSuccess', this.newInfo)
-      // }).catch(err => {
-      //   this.$q.notify({
-      //     message: err.message,
-      //     color: 'negative'
-      //   })
-      // })
     }
-  },
-  created () {
-    // 网络请求获取 从 store 获取
-    // if (this.$store.getters['college/isGot']) {
-    //   // 有了直接就从store拿
-    //   this.collegeSelectOptions = this.$store.state.college.college_list
-    // } else {
-    //   course.get().then(res => {
-    //     this.$store.commit('college/init', res.data)
-    //     this.collegeSelectOptions = this.$store.state.college.college_list
-    //   }).then(err => {
-    //     console.log(err)
-    //   })
-    // }
   }
+  // a = new Promise((resolve, reject) => {
+  //   // 做异步操作
+  //   setTimeout(() => {
+  //     // yes
+  //     // no 
+  //     if ('完成') {
+  //       resolve('adsfasdf')
+  //     } else if ('失败') {
+  //       reject()
+  //     }
+  //   }, 1000)
+  // }).then(res => {
+
+  // }).catch(err => {
+
+  // })
+  // res形参 => 
 }
 </script>
 

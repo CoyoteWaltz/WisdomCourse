@@ -37,6 +37,7 @@
     </q-layout-drawer>
 
     <q-page-container>
+      <!-- 路由视图 -->
       <keep-alive>
         <router-view />
       </keep-alive>

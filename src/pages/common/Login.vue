@@ -70,15 +70,15 @@ token + identity + username + userNo存localstorage
 */
 
 import {IDINDEX} from 'common/const'
-// import {request} from '@/network/request'
+import user from 'network/user'
 
 export default {
   name: 'PageLogin',
   data () {
     return {
       userInfo: {
-        username: '',
-        password: '',
+        username: 'admin111',
+        password: 'admin111',
         identity: IDINDEX.student.value
       },
       idOptions: [
@@ -90,28 +90,50 @@ export default {
   },
   methods: {
     login () {
-      let obj = {
-        // 用户信息 临时
-        username: '我是上大人',
-        identity: this.userInfo.identity,
-        userNo: '123241',
-        lastTime: '2019-02-11', // 上次登陆时间
-        intergal: 11 // 积分
-      }
+      // let obj = {
+      //   // 用户信息 临时
+      //   username: '我是上大人',
+      //   identity: this.userInfo.identity,
+      //   userNo: '123241',
+      //   lastTime: '2019-02-11', // 上次登陆时间
+      //   intergal: 11 // 积分
+      // }
       if (this.checkLoginInfo()) {
         // 登录 发送网络请求
         // request()
-        this.$store.commit('user/login', {info: obj})
-        // window.sessionStorage.setItem('token', 'temp_fake_token')
-        window.localStorage.setItem('token', 'temp_fake_token')
-        this.$q.notify({
-          message: '登录成功~欢迎',
-          icon: 'done'
+        user.login({
+          username: this.userInfo.username,
+          password: this.userInfo.password
+        }).then(res => {
+          if (res.code === '0') {
+            console.log(res.data)
+            // 处理store
+            this.$store.commit('user/login', res.data.user_info)
+            this.$store.commit('semester/init', {
+              semester_list: res.data.semester_info,
+              current_semester: res.data.current_semester
+            })
+            this.$store.commit('bulletin/replaceMsg', res.data.bulletin_info)
+            // 处理token存入localStorage 最后一个放身份
+            const token = res.data.token + res.data.user_info.privilege
+            console.log(token)
+            window.localStorage.setItem('token', token)
+
+            this.$q.notify({
+              message: '登录成功~欢迎',
+              icon: 'done'
+            })
+            this.$router.push('/query')
+          } else {
+            this.$q.notify({
+              message: '登录失败: 用户名或者密码错误',
+              color: 'red-5',
+              icon: 'warning'
+            })
+          }
+        }).catch(err => {
+          console.log(err)
         })
-
-        this.$store.commit('bulletin/replaceMsg', 'Welcome!')
-
-        this.$router.push('/query')
       }
     },
     checkLoginInfo () {

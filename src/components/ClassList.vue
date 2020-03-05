@@ -169,7 +169,7 @@ export default {
     // 找到对应id的semester 如果他的class_list !== undefined 就mutation deepcopy 并deepcopy到this的current
     // 如果store里面没有 啧网络请求
     if (!this.$store.getters['semester/isGot']) {
-      // 发起网络请求
+      // 发起网络请求  TODO back end rewrite
       semester.get().then(res => {
         if (res.code === '0') {
           console.log(res.msg)
