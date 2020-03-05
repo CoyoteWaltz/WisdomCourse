@@ -207,6 +207,7 @@ params(form):
 returns:
 	success: {
 			data: {
+				token: 'xxxxx',
 				user_info: {
 					id: 2, // 可以不给
 					username: '小明',

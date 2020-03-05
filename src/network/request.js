@@ -15,8 +15,12 @@ export function request (config) {
     // window.console.log(config)
     // 头部添加Authorization: token
     // config.headers.Authorization = window.sessionStorage.getItem('token')
-    config.headers.Authorization = window.localStorage.getItem('token')
+    const token = window.localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = 'JWT ' + token.slice(0, token.length - 1)
+    }
     config.headers['content-type'] = 'application/json'
+    console.log(config)
     return config
   }, err => {
     // window.console.log(err)

@@ -59,6 +59,8 @@ export default {
           this.teacherList.forEach((value, index) => {
             value.index = index + 1
           })
+        } else {
+          console.log(res.msg)
         }
       }).catch(err => {
         console.log(err)

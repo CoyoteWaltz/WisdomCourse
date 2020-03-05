@@ -13,7 +13,7 @@
       </q-item>
       <q-item>
         性别：
-        <q-radio style="margin-left:30px" icon="person" v-model="newInfo.sex" val="1" label="男" />
+        <q-radio style="margin-left:30px" v-model="newInfo.sex" val="1" label="男" />
         <q-radio style="margin-left:30px" icon="person" v-model="newInfo.sex" val="2" label="女" />
       </q-item>
       <q-item>
@@ -25,7 +25,7 @@
         />
       </q-item>
       <q-item class="row justify-center">
-        <q-btn push color="primary" label="新建教师" @click="create"/>
+        <q-btn push color="primary" label="新建教师" @click="create" :disabled="sending"/>
       </q-item>
     </q-card-main>
   </q-card>
@@ -33,85 +33,77 @@
 
 <script>
 import teacher from 'network/teacher'
+import course from 'network/course'
 
 export default {
   name: 'NewTeacher',
   data () {
     return {
+      sending: false,
       newInfo: {
         name: '',
+        user_no: '',
         collegeId: null,
-        userNo: '',
         sex: 1
-      },
-      collegeOptions: []
+      }
     }
   },
   methods: {
     create () {
+      this.sending = true
       console.log('新建教师')
+      console.log(this.newInfo)
       const data = {
         name: this.newInfo.name,
         sex: this.newInfo.sex,
         college_id: this.newInfo.collegeId,
         user_no: this.newInfo.user_no
       }
+      console.log(data)
       teacher.create(data).then(res => {
+        console.log(res)
         if (res.code === '0') {
           // 创建成功
           this.$store.commit('teacher/addOne', res.data)
           this.$emit('addTeacher', res.data)
+          this.newInfo.name = ''
+          this.newInfo.user_no = ''
         } else {
           this.$q.notify({
             message: res.msg,
             color: 'negative'
           })
         }
+        this.sending = false
+      }).catch(err => {
+        console.log(err)
+        this.sending = false
       })
       // this.$q.notify('提示 用户名和密码相同 都是工号')
       // // 通知外面要加一个教师 创建成功返回的data
       // this.$emit('addTeacher', this.newInfo)
     }
   },
+  computed: {
+    collegeOptions () {
+      return this.$store.getters['college/selectOptions']
+    }
+  },
   created () {
-    // TODO 可以封装一下获得这些数据的函数 存到store
-    this.collegeOptions = [
-      {
-        value: 1,
-        id: 1,
-        label: '计算机学院'
-      },
-      {
-        value: 2,
-        id: 2,
-        label: '计成都市学院'
-      },
-      {
-        value: 3,
-        id: 3,
-        label: '大师傅学院'
-      },
-      {
-        value: 4,
-        id: 4,
-        label: '清任务学院'
-      },
-      {
-        value: 5,
-        id: 5,
-        label: '计非的故事学院'
-      },
-      {
-        value: 6,
-        id: 6,
-        label: '单方事故的法规学院'
-      },
-      {
-        value: 7,
-        id: 7,
-        label: '大商股份算机学院'
-      }
-    ]
+    // 获取学院信息 直接copy了 TODO如何封装?
+    if (!this.$store.getters['college/isGot']) {
+      // 发起网络请求
+      course.get().then(res => {
+        if (res.code !== '0') {
+          console.log(res.msg)
+        } else {
+          console.log(res)
+          this.$store.commit('college/init', res.data)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>

@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="col" style="margin: auto">
-      <q-btn :label="userInfo.identity >=0 ? '注销' : '登录'" @click="btnClick"/>
+      <q-btn class="loginBtn" :label="userInfo.identity >=0 ? '注销' : '登录'" @click="btnClick"/>
     </div>
     </div>
     <div class="flex justify-center">
@@ -77,6 +77,10 @@ export default {
 }
 .userInfo:hover{
   background-color: $secondary;
+  color:white
+}
+.loginBtn:hover{
+  background-color: $info;
   color:white
 }
 #intergal{

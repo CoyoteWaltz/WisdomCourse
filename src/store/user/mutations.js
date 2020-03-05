@@ -7,7 +7,13 @@ export function login (state, userPayload) {
   // 在app的created钩子中更新所有的state
   console.log(state)
   console.log(userPayload)
-  state.info = userPayload.info
+  state.info.username = userPayload.name
+  state.info.identity = userPayload.privilege
+  state.info.userNo = userPayload.user_no
+
+  state.info.collegeId = userPayload.college_id
+  state.info.collegeName = userPayload.college_name
+
   // state.username = userPayload.username
   // state.identity = userPayload.identity
   // state.stuNo = userPayload.stuNo
