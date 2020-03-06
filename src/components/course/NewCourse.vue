@@ -71,23 +71,6 @@ export default {
       })
     }
   }
-  // a = new Promise((resolve, reject) => {
-  //   // 做异步操作
-  //   setTimeout(() => {
-  //     // yes
-  //     // no 
-  //     if ('完成') {
-  //       resolve('adsfasdf')
-  //     } else if ('失败') {
-  //       reject()
-  //     }
-  //   }, 1000)
-  // }).then(res => {
-
-  // }).catch(err => {
-
-  // })
-  // res形参 => 
 }
 </script>
 

@@ -15,5 +15,20 @@ export default {
       url: '/classes',
       data: openInfo
     })
+  },
+  getStuInfo (classId) {
+    // 获取学生信息
+    return request({
+      method: 'get',
+      url: '/classes/' + classId
+    })
+  },
+  searchClasses (searchInfo) {
+    // 搜索课程
+    return request({
+      method: 'get',
+      url: '/classes/query',
+      params: searchInfo
+    })
   }
 }

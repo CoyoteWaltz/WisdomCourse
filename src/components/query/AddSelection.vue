@@ -3,7 +3,7 @@
     <pure-class-table
       :operationBtn="operationBtn"
       :hide-bottom="false"
-      :visible-columns="['operation']"
+      :visible-columns="columns"
       :tableData="tableItems"
       @classOperation="addSelection"
     >
@@ -13,10 +13,21 @@
 
 <script>
 import PureClassTable from '../PureClassTable'
+import {IDINDEX} from 'common/const'
+
 export default {
   name: 'AddSelection',
   components: {
     PureClassTable
+  },
+  computed: {
+    columns () {
+      // 只有学生身份才可以加入待选！
+      if (this.$store.state.user.info.identity === IDINDEX.student.value) {
+        return ['operation']
+      }
+      return []
+    }
   },
   data () {
     return {
@@ -41,6 +52,8 @@ export default {
       console.log('TODO 加入待选')
       console.log(clsObj)
     }
+  },
+  created () {
   }
 }
 </script>

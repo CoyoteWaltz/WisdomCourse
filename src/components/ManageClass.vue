@@ -34,6 +34,8 @@
 */
 import Utils from 'common/utils'
 import PureUserTable from './PureUserTable'
+// import openClass from 'network/openClass'
+
 export default {
   name: 'ManageClass',
   components: {
@@ -51,7 +53,7 @@ export default {
   },
   computed: {
     tableTitle () {
-      return this.classObj.className + '  ' + this.classObj.classNo + '  ' + this.classObj.time
+      return this.classObj.name + '  ' + this.classObj.course_no + '  ' + this.classObj.time
     }
   },
   props: {
@@ -67,13 +69,28 @@ export default {
     classObj (newValue) {
       console.log(newValue)
       if (!newValue.students) {
+        // 因为这个组件是不会销毁的 只在更新classObj的时候发起请求获取
+        // 学生数据 并且是判断这个课程obj是没有学生数据的时候发起请求
+        // openClass.getStuInfo(newValue.id).then(res => {
+        //   console.log(res)
+        //   if (res.code === '0') {
+        //     let temp = res.data
+        //     temp.forEach((row, index) => {
+        //       row.index = this.classObj.id
+        //     })
+        //     newValue.students = Utils.deepCopy(temp)
+        //     this.studentItems = newValue.students
+        //   } else {
+        //     // 提示信息
+        //   }
+        // })
         console.log('没')
         let temp = [
           {
             id: 1,
-            username: '小明',
-            collegeName: '计算机学院',
-            userNo: '134123',
+            name: '小明',
+            college_name: '计算机学院',
+            user_no: '134123',
             sex: '男',
             scoreUsual: 66,
             scoreExam: 86,
@@ -81,9 +98,9 @@ export default {
           },
           {
             id: 2,
-            username: '小x明',
-            collegeName: '计算adfadf机学院',
-            userNo: '134123',
+            name: '小x明',
+            college_name: '计算adfadf机学院',
+            user_no: '134123',
             sex: '男',
             scoreUsual: 66,
             scoreExam: 86,
@@ -91,9 +108,9 @@ export default {
           },
           {
             id: 3,
-            username: '小sf明',
-            collegeName: '计算xcv学院',
-            userNo: '134123',
+            name: '小sf明',
+            college_name: '计算xcv学院',
+            user_no: '134123',
             sex: '男',
             scoreUsual: 66,
             scoreExam: 86,
@@ -101,9 +118,9 @@ export default {
           },
           {
             id: 4,
-            username: '小assd明',
-            collegeName: '计zcv学院',
-            userNo: '134123',
+            name: '小assd明',
+            college_name: '计zcv学院',
+            user_no: '134123',
             sex: '男',
             scoreUsual: 66,
             scoreExam: 85,
@@ -112,8 +129,8 @@ export default {
           {
             id: 5,
             username: '小明adf',
-            collegeName: 'cxvads学院',
-            userNo: '134123',
+            college_name: 'cxvads学院',
+            user_no: '134123',
             sex: '男',
             scoreUsual: 66,
             scoreExam: 46,
@@ -121,9 +138,9 @@ export default {
           },
           {
             id: 6,
-            username: 'sdfa小明',
-            collegeName: 'dssd学院',
-            userNo: '134123',
+            name: 'sdfa小明',
+            college_name: 'dssd学院',
+            user_no: '134123',
             sex: '女',
             scoreUsual: 56,
             scoreExam: 36,
@@ -146,13 +163,12 @@ export default {
         newValue.students = Utils.deepCopy(temp)
         this.studentItems = newValue.students
       } else {
-        // this.studentItems = Utils.deepCopy(newValue.students)
+        this.studentItems = Utils.deepCopy(newValue.students)
         this.studentItems = newValue.students
       }
     }
   },
   created () {
-    // 网络请求发起 获取课程学生信息list 一定要记得给index
   }
 }
 </script>

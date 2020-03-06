@@ -381,13 +381,13 @@ returns:
 desc: 根据信息过滤符合条件的课程
 url: /classes/query?collegeId=&className=&teacherName=&credit=&time=&area=
 methods: GET
-query:
+params:
 	课程号	可选
 	课程名	可选
 	教师名	可选
-	学分	必填
+	学分	可选
 	时间	可选
-	校区	必填
+	校区	可选
 
 returns:
 	success: {
@@ -457,7 +457,7 @@ returns:
 			{
 				id: 1, 		// 选课记录的id
 				username: '小明',
-				collegeName: '计算机学院',
+				college_name: '计算机学院',
 				user_no: '134123',
 				sex: '男',
 				usual_score: 66,
@@ -550,9 +550,7 @@ url: /courses/<int:course_id>
 methods: DELETE
 returns:
 	success: {
-		data: {
-			id: 2
-		},
+		data: 1
 		code: 0,
 		msg: '请求成功'
 	}

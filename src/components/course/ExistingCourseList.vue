@@ -114,9 +114,8 @@ export default {
       required: true
     },
     // 外部传递来的需要删去的课程
-    removedCourse: {
-      type: Object,
-      required: true
+    removedCourseId: {
+      type: Number
     }
   },
   watch: {
@@ -141,19 +140,20 @@ export default {
       }
       // this.allCourseItems = Utils.deepCopy(this.$store.state.college.course_list)
     },
-    removedCourse (newValue) {
+    removedCourseId (newValue) {
       // 直接遍历currentCollege其实更好吧
       console.log('删除')
-      this.currentCollege.courseItems.splice(
-        this.currentCollege.courseItems.findIndex(item => item.id === newValue.id),
+      console.log(this.currentCollege)
+      this.currentCollege.course_list.splice(
+        this.currentCollege.course_list.findIndex(item => item.id === newValue),
         1
       )
-      this.currentCollege.courseItems.forEach((value, index) => {
+      this.currentCollege.course_list.forEach((value, index) => {
         value.index = index + 1
       })
       for (let college of this.allCourseItems) {
         if (college.id === newValue.collegeId) {
-          college.courseItems = Utils.deepCopy(this.currentCollege.courseItems)
+          college.course_list = Utils.deepCopy(this.currentCollege.course_list)
         }
       }
     }

@@ -17,11 +17,13 @@
   </q-table>
   </div>
 </template>
+
 <style media="screen">
 #table{
   color: red;
 }
 </style>
+
 <script>
 export default{
   name: 'MyClassesTable',
