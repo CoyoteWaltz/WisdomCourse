@@ -43,7 +43,7 @@
         <existing-course-list
           :operationBtn="courseOperatonBtn"
           :newCourse.sync="newCourse"
-          :removedCourse.sync="removedCourse"
+          :removedCourseId.sync="removedCourseId"
         />
       </div>
     </q-page>
@@ -55,6 +55,7 @@ import NewCourse from 'components/course/NewCourse'
 import OpenCourse from 'components/course/OpenCourse'
 import ExistingCourseList from 'components/course/ExistingCourseList'
 import Utils from 'common/utils'
+import course from 'network/course'
 
 export default {
   name: 'Course',
@@ -67,7 +68,7 @@ export default {
     return {
       selectedTab: 'newCourse',
       newCourse: {},
-      removedCourse: {},
+      removedCourseId: null,
       selectedCourse: {}
     }
   },
@@ -121,30 +122,41 @@ export default {
         }
       }).then(() => {
         // 发送网络请求，结果返回提示
-        new Promise((resolve, reject) => {
-          setTimeout(() => {
-            console.log('请求结束')
-            if (parseInt((Math.random() * 100)) % 2 === 0) {
-              resolve()
-            } else {
-              reject(Error('失败了'))
-            }
-          }, 1200)
-        }).then(res => {
-          // 将这门课取消显示
-          this.$q.notify(courseObj.courseName + '删除成功')
-          console.log(courseObj.courseName + '删除成功')
-          console.log(courseObj)
-          this.removedCourse = Utils.deepCopy(courseObj)
-          console.log(this.removedCourse)
-        }).catch(err => {
-          this.$q.notify({
-            message: err.message + courseObj.courseName,
-            color: 'negative'
-          })
+        // this.removedCourseId = courseObj.id
+        // console.log(courseObj)
+        course.removeCourse(courseObj.id).then(res => {
+          if (res.code === '0') {
+            // 从数组里面删去对应id的课程
+            const targetId = res.data
+            this.removedCourseId = parseInt(targetId)
+            this.$q.notify(courseObj.name + ' 删除成功!')
+          }
         })
+        // TODO
+        // new Promise((resolve, reject) => {
+        //   setTimeout(() => {
+        //     console.log('请求结束')
+        //     if (parseInt((Math.random() * 100)) % 2 === 0) {
+        //       resolve()
+        //     } else {
+        //       reject(Error('失败了'))
+        //     }
+        //   }, 1200)
+        // }).then(res => {
+        //   // 将这门课取消显示
+        //   this.$q.notify(courseObj.courseName + '删除成功')
+        //   console.log(courseObj.courseName + '删除成功')
+        //   console.log(courseObj)
+        //   this.removedCourse = Utils.deepCopy(courseObj)
+        //   console.log(this.removedCourse)
+        // }).catch(err => {
+        //   this.$q.notify({
+        //     message: err.message + courseObj.courseName,
+        //     color: 'negative'
+        //   })
+        // })
       }).catch(() => {
-        // this.$q.notify('Disagreed...')
+        this.$q.notify('Disagreed...')
       })
     }
   }

@@ -18,6 +18,6 @@ export default {
 
 <style>
 body {
-  font-family: "Microsoft YaHei", "黑体", "宋体", "Arial", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", Tahoma, "Hiragino Sans GB", "Heiti SC", Arial, "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
 </style>

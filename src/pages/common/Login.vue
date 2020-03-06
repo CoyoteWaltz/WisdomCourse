@@ -15,7 +15,7 @@
                     第三方
                   </template>
                 </q-select> -->
-                <q-btn label="登录" outline style="margin-top:30px;width:80%" color="secondary" @click="login"/>
+                <q-btn label="登录" outline style="margin-top:30px;width:80%" color="secondary" @keyup.enter="login" @click="login"/>
               </div>
               <div id="bottom">
                 上海大学 test

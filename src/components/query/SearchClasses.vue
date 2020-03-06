@@ -30,39 +30,31 @@
 查课 添加到已选课列表
 选课模块获得的选项 搜索 网络请求 送去下面的组件 AddSelection
 AddSelection 负责渲染table 操作 保存
-
 */
 import AddSelection from './AddSelection'
-
+import {AREAINDEX} from 'common/const'
+import openClass from 'network/openClass'
 export default {
   name: 'SearchClasses',
   components: {
     AddSelection
   },
   created () {
-    // 获取校区信息
-    this.areaSelectOptions = [
-      {
-        id: 1,
-        label: '宝山校区',
-        value: 1
-      },
-      {
-        id: 2,
-        label: '嘉定校区',
-        value: 2
-      },
-      {
-        id: 3,
-        label: '延长校区',
-        value: 3
-      }
-    ]
   },
   methods: {
     search () {
       console.log('to search')
       console.log(this.searchInfo)
+      if (this.searchInfo.area !== null) {
+        const area = this.areaSelectOptions.filter((value, index) => {
+          return this.searchInfo.area === value.id
+        })
+        console.log(area)
+        this.searchInfo.area = area[0].label
+      }
+      openClass.searchClasses(this.searchInfo).then(res => {
+        console.log(res)
+      })
       this.searchResult = [
         {
           id: 1,
@@ -342,10 +334,10 @@ export default {
     reset () {
       this.searchInfo = {
         classNo: null,
-        className: '',
-        teacherName: '',
+        className: null,
+        teacherName: null,
         credit: null,
-        time: '',
+        time: null,
         area: null
       }
     }
@@ -354,13 +346,17 @@ export default {
     return {
       searchResult: [],
       // area发起网络请求获取吧
-      areaSelectOptions: [],
+      areaSelectOptions: [
+        AREAINDEX.baoshan,
+        AREAINDEX.yanchang,
+        AREAINDEX.jiading
+      ],
       searchInfo: {
         classNo: null,
-        className: '',
-        teacherName: '',
+        className: null,
+        teacherName: null,
         credit: null,
-        time: '',
+        time: null,
         area: null // v-model绑定之后得到的是valu
       }
     }

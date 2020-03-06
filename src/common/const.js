@@ -22,3 +22,21 @@ export const IDINDEX = {
     label: '管理员'
   }
 }
+
+export const AREAINDEX = {
+  baoshan: {
+    id: 1,
+    value: 1,
+    label: '宝山校区'
+  },
+  yanchang: {
+    id: 2,
+    value: 2,
+    label: '延长校区'
+  },
+  jiading: {
+    id: 3,
+    value: 3,
+    label: '嘉定校区'
+  }
+}

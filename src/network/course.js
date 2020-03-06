@@ -15,5 +15,12 @@ export default {
       url: '/courses',
       data: newInfo
     })
+  },
+  removeCourse (courseId) {
+    // 删除某课程
+    return request({
+      method: 'delete',
+      url: '/courses' + '/' + courseId
+    })
   }
 }

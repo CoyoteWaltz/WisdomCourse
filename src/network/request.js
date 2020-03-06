@@ -7,7 +7,7 @@ const serverUrl = '/api'
 export function request (config) {
   const instance = axios.create({
     baseURL: serverUrl,
-    timeout: 5000
+    timeout: 6000
   })
   // 拦截器
   // request interceptor
