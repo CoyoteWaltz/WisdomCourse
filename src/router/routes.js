@@ -1,4 +1,4 @@
-// TODO新增 管理员 学生 老师的路由
+import {IDINDEX} from 'common/const'
 // common pages
 const Login = () => import('pages/common/Login.vue')
 const Index = () => import('pages/common/Index.vue')
@@ -39,7 +39,8 @@ const routes = [
         name: 'query',
         component: QueryClass,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          allowed: [IDINDEX.student.id, IDINDEX.teacher.id, IDINDEX.admin.id]
         }
       },
       {
@@ -47,7 +48,8 @@ const routes = [
         name: 'autoxk',
         component: AutoXk,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          allowed: [IDINDEX.student.id]
         }
       },
       {
@@ -60,7 +62,8 @@ const routes = [
         name: 'recommend',
         component: Recommend,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          allowed: [IDINDEX.student.id]
         }
       },
       {
@@ -68,7 +71,8 @@ const routes = [
         name: 'course',
         component: Course,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          allowed: [IDINDEX.admin.id]
         }
       },
       {
@@ -76,7 +80,8 @@ const routes = [
         name: 'arrangement',
         component: Arrangement,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          allowed: [IDINDEX.admin.id]
         }
       },
       {
@@ -84,7 +89,8 @@ const routes = [
         name: 'bulletin',
         component: Bulletin,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          allowed: [IDINDEX.admin.id, IDINDEX.teacher.id]
         }
       }
     ]

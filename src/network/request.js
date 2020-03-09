@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {Notify} from 'quasar'
 // 如果以后要换框架，直接修改下面的函数体 重新用Promise封装就好了
 
 // const serverUrl = 'http://127.0.0.1:8088/api/v1.0'
@@ -15,9 +16,9 @@ export function request (config) {
     // window.console.log(config)
     // 头部添加Authorization: token
     // config.headers.Authorization = window.sessionStorage.getItem('token')
-    const token = window.localStorage.getItem('token')
+    const token = window.sessionStorage.getItem('token')
     if (token) {
-      config.headers.Authorization = 'JWT ' + token.slice(0, token.length - 1)
+      config.headers.Authorization = 'JWT ' + token.slice(1)
     }
     config.headers['content-type'] = 'application/json'
     console.log(config)
@@ -31,10 +32,25 @@ export function request (config) {
   instance.interceptors.response.use(res => {
     // window.console.log(res)
     // 剥离出数据即可
+    if (res.data && res.data.code !== '0') {
+      Notify.create({
+        // message: '操作错误: ' + res.data.msg,
+        message: '后台操作错误',
+        icon: 'mood_bad',
+        color: 'red-12'
+      })
+      return res.data
+    }
     return res.data
   }, err => {
-    window.console.log(err)
-    return err
+    // window.console.log(err)
+    Notify.create({
+      message: '网络错误: ' + err,
+      icon: 'mood_bad',
+      color: 'negative'
+    })
+    // return err
+    return Promise.reject(err)
   })
 
   return instance(config) // 直接返回promise对象 更粗暴

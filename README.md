@@ -430,9 +430,7 @@ url: /classes/<class_id>
 methods: DELETE
 returns:
 	success: {
-		data: {
-			id: 1 // 返回id让前端去删掉store存的对应课
-		},
+		data: id: 1, // 返回id让前端去删掉store存的对应课
 		code: 0,
 		msg: '请求成功'
 	}
@@ -441,6 +439,35 @@ returns:
 		code  msg    			data(null)
 		4001  "数据库中未找到"(没有选这门课/没有开这门课)
 ```
+
+#### 选课
+
+```
+desc: autoxk选课 返回成功选上的课程
+url: /classes/selection
+methods: POST
+data: 选的课的id的list
+	classes_ids = [1, 2, 3, 4]
+returns:
+	success: {
+		data: {
+			success: [1, 2, 3],
+			failed: [
+				{
+					id: 1,
+					reason: 'xxxxxx'
+				}
+			]
+		}，
+		code: 0,
+		msg: '请求成功'
+	}
+
+	failed:
+		code  msg    			data(null)
+		4001  "数据库中未找到"(没有选这门课/没有开这门课)
+```
+
 
 
 ### 教师

@@ -4,6 +4,11 @@ export function someMutation (state) {
 */
 import Utils from 'common/utils'
 
+export function loadFromWindow (state, payload) {
+  state.current_semester = payload.current_semester
+  state.semester_list = payload.semester_list
+}
+
 // 接受data对象包含current_semester不在semester_list中
 export function init (state, payload) {
   console.log('init')

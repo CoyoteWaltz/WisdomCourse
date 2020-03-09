@@ -5,6 +5,11 @@ export function init (state, payload) {
 */
 import Utils from 'common/utils'
 
+export function loadFromWindow (state, payload) {
+  console.log(payload)
+  state.college_list = payload.college_list
+}
+
 export function init (state, payload) {
   state.college_list = payload
   // state.college_list.forEach(value => {

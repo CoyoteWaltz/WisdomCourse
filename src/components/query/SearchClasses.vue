@@ -1,6 +1,9 @@
 <template id="">
   <div style="background-color:#fbfbfb">
     <div id="search_content">
+      <div id="available_semester">
+        查询所在学期：{{availableSemester}}
+      </div>
       <q-search icon="poll" float-label="课程号" placeholder="课程号" v-model.lazy="searchInfo.classNo" style="margin-right:10%;margin-bottom:10px"/>
       <q-search icon="pages" float-label="课程名" placeholder="课程名" v-model.lazy="searchInfo.className" style="margin-bottom:10px" />
       <q-search icon="person" float-label="教师名" placeholder="教师名" v-model.lazy="searchInfo.teacherName" style="margin-right:10%;" />
@@ -40,6 +43,8 @@ export default {
     AddSelection
   },
   created () {
+    // 获取可查询的学期名称
+    this.availableSemester = this.$store.getters['semester/available']
   },
   methods: {
     search () {
@@ -49,10 +54,10 @@ export default {
         const area = this.areaSelectOptions.filter((value, index) => {
           return this.searchInfo.area === value.id
         })
-        console.log(area)
         this.searchInfo.area = area[0].label
       }
       openClass.searchClasses(this.searchInfo).then(res => {
+        // TODO
         console.log(res)
       })
       this.searchResult = [
@@ -344,6 +349,7 @@ export default {
   },
   data () {
     return {
+      availableSemester: '',
       searchResult: [],
       // area发起网络请求获取吧
       areaSelectOptions: [

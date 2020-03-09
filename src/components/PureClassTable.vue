@@ -27,6 +27,7 @@
             :color="operationBtn.color"
             :label="operationBtn.label"
             :round="operationBtn.isRound"
+            :disabled="operationBtn.isDisabled"
             @click="btnClick(props.row)"
           />
         </q-td>
@@ -42,10 +43,10 @@
         <q-td key="area" :props="props">{{ props.row.area }}</q-td>
         <q-td key="grade" :props="props" v-if="props.row.grade"></q-td>
         <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
-        <q-td key="selectStatus" :props="props" v-if="props.row.select_status">
+        <q-td key="state" :props="props" v-if="props.row.select_status">
           <q-btn label="成功" color="secondary" size="sm" disable />
         </q-td>
-        <q-td key="selectStatus" v-else :props="props">
+        <q-td key="state" v-else :props="props">
           <q-btn label="失败" color="negative" size="sm" disable />
         </q-td>
         <q-td key="info" :props="props">{{ props.row.info }}</q-td>
@@ -236,7 +237,8 @@ export default {
           icon: 'pan_tool',
           // shape: 'round',
           isRound: false,
-          label: ''
+          label: '',
+          isDisabled: false
         }
       }
     }

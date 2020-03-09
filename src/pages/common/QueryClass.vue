@@ -15,7 +15,7 @@
         <admin-class-list v-if="userId === adminId"/>
       </q-tab-pane>
       <q-tab-pane name="queryClasses" keep-alive>
-        <searchClasses />
+        <search-classes />
       </q-tab-pane>
     </q-tabs>
   </q-page>

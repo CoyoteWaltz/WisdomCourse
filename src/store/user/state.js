@@ -6,5 +6,6 @@ export default {
     userNo: '',
     lastTime: '', // 上次登陆时间
     intergal: null // 积分
-  }
+  },
+  selectedClasses: []
 }
