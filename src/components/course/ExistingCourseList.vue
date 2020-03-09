@@ -164,9 +164,11 @@ export default {
     if (this.$store.getters['college/isGot']) {
       this.allCourseItems = this.$store.getters['college/copy']
       this.allCourseItems = Utils.deepCopy(this.$store.state.college.college_list)
+      this.formatData()
     } else {
       // 发起网络请求
       course.get().then(res => {
+        console.log(res)
         if (res.code !== '0') {
           console.log(res.msg)
         } else {
@@ -187,8 +189,6 @@ export default {
       this.$emit('newSuccess', courseObj)
     },
     switchCollege (value) {
-      // console.log(this.allCourseItems)
-      // console.log(this.collegeOptions)
       console.log(this.currentCollege)
       for (let college of this.allCourseItems) {
         if (value === college.id) {

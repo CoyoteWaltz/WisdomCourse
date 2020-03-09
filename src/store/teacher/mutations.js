@@ -3,6 +3,12 @@ export function someMutation (state) {
 }
 */
 import Utils from 'common/utils'
+
+export function loadFromWindow (state, payload) {
+  state.info = payload.info
+  state.selectedClasses = payload.selectedClasses
+}
+
 // 初始化网络得到的数据
 export function init (state, payload) {
   console.log('init teacher')

@@ -156,7 +156,7 @@ export default {
         //   })
         // })
       }).catch(() => {
-        this.$q.notify('Disagreed...')
+        this.$q.notify('Nothing...')
       })
     }
   }

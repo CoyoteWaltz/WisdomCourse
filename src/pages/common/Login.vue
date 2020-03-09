@@ -9,13 +9,13 @@
               </div>
               <div id="input">
                 <q-input color="blue" v-model="userInfo.username" stack-label="一卡通账号" :before="[{icon: 'cloud', handler () {}}]"/>
-                <q-input color="blue" v-model="userInfo.password" type="password" stack-label="一卡通密码" :before="[{icon: 'lock', handler () {}}]" style="margin-top:20px"/>
+                <q-input @keyup.enter="login" color="blue" v-model="userInfo.password" type="password" stack-label="一卡通密码" :before="[{icon: 'lock', handler () {}}]" style="margin-top:20px"/>
                 <q-select :before="[{icon: 'person', handler () {}}]" radio filled v-model="userInfo.identity" :options="idOptions" float-label="选择身份"/>
                   <!-- <template v-slot:selected>
                     第三方
                   </template>
                 </q-select> -->
-                <q-btn label="登录" outline style="margin-top:30px;width:80%" color="secondary" @keyup.enter="login" @click="login"/>
+                <q-btn label="登录" outline style="margin-top:30px;width:80%" color="secondary" @click="login"/>
               </div>
               <div id="bottom">
                 上海大学 test
@@ -77,8 +77,8 @@ export default {
   data () {
     return {
       userInfo: {
-        username: 'admin111',
-        password: 'admin111',
+        username: 'stu111',
+        password: 'stu111',
         identity: IDINDEX.student.value
       },
       idOptions: [
@@ -114,10 +114,11 @@ export default {
               current_semester: res.data.current_semester
             })
             this.$store.commit('bulletin/replaceMsg', res.data.bulletin_info)
-            // 处理token存入localStorage 最后一个放身份
-            const token = res.data.token + res.data.user_info.privilege
+            // 处理token存入sessionStorage 第一个放身份
+            const token = res.data.user_info.privilege + res.data.token
+            // const token = res.data.token
             console.log(token)
-            window.localStorage.setItem('token', token)
+            window.sessionStorage.setItem('token', token)
 
             this.$q.notify({
               message: '登录成功~欢迎',

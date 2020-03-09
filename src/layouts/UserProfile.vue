@@ -51,17 +51,12 @@ export default {
     btnClick () {
       if (this.userInfo.identity >= 0) {
         // TODO注销
-        // console.log('注销')
-        // 下面的else必须在两个括号的中间'
+        console.log('注销')
         // 清空token in sessionStorage
-        // window.sessionStorage.clear()
-        window.localStorage.clear()
+        window.sessionStorage.clear()
         this.$store.commit('user/logout')
-        console.log(this.$store.state.user.info)
-        console.log(this.userInfo)
-      // } else {
-      //   // 跳转到登录页面
       }
+      // 跳转到登录页面
       this.$router.replace('/login')
     }
   }
