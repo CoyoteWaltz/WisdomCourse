@@ -202,7 +202,5 @@ export default {
 </script>
 
 <style>
-/* .body {
-  color: #37eb82;
-} */
+
 </style>

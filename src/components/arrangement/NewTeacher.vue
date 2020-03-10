@@ -51,17 +51,13 @@ export default {
   methods: {
     create () {
       this.sending = true
-      console.log('新建教师')
-      console.log(this.newInfo)
       const data = {
         name: this.newInfo.name,
         sex: this.newInfo.sex,
         college_id: this.newInfo.collegeId,
         user_no: this.newInfo.user_no
       }
-      console.log(data)
       teacher.create(data).then(res => {
-        console.log(res)
         if (res.code === '0') {
           // 创建成功
           this.$store.commit('teacher/addOne', res.data)
@@ -94,10 +90,7 @@ export default {
     if (!this.$store.getters['college/isGot']) {
       // 发起网络请求
       course.get().then(res => {
-        if (res.code !== '0') {
-          console.log(res.msg)
-        } else {
-          console.log(res)
+        if (res.code === '0') {
           this.$store.commit('college/init', res.data)
         }
       })

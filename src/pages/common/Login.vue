@@ -1,24 +1,5 @@
 <template>
   <div id="bg">
-    <!-- <transition class="fade-up">
-      <div v-if="showHidden" id="hiden" ref="hiden">
-        <span id="hidden-title">
-          测试账号:
-        </span>
-        <p>
-          管理员账号: admin111, 密码: admin111
-        </p>
-        <p>
-          学生账号: stu111, 密码: stu111
-        </p>
-        <p>
-          学生账号: stu112, 密码: stu112
-        </p>
-        <p>
-          教师账号: 可通过管理员创建
-        </p>
-      </div>
-    </transition> -->
     <div id="loginbg">
       <div id="shadow">
           <div id="box">
@@ -114,18 +95,10 @@ export default {
       timeShow: null,
       showHidden: false,
       userInfo: {
-        username: '100001',
-        password: '100001',
-        // username: 'stu111',
-        // password: 'stu111',
+        username: 'admin111',
+        password: '111111',
         identity: null
-      },
-      idOptions: [
-        // IDINDEX.student,
-        // IDINDEX.teacher,
-        // IDINDEX.admin
-
-      ]
+      }
     }
   },
   methods: {
@@ -137,7 +110,6 @@ export default {
           password: this.userInfo.password
         }).then(res => {
           if (res.code === '0') {
-            console.log(res)
             // 处理store
             this.$store.commit('user/login', res.data.user_info)
             this.$store.commit('semester/init', {
@@ -186,6 +158,7 @@ export default {
     }
   },
   created () {
+    // 展示时间
     setInterval(() => {
       const now = new Date()
       this.timeShow = now.toLocaleString()

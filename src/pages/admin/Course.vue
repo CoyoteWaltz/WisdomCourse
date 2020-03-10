@@ -1,27 +1,5 @@
 <template>
   <div>
-    <!-- <div>
-      <h3>创建课程</h3>
-      <p>设置学院 课程名 学分 学时</p>
-      <p>创建</p>
-      <h3>查看课程</h3>
-      <p>查看已有课程list</p>
-      <h3>开课</h3>
-      <p>根据课程列表 老师列表 创建开课信息</p>
-      <p>教师号 上课时间 教师 学期</p>
-      <hr>
-      <p>综上，需要数据:</p>
-      <ul>
-        <li>学院</li>
-        <li>已有课程: index 课程名 课程号 学院 学分 学时</li>
-        <li>已有老师</li>
-      </ul>
-      <p>向数据库新增数据:</p>
-      <ul>
-        <li>新建课程</li>
-        <li>新建开课</li>
-      </ul>
-    </div> -->
     <q-page class="content">
       <q-tabs v-model="selectedTab" color="secondary" text-color="white">
         <!-- 选项卡 - 注意slot="title" -->
@@ -96,14 +74,11 @@ export default {
     }
   },
   methods: {
-    // TODO 向组件ExistingCourseList添加新建的课程
     addToExistingCourse (courseObj) {
-      console.log('addToExisting')
       this.newCourse = Utils.deepCopy(courseObj)
       console.log(this.newCourse)
     },
     addToOpen (courseObj) {
-      console.log(courseObj)
       this.selectedCourse = Utils.deepCopy(courseObj)
     },
     removeCourse (courseObj) {
@@ -122,8 +97,6 @@ export default {
         }
       }).then(() => {
         // 发送网络请求，结果返回提示
-        // this.removedCourseId = courseObj.id
-        // console.log(courseObj)
         course.removeCourse(courseObj.id).then(res => {
           if (res.code === '0') {
             // 从数组里面删去对应id的课程
@@ -132,29 +105,6 @@ export default {
             this.$q.notify(courseObj.name + ' 删除成功!')
           }
         })
-        // TODO
-        // new Promise((resolve, reject) => {
-        //   setTimeout(() => {
-        //     console.log('请求结束')
-        //     if (parseInt((Math.random() * 100)) % 2 === 0) {
-        //       resolve()
-        //     } else {
-        //       reject(Error('失败了'))
-        //     }
-        //   }, 1200)
-        // }).then(res => {
-        //   // 将这门课取消显示
-        //   this.$q.notify(courseObj.courseName + '删除成功')
-        //   console.log(courseObj.courseName + '删除成功')
-        //   console.log(courseObj)
-        //   this.removedCourse = Utils.deepCopy(courseObj)
-        //   console.log(this.removedCourse)
-        // }).catch(err => {
-        //   this.$q.notify({
-        //     message: err.message + courseObj.courseName,
-        //     color: 'negative'
-        //   })
-        // })
       }).catch(() => {
         this.$q.notify('Nothing...')
       })

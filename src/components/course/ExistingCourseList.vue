@@ -138,12 +138,9 @@ export default {
           return
         }
       }
-      // this.allCourseItems = Utils.deepCopy(this.$store.state.college.course_list)
     },
     removedCourseId (newValue) {
       // 直接遍历currentCollege其实更好吧
-      console.log('删除')
-      console.log(this.currentCollege)
       this.currentCollege.course_list.splice(
         this.currentCollege.course_list.findIndex(item => item.id === newValue),
         1
@@ -168,18 +165,12 @@ export default {
     } else {
       // 发起网络请求
       course.get().then(res => {
-        console.log(res)
         if (res.code !== '0') {
-          console.log(res.msg)
         } else {
-          console.log('yesss')
-          console.log(res)
           this.$store.commit('college/init', res.data)
           this.allCourseItems = Utils.deepCopy(this.$store.state.college.college_list)
           this.formatData()
         }
-      }).catch(err => {
-        console.log(err)
       })
     }
   },
@@ -193,7 +184,6 @@ export default {
       for (let college of this.allCourseItems) {
         if (value === college.id) {
           this.currentCollege = Utils.deepCopy(college)
-          console.log(this.currentCollege)
           return
         }
       }

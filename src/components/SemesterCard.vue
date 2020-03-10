@@ -48,15 +48,6 @@ export default {
     semesterObj: {
       type: Object,
       required: true
-      // name: '2020-2021秋季学期',
-      // id: 1,
-      // selectionStart: '2019/2/2',
-      // selectionEnd: '2019/2/22',
-      // registerStart: '2019/6/2',
-      // registerEnd: '2019/7/2',
-      // creditCeiling: 35
-      // value
-      // label
     },
     title: {
       type: String,

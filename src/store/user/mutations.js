@@ -10,24 +10,14 @@ export function loadFromWindow (state, payload) {
 export function login (state, userPayload) {
   // 从sessionStorage里面获取token，将数据同步
   // 在app的created钩子中更新所有的state
-  console.log(state)
-  console.log(userPayload)
   state.info.username = userPayload.name
   state.info.identity = userPayload.privilege
   state.info.userNo = userPayload.user_no
   state.info.collegeId = userPayload.college_id
   state.info.collegeName = userPayload.college_name
-  console.log('login')
-  console.log(state)
 }
 
 export function logout (state) {
-  console.log(state)
-  // state.username = '游客'
-  // state.identity = -1
-  // state.stuNo = ''
-  // state.lastTime = ''
-  // state.intergal = null
   state.info = {
     username: '游客',
     identity: -1,
@@ -35,8 +25,7 @@ export function logout (state) {
     lastTime: '', // 上次登陆时间
     intergal: null // 积分
   }
-  // 清空local storage的token
-  console.log('logout')
+  state.selectedClasses = []
 }
 
 export function addSelection (state, classObj) {

@@ -24,8 +24,6 @@ export default {
   methods: {
     // 注意这里一定要给 value 和 label！
     newSemester (semesterObj) {
-      console.log('xxxxx')
-      console.log(semesterObj)
       this.addSemester = Utils.deepCopy(semesterObj)
       // 网络请求得到的返回数据应该是含有id的 这里就替代一下
       this.addSemester.label = this.addSemester.name
@@ -33,7 +31,6 @@ export default {
     }
   },
   created () {
-    // 网络请求获取
   }
 }
 </script>

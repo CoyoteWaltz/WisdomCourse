@@ -10,8 +10,6 @@ function semester2Value (name) {
   const seasons = ['秋', '冬', '春', '夏']
   const numReg = new RegExp(/(20\d{2})-20\d{2}/)
   const year = name.match(numReg)
-  console.log(name)
-  console.log(year)
   let result = -1
   if (!year) {
     // 不匹配直接返-1

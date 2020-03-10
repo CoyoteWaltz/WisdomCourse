@@ -10,8 +10,8 @@
     </div>
     <!-- 居然要用两个v-show来处理这样的开关 保证组件不销毁。。。 -->
     <div v-show="isManage" key="management">
-      <!-- <manage-class :classObj="operatedCls" @closeManage="closeManage"></manage-class> -->
       <manage-class :classObj="operatedCls" @closeManage="closeManage">
+        <!-- TODO可以写删除课程的接口 -->
         <!-- <template slot="btn1"> -->
           <!-- <q-btn icon-right="save" @click="commit" label="提交" color="green-4" style="margin-left:25%" push ></q-btn> -->
         <!-- </template> -->
@@ -52,7 +52,6 @@ export default {
   methods: {
     manage (clsObj) {
       this.isManage = true
-      console.log(clsObj)
       this.operatedCls = clsObj
     },
     closeManage () {

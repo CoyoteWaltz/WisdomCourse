@@ -66,9 +66,7 @@ export default {
     }
   },
   created () {
-    // console.log(this.$axios)
-    console.log(this.$store.getters['user/isLogin'])
-    // window.localStorage.setItem('token', 'sdfadsf')
+    // console.log(this.$store.getters['user/isLogin'])
   }
 }
 </script>
