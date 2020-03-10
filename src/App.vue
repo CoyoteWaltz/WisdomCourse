@@ -10,7 +10,6 @@
 export default {
   name: 'App',
   created () {
-    console.log(this.$router)
     // 获取sessionStorage 更新state
     const token = window.sessionStorage.getItem('token')
     // 检查是否有token 如果没有就不做
@@ -19,11 +18,13 @@ export default {
       const semesterState = window.sessionStorage.getItem('semesterState')
       const teacherState = window.sessionStorage.getItem('teacherState')
       const collegeState = window.sessionStorage.getItem('collegeState')
+      const bulletinState = window.sessionStorage.getItem('bulletinState')
       // 随即只保留一个token
       window.sessionStorage.removeItem('userState')
       window.sessionStorage.removeItem('semesterState')
       window.sessionStorage.removeItem('teacherState')
       window.sessionStorage.removeItem('collegeState')
+      window.sessionStorage.removeItem('bulletinState')
       if (userState) {
         this.$store.commit('user/loadFromWindow', JSON.parse(userState))
       }
@@ -36,6 +37,9 @@ export default {
       if (collegeState) {
         this.$store.commit('college/loadFromWindow', JSON.parse(collegeState))
       }
+      if (bulletinState) {
+        this.$store.commit('bulletin/loadFromWindow', JSON.parse(bulletinState))
+      }
     }
     // 添加beforeunload监听器
     window.addEventListener('beforeunload', () => {
@@ -45,6 +49,8 @@ export default {
         const semesterStr = JSON.stringify(this.$store.state.semester)
         const teacherStr = JSON.stringify(this.$store.state.teacher)
         const collegeStr = JSON.stringify(this.$store.state.college)
+        const bulletinStr = JSON.stringify(this.$store.state.bulletin)
+        window.sessionStorage.setItem('bulletinState', bulletinStr)
         window.sessionStorage.setItem('userState', userStr)
         window.sessionStorage.setItem('semesterState', semesterStr)
         window.sessionStorage.setItem('teacherState', teacherStr)

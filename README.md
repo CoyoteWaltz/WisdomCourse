@@ -512,15 +512,21 @@ methods: PATCH
 	{
 		[
 			{
-
-			}
+				id: 1,		// 选课记录
+				usual_score: 123,
+				exam_score: 22
+			},
+			{
+				id: 21,		// 选课记录
+				usual_score: 123,
+				exam_score: 22
+			},
+			...
 		]
 	}
 returns:
 	success: {
-		data: {
-
-		},
+		data: null
 		code: 0,
 		msg: '请求成功'
 	}
@@ -659,6 +665,7 @@ methods: POST
 		学期id  semester_id		int
 		教师id  teacher_id		int
 		教室 classroom 		str
+		平时分占比 score_ratio   .1float
 returns:
 	success: {
 		data: {

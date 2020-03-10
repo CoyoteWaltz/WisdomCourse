@@ -66,6 +66,9 @@ export default {
           // 创建成功
           this.$store.commit('teacher/addOne', res.data)
           this.$emit('addTeacher', res.data)
+          this.$q.notify({
+            message: '教师初始账号和密码都为工号！'
+          })
           this.newInfo.name = ''
           this.newInfo.user_no = ''
         } else {
@@ -79,9 +82,6 @@ export default {
         console.log(err)
         this.sending = false
       })
-      // this.$q.notify('提示 用户名和密码相同 都是工号')
-      // // 通知外面要加一个教师 创建成功返回的data
-      // this.$emit('addTeacher', this.newInfo)
     }
   },
   computed: {
@@ -100,8 +100,6 @@ export default {
           console.log(res)
           this.$store.commit('college/init', res.data)
         }
-      }).catch(err => {
-        console.log(err)
       })
     }
   }

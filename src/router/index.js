@@ -12,15 +12,16 @@ Vue.use(VueParticles)
  * directly export the Router instantiation
 */
 export default function (/* { store, ssrContext } */) {
+  window.console.log(process.env)
   const Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
     routes,
 
     // Leave these as is and change from quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
-    // mode: process.env.VUE_ROUTER_MODE,
-    mode: 'history',
-    base: process.env.VUE_ROUTER_BASE
+    mode: process.env.VUE_ROUTER_MODE,
+    // base: process.env.VUE_ROUTER_BASE_URL
+    base: '/wisdom/'
   })
   // 添加全局守卫
   Router.beforeEach((to, _, next) => {
@@ -49,8 +50,8 @@ export default function (/* { store, ssrContext } */) {
         message: 'No privilege to enter',
         color: 'red-12'
       })
+      next('/index')
     }
-    next(false)
   })
 
   return Router

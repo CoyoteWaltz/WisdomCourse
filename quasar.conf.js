@@ -27,7 +27,8 @@ module.exports = function (ctx) {
     supportIE: false,
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history',
+      vueRouterBase: '/wisdom',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,

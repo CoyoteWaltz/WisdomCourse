@@ -5,6 +5,7 @@
       </q-field>
     </div> -->
     <pure-user-table
+      :isLoading="isLoading"
       :tableData.sync="studentItems"
       :visible-columns="['scoreUsual', 'scoreExam', 'scoreFinal']"
       :title="tableTitle"
@@ -34,7 +35,7 @@
 */
 import Utils from 'common/utils'
 import PureUserTable from './PureUserTable'
-// import openClass from 'network/openClass'
+import openClass from 'network/openClass'
 
 export default {
   name: 'ManageClass',
@@ -48,12 +49,13 @@ export default {
   },
   data () {
     return {
-      studentItems: []
+      studentItems: [],
+      isLoading: false
     }
   },
   computed: {
     tableTitle () {
-      return this.classObj.name + '  ' + this.classObj.course_no + '  ' + this.classObj.time
+      return this.classObj.name + '  ' + this.classObj.course_no + '  ' + this.classObj.time + ' (平时分占比:' + this.classObj.score_ratio * 100 + '%)'
     }
   },
   props: {
@@ -68,104 +70,22 @@ export default {
   watch: {
     classObj (newValue) {
       console.log(newValue)
-      if (!newValue.students) {
-        // 因为这个组件是不会销毁的 只在更新classObj的时候发起请求获取
-        // 学生数据 并且是判断这个课程obj是没有学生数据的时候发起请求
-        // openClass.getStuInfo(newValue.id).then(res => {
-        //   console.log(res)
-        //   if (res.code === '0') {
-        //     let temp = res.data
-        //     temp.forEach((row, index) => {
-        //       row.index = this.classObj.id
-        //     })
-        //     newValue.students = Utils.deepCopy(temp)
-        //     this.studentItems = newValue.students
-        //   } else {
-        //     // 提示信息
-        //   }
-        // })
-        console.log('没')
-        let temp = [
-          {
-            id: 1,
-            name: '小明',
-            college_name: '计算机学院',
-            user_no: '134123',
-            sex: '男',
-            scoreUsual: 66,
-            scoreExam: 86,
-            scoreFinal: 66
-          },
-          {
-            id: 2,
-            name: '小x明',
-            college_name: '计算adfadf机学院',
-            user_no: '134123',
-            sex: '男',
-            scoreUsual: 66,
-            scoreExam: 86,
-            scoreFinal: 66
-          },
-          {
-            id: 3,
-            name: '小sf明',
-            college_name: '计算xcv学院',
-            user_no: '134123',
-            sex: '男',
-            scoreUsual: 66,
-            scoreExam: 86,
-            scoreFinal: 623
-          },
-          {
-            id: 4,
-            name: '小assd明',
-            college_name: '计zcv学院',
-            user_no: '134123',
-            sex: '男',
-            scoreUsual: 66,
-            scoreExam: 85,
-            scoreFinal: 66
-          },
-          {
-            id: 5,
-            username: '小明adf',
-            college_name: 'cxvads学院',
-            user_no: '134123',
-            sex: '男',
-            scoreUsual: 66,
-            scoreExam: 46,
-            scoreFinal: 66
-          },
-          {
-            id: 6,
-            name: 'sdfa小明',
-            college_name: 'dssd学院',
-            user_no: '134123',
-            sex: '女',
-            scoreUsual: 56,
-            scoreExam: 36,
-            scoreFinal: 66
-          },
-          {
-            id: 7,
-            username: '小明',
-            collegeName: '计算机学院',
-            userNo: '134123',
-            sex: '女',
-            scoreUsual: null,
-            scoreExam: null,
-            scoreFinal: null
-          }
-        ]
-        temp.forEach((row, index) => {
-          row.index = this.classObj.id
-        })
-        newValue.students = Utils.deepCopy(temp)
-        this.studentItems = newValue.students
-      } else {
-        this.studentItems = Utils.deepCopy(newValue.students)
-        this.studentItems = newValue.students
-      }
+      // if (!newValue.students) {
+      // 因为这个组件是不会销毁的 只在更新classObj的时候发起请求获取
+      // 学生数据 并且是判断这个课程obj是没有学生数据的时候发起请求
+      this.isLoading = true
+      openClass.getStuInfo(newValue.id).then(res => {
+        console.log(res)
+        if (res.code === '0') {
+          let temp = res.data
+          temp.forEach((row, index) => {
+            row.index = index + 1
+          })
+          newValue.students = Utils.deepCopy(temp)
+          this.studentItems = newValue.students
+        }
+        this.isLoading = false
+      })
     }
   },
   created () {

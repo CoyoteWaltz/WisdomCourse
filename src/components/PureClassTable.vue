@@ -1,57 +1,62 @@
 <template>
     <!-- 课程表组件封装 -->
-    <q-table
-      bordered
-      row-key="id"
-      :title="title"
-      :data="tableData"
-      :columns="columns"
-      :loading="isLoading"
-      :visible-columns="visibleColumns"
-      :color="color"
-      :hide-bottom="hideBottom"
-      :pagination.sync="paginationControl"
-      table-style="max-height: 45vh"
-      rows-per-page-label="每页显示行数"
+    <div>
+      <q-table
+        bordered
+        row-key="id"
+        :title="title"
+        :data="tableData"
+        :columns="columns"
+        :loading="isLoading"
+        :visible-columns="visibleColumns"
+        :color="color"
+        :hide-bottom="hideBottom"
+        :pagination.sync="paginationControl"
+        table-style="max-height: 45vh"
+        rows-per-page-label="每页显示行数"
 
-    >
-      <!-- <template slot="top" slot-scope="props"> -->
-        <!-- 这个项目的quasar 0.8..只支持vue < 2.5的slot语法 -->
-      <!-- </template> -->
-      <q-tr slot="body" slot-scope="props" :props="props" id="table">
-        <q-td key="operation" :props="props">
-          <q-btn
-            push
-            size="sm"
-            :icon="operationBtn.icon"
-            :color="operationBtn.color"
-            :label="operationBtn.label"
-            :round="operationBtn.isRound"
-            :disabled="operationBtn.isDisabled"
-            @click="btnClick(props.row)"
-          />
-        </q-td>
-        <q-td key="classNo" :props="props">{{ props.row.course_no }}</q-td>
-        <q-td key="className" :props="props">{{ props.row.name}}</q-td>
-        <q-td key="teacherName" :props="props">{{ props.row.teacher_name }}</q-td>
-        <q-td key="teacherNo" :props="props">{{ props.row.teacher_no }}</q-td>
-        <q-td key="time" :props="props">{{ props.row.time }}</q-td>
-        <q-td key="capacity" :props="props">{{ props.row.capacity }}</q-td>
-        <q-td key="selectedNum" :props="props">{{ props.row.selected_num }}</q-td>
-        <q-td key="classroom" :props="props">{{ props.row.classroom }}</q-td>
-        <q-td key="collegeName" :props="props">{{ props.row.college_name }}</q-td>
-        <q-td key="area" :props="props">{{ props.row.area }}</q-td>
-        <q-td key="grade" :props="props" v-if="props.row.grade"></q-td>
-        <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
-        <q-td key="state" :props="props" v-if="props.row.select_status">
-          <q-btn label="成功" color="secondary" size="sm" disable />
-        </q-td>
-        <q-td key="state" v-else :props="props">
-          <q-btn label="失败" color="negative" size="sm" disable />
-        </q-td>
-        <q-td key="info" :props="props">{{ props.row.info }}</q-td>
-      </q-tr>
-    </q-table>
+      >
+        <!-- <template slot="top" slot-scope="props"> -->
+          <!-- 这个项目的quasar 0.8..只支持vue < 2.5的slot语法 -->
+        <!-- </template> -->
+        <q-tr slot="body" slot-scope="props" :props="props" id="table">
+          <q-td key="operation" :props="props">
+            <q-btn
+              push
+              size="sm"
+              :icon="operationBtn.icon"
+              :color="operationBtn.color"
+              :label="operationBtn.label"
+              :round="operationBtn.isRound"
+              :disabled="operationBtn.isDisabled"
+              @click="btnClick(props.row)"
+            />
+          </q-td>
+          <q-td key="state" :props="props" v-if="props.row.select_status === true">
+            <q-btn label="成功" color="secondary" size="sm" disable />
+          </q-td>
+          <q-td key="state" v-else-if="props.row.select_status === false" :props="props">
+            <q-btn label="失败" color="negative" size="sm" disable />
+          </q-td>
+          <q-td key="state" v-else :props="props">
+            <q-btn label="尚未开始" color="grey" size="sm" disable />
+          </q-td>
+          <q-td key="info" :props="props">{{ props.row.info ? props.row.info: '选课信息' }}</q-td>
+          <q-td key="className" :props="props">{{ props.row.name}}</q-td>
+          <q-td key="classNo" :props="props">{{ props.row.course_no }}</q-td>
+          <q-td key="teacherName" :props="props">{{ props.row.teacher_name }}</q-td>
+          <q-td key="teacherNo" :props="props">{{ props.row.teacher_no }}</q-td>
+          <q-td key="time" :props="props">{{ props.row.time }}</q-td>
+          <q-td key="capacity" :props="props">{{ props.row.selected_num }} /{{ props.row.capacity }}</q-td>
+          <q-td key="selectedNum" :props="props">{{ props.row.selected_num }}</q-td>
+          <q-td key="classroom" :props="props">{{ props.row.classroom }}</q-td>
+          <q-td key="collegeName" :props="props">{{ props.row.college_name }}</q-td>
+          <q-td key="area" :props="props">{{ props.row.area }}</q-td>
+          <q-td key="grade" :props="props" v-if="props.row.grade"></q-td>
+          <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
+        </q-tr>
+      </q-table>
+    </div>
 </template>
 
 <script>
@@ -92,6 +97,19 @@ export default {
           field: 'operation'
         },
         {
+          name: 'state',
+          label: '选课状态',
+          align: 'left',
+          field: 'state',
+          sortable: true
+        },
+        {
+          name: 'info',
+          label: '备注信息',
+          align: 'left',
+          field: 'info'
+        },
+        {
           name: 'className',
           label: '课程名',
           align: 'left',
@@ -103,6 +121,7 @@ export default {
           name: 'classNo',
           align: 'left',
           field: 'classNo',
+          sortable: true,
           required: true
         },
         {
@@ -168,25 +187,13 @@ export default {
           sortable: true,
           required: true
         },
-        {
-          name: 'state',
-          label: '选课状态',
-          align: 'left',
-          field: 'state',
-          sortable: true
-        },
+
         {
           name: 'grade',
           label: '成绩',
           align: 'center',
           field: 'grade',
           sortable: true
-        },
-        {
-          name: 'info',
-          label: '备注信息',
-          align: 'left',
-          field: 'info'
         }
       ]
     }
