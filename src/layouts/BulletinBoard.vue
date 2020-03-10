@@ -6,7 +6,6 @@
           公告
         </div>
         <div id="content" style="height: 100px">
-          <!-- {{$store.state.bulletin.message}} -->
           <div v-html="$store.state.bulletin.message"></div>
         </div>
     </div>

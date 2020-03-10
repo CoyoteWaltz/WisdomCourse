@@ -13,11 +13,10 @@ export function request (config) {
   // 拦截器
   // request interceptor
   instance.interceptors.request.use(config => {
-    // window.console.log(config)
     // 头部添加Authorization: token
-    // config.headers.Authorization = window.sessionStorage.getItem('token')
     const token = window.sessionStorage.getItem('token')
     if (token) {
+      // 第一位放了用户身份哈
       config.headers.Authorization = 'JWT ' + token.slice(1)
     }
     config.headers['content-type'] = 'application/json'
@@ -30,7 +29,6 @@ export function request (config) {
 
   // response interceptor
   instance.interceptors.response.use(res => {
-    // window.console.log(res)
     // 剥离出数据即可
     if (res.data && res.data.code !== '0') {
       Notify.create({
@@ -43,20 +41,13 @@ export function request (config) {
     }
     return res.data
   }, err => {
-    // window.console.log(err)
     Notify.create({
       message: '网络错误: ' + err,
       icon: 'mood_bad',
       color: 'negative'
     })
-    // return err
     return Promise.reject(err)
   })
 
   return instance(config) // 直接返回promise对象 更粗暴
-  // instance(config).then(res => {
-  //   success(res)
-  // }).catch(err => {
-  //   failed(err)
-  // })
 }

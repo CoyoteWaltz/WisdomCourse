@@ -68,21 +68,6 @@ export default {
           this.searchResult = res.data
         }
       })
-      // this.searchResult = [
-      //   {
-      //     id: 1,
-      //     // 课程名 课程号 教师名 上课时间 学分 人数 校区 教室
-      //     // 只需要传递对应name的属性就行，q会匹配！爽啊
-      //     className: '课程',
-      //     classNo: '13231',
-      //     teacherName: '老师name',
-      //     time: '三3-4, 五1-3',
-      //     credit: 4,
-      //     capacity: 50,
-      //     classroom: '教室',
-      //     area: '校区'
-      //   },
-      // ]
     },
     reset () {
       this.searchInfo = {

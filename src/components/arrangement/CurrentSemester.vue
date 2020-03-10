@@ -37,8 +37,7 @@
         label="设定"
         :disabled="!isSelected"
         @click="set"
-      >
-      </q-btn>
+      />
     </div>
   </div>
 </template>
@@ -82,12 +81,9 @@ export default {
   },
   methods: {
     switchSemester (value) {
-      console.log(value)
-      console.log(this.allSemesters)
       for (let semester of this.allSemesters) {
         if (value === semester.id) {
           this.selectedSemester = Utils.deepCopy(semester)
-          console.log(this.selectedSemester)
           return
         }
       }
@@ -95,15 +91,10 @@ export default {
     set () {
       // 发起网络请求 成功之后赋值
       semester.setCurrent(this.selectedSemester.value).then(res => {
-        console.log(res)
         if (res.code === '0') {
           this.currentSemester = Utils.deepCopy(this.selectedSemester)
           this.$store.commit('semester/switchCurrent', this.currentSemester)
-        } else {
-          console.log(res.msg)
         }
-      }).catch(err => {
-        console.log(err)
       })
     },
     deleteSemester () {
@@ -111,29 +102,23 @@ export default {
         message: '记得提示',
         color: 'negative'
       })
-      console.log('删除当前所选的学期')
-      console.log(this.selectedSemester)
       // 发送网络请求
       // 改变数据
-      this.allSemesters.splice(
-        this.allSemesters.findIndex(value => value.id === this.selectedSemester.id), 1
-      )
-      this.selectedSemester = Utils.deepCopy(this.currentSemester)
-      console.log(this.currentSemester)
+      semester.deleteSemester(this.selectedSemester.id).then(res => {
+        if (res.code === '0') {
+          this.allSemesters.splice(
+            this.allSemesters.findIndex(value => value.id === res.data), 1
+          )
+          this.$store.commit('semester/deleteOneSemester')
+          this.selectedSemester = Utils.deepCopy(this.currentSemester)
+        }
+      })
     },
-    assignSemester (currentSemester, allSemesters) {
-      currentSemester.label = currentSemester.name
-      currentSemester.value = currentSemester.id
+    assignSemester () {
+      // 这我写的啥几把玩意 啊
       this.currentSemester = Utils.deepCopy(this.$store.state.semester.current_semester)
       this.allSemesters = Utils.deepCopy(this.$store.state.semester.semester_list)
       this.selectedSemester = Utils.deepCopy(this.currentSemester)
-      this.allSemesters.forEach(value => {
-        value.value = value.id
-        value.label = value.name
-      })
-      // console.log(this.currentSemester)
-      // console.log(this.selectedSemester)
-      // console.log(this.allSemesters)
     }
   },
   created () {
@@ -142,80 +127,14 @@ export default {
       // 发起网络请求
       semester.get().then(res => {
         if (res.code === '0') {
-          console.log(res.msg)
           this.$store.commit('semester/init', res.data)
           // 更新绑定的学期id
-          this.assignSemester(
-            this.$store.state.semester.current_semester,
-            this.$store.state.semester.semester_list
-          )
-        } else {
-          // TODO
-          console.log('后台错误 提示')
-          this.$q.notify({
-            message: res.msg
-          })
+          this.assignSemester()
         }
-      }).catch(err => {
-        this.$q.notify({
-          message: '网络错误' + err.message
-        })
       })
     } else { // 给this的赋值一下
-      this.assignSemester(
-        this.$store.state.semester.current_semester,
-        this.$store.state.semester.semester_list
-      )
+      this.assignSemester()
     }
-    // const data = {
-    //   allSemesters: [
-    //     {
-    //       name: '2020-2021秋季学期',
-    //       id: 1,
-    //       selectionStart: '2019/2/2',
-    //       selectionEnd: '2019/2/22',
-    //       registerStart: '2019/6/2',
-    //       registerEnd: '2019/7/2',
-    //       creditCeiling: 35
-    //     },
-    //     {
-    //       name: '2022-2023秋季学期',
-    //       id: 444,
-    //       selectionStart: '2019/2/2',
-    //       selectionEnd: '2019/2/22',
-    //       registerStart: '2019/6/2',
-    //       registerEnd: '2019/7/2',
-    //       creditCeiling: 35
-    //     },
-    //     {
-    //       name: '2023-2024秋季学期',
-    //       id: 23,
-    //       selectionStart: '2019/2/2',
-    //       selectionEnd: '2019/2/22',
-    //       registerStart: '2019/6/2',
-    //       registerEnd: '2019/7/2',
-    //       creditCeiling: 35
-    //     }
-    //   ],
-    //   currentSemester: {
-    //     name: '2020-2021秋季学期',
-    //     id: 1,
-    //     selectionStart: '2019/2/12',
-    //     selectionEnd: '2019/2/22',
-    //     registerStart: '2019/6/12',
-    //     registerEnd: '2019/7/2',
-    //     creditCeiling: 35
-    //   }
-    // }
-    // this.allSemesters = data.allSemesters
-    // this.allSemesters.forEach((value, number) => {
-    //   value.value = value.id
-    //   value.label = value.name
-    // })
-    // this.currentSemester = data.currentSemester
-    // this.currentSemester.value = this.currentSemester.id
-    // this.currentSemester.label = this.currentSemester.name
-    // this.selectedSemester = Utils.deepCopy(this.currentSemester)
   }
 }
 </script>

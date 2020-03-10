@@ -52,22 +52,16 @@ export default {
       // 检查参数是否都完全
       // 发起网络请求之前 先检查是否有空缺
       // 创建成功之后 通知外部组件 更新已有课程list
-      console.log(this.newInfo)
       course.newCourse({
         course_name: this.newInfo.courseName,
         hour: this.newInfo.hour,
         credit: this.newInfo.credit,
         college_id: this.newInfo.collegeId
       }).then(res => {
-        console.log(res)
         if (res.code === '0') {
           this.$store.commit('college/addOne', res.data)
           this.$emit('newSuccess', res.data)
-        } else {
-          console.log(res.msg)
         }
-      }).catch(err => {
-        console.log(err)
       })
     }
   }

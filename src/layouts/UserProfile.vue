@@ -41,17 +41,12 @@ export default {
           return IDINDEX[i].label
         }
       }
-      return '游客'
-      // return IDINDEX.filter(v => {
-      //   return this.userInfo.identity === v.value
-      // }).label
+      return IDINDEX.guest.label
     }
   },
   methods: {
     btnClick () {
       if (this.userInfo.identity >= 0) {
-        // TODO注销
-        console.log('注销')
         // 清空token in sessionStorage
         window.sessionStorage.clear()
         this.$store.commit('user/logout')
@@ -88,7 +83,5 @@ export default {
   margin-top:8px;
   box-shadow: 0px 0px 15px #cdcdcd;
 }
-// .col{
-//   height: 1
-// }
+
 </style>

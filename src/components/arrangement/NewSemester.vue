@@ -54,7 +54,6 @@
     <div class="flex justify-center" style="margin-top:15px;">
       <q-btn color="indigo-6" label="新建学期" push @click="create"/>
     </div>
-    <!-- {{newInfo}} -->
   </div>
 </template>
 
@@ -94,12 +93,20 @@ export default {
         register_end: this.newInfo.registerEnd,
         credit_ceiling: this.newInfo.creditCeiling
       }).then(res => {
-        console.log(res)
         if (res.code === '0') {
           this.$store.commit('semester/addSemester', res.data)
           this.$emit('newSemester', res.data)
-        } else {
-          console.log(res.msg)
+          this.$q.notify({
+            message: '新建学期成功！'
+          })
+          this.newInfo = {
+            name: '',
+            creditCeiling: 35,
+            selectionStart: '',
+            selectionEnd: '',
+            registerStart: '',
+            registerEnd: ''
+          }
         }
       })
     }

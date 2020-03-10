@@ -47,12 +47,10 @@ export default{
   },
   methods: {
     removeClass (clsObj) {
-      console.log(clsObj)
       this.$store.commit('user/removeSelection', clsObj.id)
     },
     sendSelection () {
       const classArr = this.$store.getters['user/getSelectedClasses']
-      console.log(classArr)
       if (classArr.length === 0) {
         this.$q.notify({
           message: '你害妹选课呢',
@@ -63,7 +61,6 @@ export default{
       this.isLoading = true
       // 发起网络请求
       user.selectClasses(classArr).then(res => {
-        console.log(res)
         if (res.code === '0') {
           // 提示选课成功 写入选课成功日志 ??
           setTimeout(() => {
@@ -80,9 +77,6 @@ export default{
           }
           this.$store.commit('user/updateSelectionStatus', res.data.failed)
         }
-        this.isLoading = false
-      }).catch(err => {
-        console.log(err)
         this.isLoading = false
       })
     }

@@ -46,9 +46,6 @@ export default {
         })
         return
       }
-      console.log('father')
-      console.log(clsObj)
-      // console.log(this.$q.dialog)
       // 弹出对话框提示
       this.$q.dialog({
         title: '退课提示',
@@ -69,7 +66,6 @@ export default {
             this.$q.notify('退课成功' + clsObj.name)
             // 在selected学期里面删除 交个子组件去处理
             this.removedClass = Utils.deepCopy({semesterId: clsObj.semester_id, id: clsObj.id})
-            // this.$store.commit('semester/removeOneClass', clsObj)
           } else {
             this.$q.notify({
               message: '失败退课',

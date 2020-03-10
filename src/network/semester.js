@@ -44,5 +44,11 @@ export default {
       url: '/semesters',
       data: newInfo
     })
+  },
+  deleteSemester (sId) {
+    return request({
+      method: 'delete',
+      url: '/semesters/' + sId
+    })
   }
 }

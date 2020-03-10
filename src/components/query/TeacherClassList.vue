@@ -69,10 +69,8 @@ export default {
             exam_score: item.exam_score
           }
         })
-        console.log(updateInfo)
         openClass.updateScore(updateInfo).then(res => {
           if (res.code === '0') {
-            console.log(res)
             this.$q.notify({
               message: '提交成功，总评分稍后更新'
             })

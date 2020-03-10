@@ -14,7 +14,6 @@ export default {
   name: 'LeftNavigation',
   data () {
     return {
-      // allRouteItems: [
       allRouteItems: [
         {
           for: IDINDEX.guest.value,
@@ -143,8 +142,8 @@ export default {
   },
   computed: {
     items () {
-      let id = this.$store.state.user.info.identity
-      console.log(id)
+      // 通过身份动态路由
+      const id = this.$store.state.user.info.identity
       for (let i of this.allRouteItems) {
         if (id === i.for) {
           return i.items

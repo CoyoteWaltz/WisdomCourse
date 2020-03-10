@@ -11,7 +11,6 @@ export function loadFromWindow (state, payload) {
 
 // 初始化网络得到的数据
 export function init (state, payload) {
-  console.log('init teacher')
   state.teacher_list = payload
   state.teacher_list.forEach((value, index) => {
     value.index = index + 1

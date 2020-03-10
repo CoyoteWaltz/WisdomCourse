@@ -35,12 +35,7 @@ export default {
   watch: {
     addedTeacher (newValue) {
       // 发送网络请求 成功后通知store mutation this的数据也要改变
-      console.log('新建')
-      console.log(newValue)
-      newValue.username = newValue.name
       newValue.index = this.teacherList.length + 1
-      newValue.id = parseInt(Math.random() * 1000)
-      newValue.userNo = 'usdfdsf' + newValue.id
       this.teacherList.push(Utils.deepCopy(newValue))
     }
   },
@@ -48,22 +43,12 @@ export default {
     // store or network获取教师列表
     if (this.$store.getters['teacher/isGot']) {
       this.teacherList = Utils.deepCopy(this.$store.state.teacher.teacher_list)
-      this.teacherList.forEach((value, index) => {
-        value.index = index + 1
-      })
     } else {
       teacher.get().then(res => {
         if (res.code === '0') {
           this.$store.commit('teacher/init', res.data)
-          this.teacherList = Utils.deepCopy(res.data)
-          this.teacherList.forEach((value, index) => {
-            value.index = index + 1
-          })
-        } else {
-          console.log(res.msg)
+          this.teacherList = Utils.deepCopy(this.$store.state.teacher.teacher_list)
         }
-      }).catch(err => {
-        console.log(err)
       })
     }
   }

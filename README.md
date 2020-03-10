@@ -756,6 +756,27 @@ returns:
 ```
 
 
+#### 删除某一个学期
+
+```
+desc: 新建学期信息 成功返回完整信息
+url: /semesters/<int:s_id>
+methods: DELETE
+参数: s_id 为学期id
+
+returns:
+	success: {
+		data: 12,
+		code: 0,
+		msg: '请求成功'
+	}
+
+	failed:
+		code  msg    			data(null)
+		4001  "数据库中未找到"
+```
+
+
 #### 新建教师
 
 ```

@@ -2,9 +2,9 @@
   <q-page class="content">
     <q-tabs v-model="selectedTab" color="secondary" text-color="white">
       <!-- 选项卡 - 注意slot="title" -->
-      <q-tab default slot="title" label="自动抢课" two-lines name="selectedClasses" icon="computer" />
-      <q-tab slot="title" label="选课设置" two-lines name="settings" icon="settings" />
-      <q-tab slot="title" label="操作日志" two-lines name="toc" icon="toc" />
+      <q-tab default slot="title" label="选课" two-lines name="selectedClasses" icon="computer" />
+      <q-tab slot="title" label="选课设置(开发中)" two-lines name="settings" icon="settings" />
+      <q-tab slot="title" label="操作日志(开发中)" two-lines name="toc" icon="toc" />
       <!-- 目标 -->
       <q-tab-pane name="selectedClasses">
         <selectedClasses />

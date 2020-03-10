@@ -20,7 +20,6 @@
       :visible-columns="pureClassTableOption.visibleColumns"
       @classOperation="operationBtn.btnClick"
     />
-      <!-- :visible-columns="['operation', 'state', 'info']" -->
   </div>
 </template>
 
@@ -74,6 +73,7 @@ created阶段
 */
 
 import Utils from 'common/utils'
+import {IDINDEX} from 'common/const'
 import semester from 'network/semester'
 
 export default {
@@ -95,8 +95,10 @@ export default {
       if (!this.$store.getters['semester/isGot']) {
         return []
       }
-      // return this.$store.state.semester.semester_list
-      // 返回历史学期
+      // 返回历史学期 管理员可以看所有学期
+      if (this.$store.state.user.info.identity === IDINDEX.admin.id) {
+        return this.$store.getters['semester/getAllOptions']
+      }
       return this.$store.getters['semester/getHistoryOptions']
     }
   },
@@ -135,7 +137,6 @@ export default {
       console.log(newValue)
       // 完成删除课程的操作
       if (newValue.semesterId === this.selectedSemester.id) {
-        console.log(this.removedClass)
         // splice响应式
         this.selectedSemester.tableItems.splice(
           this.selectedSemester.tableItems.findIndex(item => item.id === newValue.id),
@@ -152,7 +153,6 @@ export default {
   methods: {
     // 封装一下切换当前选择的赋值操作
     assignSemester (id, classList) {
-      console.log(classList)
       this.selectedSemester = Utils.deepCopy({
         id: id,
         tableItems: classList
@@ -172,15 +172,11 @@ export default {
           data: res.data
         })
         this.assignSemester(targetId, res.data)
-      }).catch(err => {
-        console.log(err)
       })
     },
     // 切换学期
     switchSemester (value) {
       // 先查store里的对应学期对象有没有 class_list
-      console.log(this.$store.state.semester)
-      console.log(this.selectedSemester)
       for (let item of this.$store.state.semester.semester_list) {
         if (item.id === value) {
           // this.currentSemesterId = value
@@ -197,15 +193,12 @@ export default {
     }
   },
   created () {
-    // this.currentSemesterId 只需要 current_semester的id就可以了
-    // tableItem绑定的对象是 store.state.current_semester !!!!
-
     // this.semesterOptions computed from store的getter getOptions
     // 每次切换 直接检查store.state的semester_list
     // 找到对应id的semester 如果他的class_list !== undefined 就mutation deepcopy 并deepcopy到this的current
     // 如果store里面没有 啧网络请求
     if (!this.$store.getters['semester/isGot']) {
-      // 发起网络请求  TODO back end rewrite
+      // 发起网络请求
       semester.get().then(res => {
         if (res.code === '0') {
           console.log(res.msg)

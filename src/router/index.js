@@ -25,13 +25,6 @@ export default function (/* { store, ssrContext } */) {
   })
   // 添加全局守卫
   Router.beforeEach((to, _, next) => {
-    // const allowPath = [
-    //   '/login',
-    //   '/index',
-    //   '/about'
-    // ]
-    console.log(to)
-    // if (allowPath.includes(to.path)) {
     if (!to.meta.requiresAuth) {
       // 这些页面不拦截
       return next()

@@ -4,10 +4,18 @@ export function someGetter (state) {
 */
 // 获取历史学期的options
 export function getHistoryOptions (state) {
-  console.log(state.semester_list)
   return state.semester_list.filter(value => {
     return value.weight <= state.current_semester.weight
   }).map((value) => {
+    return {
+      value: value.id,
+      label: value.name
+    }
+  })
+}
+// 获取历史学期的options
+export function getAllOptions (state) {
+  return state.semester_list.map((value) => {
     return {
       value: value.id,
       label: value.name
@@ -22,7 +30,7 @@ export function isGot (state) {
 // 未来学期
 export function getFutureOptions (state) {
   return state.semester_list.filter(value => {
-    return value.weight >= state.current_semester.weight
+    return value.weight > state.current_semester.weight
   }).map((value) => {
     return {
       value: value.id,
@@ -34,8 +42,6 @@ export function getFutureOptions (state) {
 export function available (state, getters) {
   // 如果未来学期的选课时间符合当前loacl time 就用最新的
   // 否则 返回当前学期
-  console.log(state)
-  console.log(getters)
   if (!getters.isGot) {
     return {
       name: '',
@@ -58,6 +64,7 @@ export function available (state, getters) {
       }
     }
   }
+  // 没找到就返回当前学期
   return {
     name: currentName,
     id: currentId

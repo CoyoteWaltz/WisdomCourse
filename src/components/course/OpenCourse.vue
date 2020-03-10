@@ -18,7 +18,7 @@
       <q-select
         icon="school"
         v-model="openInfo.semesterId"
-        float-label="学期"
+        float-label="学期(确保要有未来学期)"
         radio
         :options="semesterOptions"
       />
@@ -46,7 +46,6 @@
       <div class="flex justify-center" style="margin-top:15px;">
         <q-btn label="清空" style="margin-right:25%"  @click="reset" color="primary"/>
         <q-btn label="开" @click="openCourse" color="secondary" :disabled="!isSelected || (openInfo.teacherId === null)" />
-        <!-- <q-btn label="开" @click="openCourse" color="secondary" :disabled="!(isSelected && (openInfo.teacherId !== null))" /> -->
       </div>
     </div>
   </div>
@@ -108,7 +107,6 @@ export default {
     // 记得处理得到的data
     semesterOptions () {
       if (!this.$store.getters['semester/isGot']) {
-        this.$store.dispatch('semester/get')
         return []
       }
       return this.$store.getters['semester/getFutureOptions']
@@ -164,12 +162,6 @@ export default {
       })
       console.log('开课 清空老师')
       console.log(this.openInfo)
-    },
-    formatData () {
-      this.teacherOptions.forEach((value, index) => {
-        value.label = value.name + ' ' + value.user_no + ' (' + value.college_name + ')'
-        value.value = value.id // 必须写
-      })
     }
   },
   created () {
@@ -182,14 +174,10 @@ export default {
         if (res.code === '0') {
           this.$store.commit('teacher/init', res.data)
           this.teacherOptions = res.data
-          // this.formatData()
         }
-      }).catch(err => {
-        console.log(err)
       })
     } else {
       this.teacherOptions = this.$store.state.teacher.teacher_list
-      // this.formatData()
     }
   }
 }

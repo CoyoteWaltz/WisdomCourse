@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <div id="class-info">
-      <q-field :label="classObj.className" stack-label>
-      </q-field>
-    </div> -->
     <pure-user-table
       :isLoading="isLoading"
       :tableData.sync="studentItems"
