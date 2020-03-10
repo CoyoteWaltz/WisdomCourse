@@ -30,5 +30,18 @@ export default {
       url: '/classes/query',
       params: searchInfo
     })
+  },
+  cancelClass (clsId) {
+    return request({
+      method: 'delete',
+      url: '/classes/' + clsId
+    })
+  },
+  updateScore (updateInfo) {
+    return request({
+      method: 'patch',
+      url: '/classes/' + updateInfo.id,
+      data: updateInfo.scoreList
+    })
   }
 }

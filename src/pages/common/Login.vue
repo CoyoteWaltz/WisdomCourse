@@ -1,24 +1,59 @@
 <template>
   <div id="bg">
+    <!-- <transition class="fade-up">
+      <div v-if="showHidden" id="hiden" ref="hiden">
+        <span id="hidden-title">
+          测试账号:
+        </span>
+        <p>
+          管理员账号: admin111, 密码: admin111
+        </p>
+        <p>
+          学生账号: stu111, 密码: stu111
+        </p>
+        <p>
+          学生账号: stu112, 密码: stu112
+        </p>
+        <p>
+          教师账号: 可通过管理员创建
+        </p>
+      </div>
+    </transition> -->
     <div id="loginbg">
       <div id="shadow">
           <div id="box">
             <div id="bar">
-              <div id="title">
+              <div id="title" @mouseover="show(true)" @mouseleave="show(false)">
                 上大智课 Ver 1.0
               </div>
+              <transition class="slide-fade">
+                <div v-if="showHidden" id="hiden" ref="hiden">
+                  <span id="hidden-title">
+                    测试账号:
+                  </span>
+                  <p>
+                    管理员账号: admin111, 密码: admin111
+                  </p>
+                  <p>
+                    学生账号: stu111, 密码: stu111
+                  </p>
+                  <p>
+                    学生账号: stu112, 密码: stu112
+                  </p>
+                  <p>
+                    教师账号: 可通过管理员创建
+                  </p>
+                </div>
+              </transition>
               <div id="input">
                 <q-input color="blue" v-model="userInfo.username" stack-label="一卡通账号" :before="[{icon: 'cloud', handler () {}}]"/>
                 <q-input @keyup.enter="login" color="blue" v-model="userInfo.password" type="password" stack-label="一卡通密码" :before="[{icon: 'lock', handler () {}}]" style="margin-top:20px"/>
-                <q-select :before="[{icon: 'person', handler () {}}]" radio filled v-model="userInfo.identity" :options="idOptions" float-label="选择身份"/>
-                  <!-- <template v-slot:selected>
-                    第三方
-                  </template>
-                </q-select> -->
                 <q-btn label="登录" outline style="margin-top:30px;width:80%" color="secondary" @click="login"/>
               </div>
               <div id="bottom">
-                上海大学 test
+                SHU一卡通账号密码也可以登录哦，本平台不保存账号密码
+                <br>
+                {{timeShow}}
               </div>
             </div>
           </div>
@@ -69,44 +104,40 @@ token + identity + username + userNo存localstorage
   如果页面刷新 store没数据了 getter重新发起请求actions 然后返回
 */
 
-import {IDINDEX} from 'common/const'
+// import {IDINDEX} from 'common/const'
 import user from 'network/user'
 
 export default {
   name: 'PageLogin',
   data () {
     return {
+      timeShow: null,
+      showHidden: false,
       userInfo: {
-        username: 'stu111',
-        password: 'stu111',
-        identity: IDINDEX.student.value
+        username: '100001',
+        password: '100001',
+        // username: 'stu111',
+        // password: 'stu111',
+        identity: null
       },
       idOptions: [
-        IDINDEX.student,
-        IDINDEX.teacher,
-        IDINDEX.admin
+        // IDINDEX.student,
+        // IDINDEX.teacher,
+        // IDINDEX.admin
+
       ]
     }
   },
   methods: {
     login () {
-      // let obj = {
-      //   // 用户信息 临时
-      //   username: '我是上大人',
-      //   identity: this.userInfo.identity,
-      //   userNo: '123241',
-      //   lastTime: '2019-02-11', // 上次登陆时间
-      //   intergal: 11 // 积分
-      // }
       if (this.checkLoginInfo()) {
         // 登录 发送网络请求
-        // request()
         user.login({
           username: this.userInfo.username,
           password: this.userInfo.password
         }).then(res => {
           if (res.code === '0') {
-            console.log(res.data)
+            console.log(res)
             // 处理store
             this.$store.commit('user/login', res.data.user_info)
             this.$store.commit('semester/init', {
@@ -116,7 +147,6 @@ export default {
             this.$store.commit('bulletin/replaceMsg', res.data.bulletin_info)
             // 处理token存入sessionStorage 第一个放身份
             const token = res.data.user_info.privilege + res.data.token
-            // const token = res.data.token
             console.log(token)
             window.sessionStorage.setItem('token', token)
 
@@ -132,16 +162,13 @@ export default {
               icon: 'warning'
             })
           }
-        }).catch(err => {
-          console.log(err)
         })
       }
     },
     checkLoginInfo () {
       if (
         !this.userInfo.username ||
-        !this.userInfo.password ||
-        this.idOptions.includes(this.userInfo.identity)
+        !this.userInfo.password
       ) {
         this.$q.notify({
           message: '有内容没填哦~',
@@ -151,7 +178,18 @@ export default {
         return false
       }
       return true
+    },
+    show (isShow) {
+      console.log('hover')
+      this.showHidden = isShow
+      console.log(this.showHidden)
     }
+  },
+  created () {
+    setInterval(() => {
+      const now = new Date()
+      this.timeShow = now.toLocaleString()
+    }, 1000)
   }
 }
 
@@ -211,5 +249,28 @@ export default {
 }
 #bg{
   overflow: hidden;
+}
+#hidden {
+  transition: color 1s, transform 1s;
+  transform: rotate(180deg);
+  color: #1122f1;
+}
+p:hover {
+  color: #44fe2f;
+}
+#hidden-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateY(100px);
+  opacity: 0;
 }
 </style>

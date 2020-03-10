@@ -18,7 +18,7 @@
               icon="done_all"
               color="info"
               label="去选课"
-              @click="$router.replace('/autoxk')"
+              @click="$router.push('/autoxk')"
             />
         </div>
         <div class="selection-prompt-action col-3">

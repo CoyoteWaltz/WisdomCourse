@@ -48,7 +48,8 @@
         <q-field
           style="width: 40px"
         >
-          <q-input v-model.number="props.row.final_score" />
+          {{ props.row.final_score }}
+          <!-- <q-input disabled="true" v-model.number="props.row.final_score" /> -->
         </q-field>
       </q-td>
       <q-td key="info" :props="props">{{ props.row.info }}</q-td>
@@ -121,18 +122,21 @@ export default {
           name: 'scoreUsual',
           label: '平时成绩',
           align: 'left',
+          sortable: true,
           field: 'info'
         },
         {
           name: 'scoreExam',
           label: '考试成绩',
           align: 'left',
+          sortable: true,
           field: 'info'
         },
         {
           name: 'scoreFinal',
           label: '总评成绩',
           align: 'left',
+          sortable: true,
           field: 'info'
         },
         {

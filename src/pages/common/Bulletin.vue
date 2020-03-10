@@ -1,7 +1,7 @@
 <template>
   <div>
-    公告管理
-    <input type="button" value="学期获得测试" @click="getSemesters">
+    公告管理，开发中...
+    <!-- <input type="button" value="学期获得测试" @click="getSemesters"> -->
   </div>
 </template>
 
@@ -70,8 +70,6 @@ export default {
       // }
       // const a = {ab: 1}
       // console.log(a.bb === undefined)
-      const a = null
-      console.log(a.aaa.aaa)
     }
   }
 }

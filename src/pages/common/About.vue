@@ -4,7 +4,7 @@
       开发人员
     </blockquote>
     <div class="flex justify-center">
-      <div class="carousel">
+      <div class="carousel" v-if="false">
         <div class="carousel-inner">
             <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
             <div class="carousel-item">
@@ -90,7 +90,7 @@
                 </li>
             </ol>
         </div>
-    </div>
+      </div>
     </div>
     <blockquote style="margin-left:4%;margin-top:4%;color:#7b7b7b">
       开源

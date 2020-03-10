@@ -35,7 +35,7 @@ export function request (config) {
     if (res.data && res.data.code !== '0') {
       Notify.create({
         // message: '操作错误: ' + res.data.msg,
-        message: '后台操作错误',
+        message: '后台操作错误: ' + res.data.msg,
         icon: 'mood_bad',
         color: 'red-12'
       })

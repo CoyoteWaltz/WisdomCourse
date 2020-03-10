@@ -6,7 +6,7 @@ export function someGetter (state) {
 export function getHistoryOptions (state) {
   console.log(state.semester_list)
   return state.semester_list.filter(value => {
-    return value.name <= state.current_semester.name
+    return value.weight <= state.current_semester.weight
   }).map((value) => {
     return {
       value: value.id,
@@ -22,7 +22,7 @@ export function isGot (state) {
 // 未来学期
 export function getFutureOptions (state) {
   return state.semester_list.filter(value => {
-    return value.name >= state.current_semester.name
+    return value.weight >= state.current_semester.weight
   }).map((value) => {
     return {
       value: value.id,
@@ -37,20 +37,31 @@ export function available (state, getters) {
   console.log(state)
   console.log(getters)
   if (!getters.isGot) {
-    return ''
+    return {
+      name: '',
+      id: -1
+    }
   }
   const currentName = state.current_semester.name
+  const currentId = state.current_semester.id
   const now = new Date()
   for (let s in state.semester_list) {
-    if (s.name >= currentName && s.time) {
+    if (s.weight >= currentName && s.weight) {
       // 满足未来学期
       // 此时是在该学期的选课时间内的
       if (now > new Date(s.selection_start) && now < new Date(s.selection_end)) {
-        return s.name
+        console.log(s)
+        return {
+          name: s.name,
+          id: s.id
+        }
       }
     }
   }
-  return currentName
+  return {
+    name: currentName,
+    id: currentId
+  }
 }
 
 export function canSelect (state, getters) {

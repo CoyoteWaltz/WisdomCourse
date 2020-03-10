@@ -3,6 +3,7 @@
     <class-list
       :pureClassTableOption="pureClassTableOption"
       :operationBtn="operationBtn"
+      :removedClass.sync="removedClass"
     >
     </class-list>
   </div>
@@ -10,6 +11,9 @@
 
 <script>
 import ClassList from '../ClassList'
+import openClass from 'network/openClass'
+import Utils from 'common/utils'
+
 export default {
   name: 'StudentClassList',
   components: {
@@ -17,6 +21,7 @@ export default {
   },
   data () {
     return {
+      removedClass: {},
       pureClassTableOption: {
         title: '我的选课',
         hideBottom: true,
@@ -32,16 +37,22 @@ export default {
     }
   },
   methods: {
-    cancelClassBtn (clsId) {
+    cancelClassBtn (clsObj) {
+      if (!this.$store.getters['semester/canSelect']) {
+        this.$q.notify({
+          message: '不在选课期间呢',
+          color: 'red-12',
+          icon: 'alarm_off'
+        })
+        return
+      }
       console.log('father')
-      console.log(clsId)
+      console.log(clsObj)
       // console.log(this.$q.dialog)
       // 弹出对话框提示
       this.$q.dialog({
         title: '退课提示',
         message: '确定要退这门课吗？',
-        // ok: 'Yes',
-        // cancel: 'No'
         ok: {
           push: true,
           label: 'Yes'
@@ -53,34 +64,22 @@ export default {
         }
       }).then(() => {
         // 发送网络请求，结果返回提示
-        // TODO
-        new Promise((resolve, reject) => {
-          setTimeout(() => {
-            console.log('请求结束')
-            if (parseInt((Math.random() * 100)) % 2 === 0) {
-              resolve()
-            } else {
-              reject(Error('失败了'))
-            }
-          }, 1200)
-        }).then(res => {
-          // 将这门课取消显示 从classlist中splice掉 得到成功的class id即可
-          this.$q.notify('退课成功某某课程')
-        }).catch(err => {
-          this.$q.notify({
-            message: err.message + '某某课程',
-            color: 'negative'
-          })
+        openClass.cancelClass(clsObj.id).then(res => {
+          if (res.code === '0') {
+            this.$q.notify('退课成功' + clsObj.name)
+            // 在selected学期里面删除 交个子组件去处理
+            this.removedClass = Utils.deepCopy({semesterId: clsObj.semester_id, id: clsObj.id})
+            // this.$store.commit('semester/removeOneClass', clsObj)
+          } else {
+            this.$q.notify({
+              message: '失败退课',
+              color: 'negative'
+            })
+          }
         })
-      }).catch(() => {
-        // this.$q.notify('Disagreed...')
+      }).catch(_ => {
+        console.log('cancel')
       })
-    },
-    switchSemester (value) {
-      // TODO
-      console.log('SS: ' + value)
-      this.currentSemester.value = this.allClasses[0].value
-      this.currentSemester.tableItems = this.allClasses[0].tableItems
     }
   }
 }

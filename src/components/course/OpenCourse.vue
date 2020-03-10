@@ -13,7 +13,8 @@
     </div>
    <div id="config_content">
       <q-search clearable icon="pages" float-label="时间" placeholder="例如:一1-2,三6-9" v-model.lazy="openInfo.time" style="margin-bottom:10px" />
-      <q-search clearable icon="reorder" float-label="教室" placeholder="教室" v-model.lazy.number="openInfo.classroom" />
+      <q-search clearable icon="reorder" float-label="教室" placeholder="教室" v-model.lazy="openInfo.classroom" />
+      <q-search clearable icon="group" float-label="容量" placeholder="容量" v-model.lazy.number="openInfo.capacity" />
       <q-select
         icon="school"
         v-model="openInfo.semesterId"
@@ -27,6 +28,13 @@
         filter
         v-model="openInfo.teacherId"
         :options="teacherOptions"
+      />
+      <q-search
+        clearable
+        icon="reorder"
+        float-label="分数比例 0-1之间的一位小数：平时分的占比(例：0.4表示平时分40%，考试分60%)"
+        placeholder="0-1之间的一位小数：平时分的占比(例：0.4表示平时分40%，考试分60%)"
+        v-model.lazy.number="openInfo.ratio"
       />
       <q-select
         icon="school"
@@ -72,6 +80,8 @@ export default {
         classroom: '',
         time: '',
         area: '',
+        ratio: 0.5,
+        capacity: null,
         courseObj: null
       },
       teacherOptions: []
@@ -116,6 +126,8 @@ export default {
         teacherId: null,
         classroom: '',
         time: '',
+        capacity: null,
+        ratio: 0.5,
         courseObj: null
       }
     },
@@ -137,20 +149,21 @@ export default {
         teacher_id: this.openInfo.teacherId,
         semester_id: this.openInfo.semesterId,
         classroom: this.openInfo.classroom,
-        area: area[0].label
+        area: area[0].label,
+        score_ratio: this.openInfo.ratio,
+        capacity: this.openInfo.capacity
       }).then(res => {
         if (res.code === '0') {
           console.log(res.data)
+          this.openInfo.teacherId = null
+          this.openInfo.classroom = null
+          this.openInfo.time = null
         } else {
           console.log(res.msg)
         }
       })
-
       console.log('开课 清空老师')
       console.log(this.openInfo)
-      this.openInfo.teacherId = null
-      this.openInfo.classroom = null
-      this.openInfo.time = null
     },
     formatData () {
       this.teacherOptions.forEach((value, index) => {

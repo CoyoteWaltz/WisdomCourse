@@ -11,26 +11,6 @@
       @classOperation="removeClass"
     />
 
-    <!-- <q-table
-    :loading="isLoading"
-    :title="title"
-    :data="tableData"
-    :columns="columns"
-    row-key="classNo"
-    :hide-bottom="true"
-    :pagination.sync="paginationControl">
-      <q-tr slot="body" slot-scope="props" :props="props" id="table">
-        <q-td key="operation" :props="props"><q-btn round icon="remove" size="sm" color="negative" @click="btnClick(props.row)"/></q-td>
-        <q-td key="className" :props="props">{{ props.row.className + 'sss' }}</q-td>
-        <q-td key="classNo" :props="props">{{ props.row.classNo }}</q-td>
-        <q-td key="teacherName" :props="props">{{ props.row.teacherName }}</q-td>
-        <q-td key="time" :props="props">{{ props.row.time }}</q-td>
-        <q-td key="state" :props="props" v-if="props.row.state"><q-btn label="成功" color="secondary" size="sm" disable /></q-td>
-        <q-td key="state" v-else :props="props"><q-btn label="失败" color="negative" size="sm" disable /></q-td>
-        <q-td key="reason" :props="props">{{ props.row.reason }}</q-td>
-      </q-tr>
-  </q-table> -->
-
   <div id="xk_content">
     <div class="flex justify-center">
       <q-btn @click="$router.replace('/query') " label="继续添加" style="margin-right:10%" color="secondary"/>
@@ -91,11 +71,12 @@ export default{
               title: '选课提示',
               message: '成功选课：' + res.data.success.length + '门 | 失败：' + (res.data.failed.length) + '门'
             })
-          }, 1500)
+          }, 1000)
           // 对成功选课的删除待选
           // TODO 对对应学期的课程添加！
           for (let i of res.data.success) {
             this.$store.commit('user/removeSelection', i)
+            this.$store.commit('')
           }
           this.$store.commit('user/updateSelectionStatus', res.data.failed)
         }

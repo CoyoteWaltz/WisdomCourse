@@ -22,6 +22,7 @@
 <script>
 import ClassList from '../ClassList'
 import ManageClass from '../ManageClass'
+import openClass from 'network/openClass'
 
 export default {
   name: 'TeacherClassList',
@@ -34,7 +35,7 @@ export default {
       operatedCls: Object(),
       isManage: false,
       pureClassTableOption: {
-        title: '我上的课',
+        title: '我上的课 (本学期提交分数截止日期: ' + this.$store.state.semester.current_semester.register_end + ')',
         hideBottom: true,
         visibleColumns: ['operation']
       },
@@ -59,6 +60,30 @@ export default {
     commit () {
       // 提交课程信息到后台
       console.log(this.operatedCls)
+      if (this.$store.getters['semester/canRegister']) {
+        let updateInfo = {id: this.operatedCls.id}
+        updateInfo.scoreList = this.operatedCls.students.map(item => {
+          return {
+            id: item.id,
+            usual_score: item.usual_score,
+            exam_score: item.exam_score
+          }
+        })
+        console.log(updateInfo)
+        openClass.updateScore(updateInfo).then(res => {
+          if (res.code === '0') {
+            console.log(res)
+            this.$q.notify({
+              message: '提交成功，总评分稍后更新'
+            })
+          }
+        })
+      } else {
+        this.$q.notify({
+          message: '没有到录入时间！',
+          color: 'red-12'
+        })
+      }
     }
   }
 }

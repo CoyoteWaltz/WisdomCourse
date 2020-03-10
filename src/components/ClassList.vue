@@ -1,13 +1,17 @@
 <template>
   <div class="class-list">
-    <q-select
-      radio
-      v-model="selectedSemester.id"
-      :options="semesterOptions"
-      float-label="选择学期"
-      @input="switchSemester"
-    />
-    <slot/>
+    <div class="flex justify-start list-header">
+      <q-select
+        radio
+        v-model="selectedSemester.id"
+        :options="semesterOptions"
+        float-label="选择学期"
+        @input="switchSemester"
+      />
+      <div class="refresh-btn">
+        <q-btn icon="refresh" @click="refreshSelected"/>
+      </div>
+    </div>
     <pure-class-table
       :operationBtn="operationBtn"
       :title="pureClassTableOption.title"
@@ -80,7 +84,6 @@ export default {
   data () {
     return {
       // 必须是一个data的属性 不然不能model绑定
-      currentSemesterId: null,
       selectedSemester: {
         id: null,
         tableItems: []
@@ -98,6 +101,10 @@ export default {
     }
   },
   props: {
+    removedClass: {
+      // 包含id属性和semesterId即可
+      type: Object
+    },
     // 最内部的table展示对象 hideBottom visibleColumns
     pureClassTableOption: {
       type: Object,
@@ -123,12 +130,50 @@ export default {
       }
     }
   },
+  watch: {
+    removedClass (newValue) {
+      console.log(newValue)
+      // 完成删除课程的操作
+      if (newValue.semesterId === this.selectedSemester.id) {
+        console.log(this.removedClass)
+        // splice响应式
+        this.selectedSemester.tableItems.splice(
+          this.selectedSemester.tableItems.findIndex(item => item.id === newValue.id),
+          1
+        )
+        // 学期课程提交store更新
+        this.$store.commit(
+          'semester/addClassList',
+          {id: newValue.semesterId, data: this.selectedSemester.tableItems}
+        )
+      }
+    }
+  },
   methods: {
     // 封装一下切换当前选择的赋值操作
     assignSemester (id, classList) {
+      console.log(classList)
       this.selectedSemester = Utils.deepCopy({
         id: id,
         tableItems: classList
+      })
+    },
+    // 重新获取选定学期的课程list
+    refreshSelected () {
+      // 发起网络请求
+      const targetId = this.selectedSemester.id
+      if (!targetId) {
+        return
+      }
+      semester.getClasses(targetId).then(res => {
+        console.log(res)
+        this.$store.commit('semester/addClassList', {
+          id: targetId,
+          data: res.data
+        })
+        this.assignSemester(targetId, res.data)
+      }).catch(err => {
+        console.log(err)
       })
     },
     // 切换学期
@@ -145,16 +190,7 @@ export default {
             this.assignSemester(value, item.class_list)
           } else {
             // 发起网络请求
-            semester.getClasses(value).then(res => {
-              console.log(res)
-              this.$store.commit('semester/addClassList', {
-                id: value,
-                data: res.data
-              })
-              this.assignSemester(value, res.data)
-            }).catch(err => {
-              console.log(err)
-            })
+            this.refreshSelected()
           }
         }
       }
@@ -179,17 +215,7 @@ export default {
             this.$store.state.semester.current_semester.id,
             this.$store.state.semester.current_semester.class_list
           )
-        } else {
-          // TODO
-          console.log('后台错误 提示')
-          this.$q.notify({
-            message: res.msg
-          })
         }
-      }).catch(err => {
-        this.$q.notify({
-          message: '网络错误' + err.message
-        })
       })
     } else { // 给this的赋值一下
       this.assignSemester(
@@ -201,6 +227,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .refresh-btn {
+    height: 60%;
+    margin: auto 0 0;
+    padding-left: 20px;
+  }
+  .list-header {
+    margin: 10px 0;
+  }
 </style>
