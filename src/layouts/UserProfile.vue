@@ -1,7 +1,7 @@
 <template>
   <q-list-header id='user-profile'>
     <div class="userInfo row">
-    <img src="https://cn.vuejs.org/images/logo.png" style="width: 50px;height:50px" class="col-1">
+    <img src="~assets/images/jotaro.jpg" style="width: 50px;height:50px" class="col-1">
     <div class="col-6 column">
       <div class="col">{{userInfo.username}}</div>
       <div class="col">{{userInfo.userNo}}</div>

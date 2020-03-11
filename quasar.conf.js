@@ -29,6 +29,8 @@ module.exports = function (ctx) {
       scopeHoisting: true,
       vueRouterMode: 'history',
       vueRouterBase: '/wisdom',
+      publicPath: '/wisdom',
+      // assetsPublicPath: '/wisdom',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
@@ -64,16 +66,17 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       // port: 8088,
-      proxy: {
-        // 将所有以/api开头的请求代理到jsonplaceholder
-        '/api': {
-          target: 'http://localhost:8180/api/v1.0',
-          changeOrigin: true,
-          pathRewrite: {
-            '^/api': ''
-          }
-        }
-      },
+      // proxy: {
+      //   // 将所有以/api开头的请求代理到jsonplaceholder
+      //   '/api': {
+      //     // target: 'http://localhost:8180/api/v1.0',
+      //     target: 'http://118.25.153.140:88/wisdomapi/v1.0',
+      //     changeOrigin: true,
+      //     pathRewrite: {
+      //       '^/api': ''
+      //     }
+      //   }
+      // },
       open: true // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!

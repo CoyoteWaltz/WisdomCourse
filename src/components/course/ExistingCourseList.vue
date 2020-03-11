@@ -164,6 +164,9 @@ export default {
       this.formatData()
     } else {
       // 发起网络请求
+      this.$q.notify({
+        message: 'loading'
+      })
       course.get().then(res => {
         if (res.code !== '0') {
         } else {

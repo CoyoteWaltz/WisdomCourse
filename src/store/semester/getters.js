@@ -49,10 +49,11 @@ export function available (state, getters) {
     }
   }
   const currentName = state.current_semester.name
+  const currentWeight = state.current_semester.weight
   const currentId = state.current_semester.id
   const now = new Date()
   for (let s in state.semester_list) {
-    if (s.weight >= currentName && s.weight) {
+    if (s.weight >= currentWeight && s.weight) {
       // 满足未来学期
       // 此时是在该学期的选课时间内的
       if (now > new Date(s.selection_start) && now < new Date(s.selection_end)) {

@@ -8,7 +8,6 @@ export function loadFromWindow (state, payload) {
 }
 
 export function login (state, userPayload) {
-  // 从sessionStorage里面获取token，将数据同步
   // 在app的created钩子中更新所有的state
   state.info.username = userPayload.name
   state.info.identity = userPayload.privilege
