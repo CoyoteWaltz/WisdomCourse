@@ -9,6 +9,23 @@
 <script>
 export default {
   name: 'App',
+  methods: {
+    setToStorage () {
+      if (window.sessionStorage.getItem('token')) {
+        // 有token的时候存
+        const userStr = JSON.stringify(this.$store.state.user)
+        const semesterStr = JSON.stringify(this.$store.state.semester)
+        const teacherStr = JSON.stringify(this.$store.state.teacher)
+        const collegeStr = JSON.stringify(this.$store.state.college)
+        const bulletinStr = JSON.stringify(this.$store.state.bulletin)
+        window.sessionStorage.setItem('bulletinState', bulletinStr)
+        window.sessionStorage.setItem('userState', userStr)
+        window.sessionStorage.setItem('semesterState', semesterStr)
+        window.sessionStorage.setItem('teacherState', teacherStr)
+        window.sessionStorage.setItem('collegeState', collegeStr)
+      }
+    }
+  },
   created () {
     // 获取sessionStorage 更新state
     const token = window.sessionStorage.getItem('token')
@@ -42,21 +59,16 @@ export default {
       }
     }
     // 添加beforeunload监听器
-    window.addEventListener('beforeunload', () => {
-      if (window.sessionStorage.getItem('token')) {
-        // 有token的时候存
-        const userStr = JSON.stringify(this.$store.state.user)
-        const semesterStr = JSON.stringify(this.$store.state.semester)
-        const teacherStr = JSON.stringify(this.$store.state.teacher)
-        const collegeStr = JSON.stringify(this.$store.state.college)
-        const bulletinStr = JSON.stringify(this.$store.state.bulletin)
-        window.sessionStorage.setItem('bulletinState', bulletinStr)
-        window.sessionStorage.setItem('userState', userStr)
-        window.sessionStorage.setItem('semesterState', semesterStr)
-        window.sessionStorage.setItem('teacherState', teacherStr)
-        window.sessionStorage.setItem('collegeState', collegeStr)
-      }
-    })
+    if (window.addEventListener) {
+      window.addEventListener('beforeunload', this.setToStorage)
+      // 尝试兼容ios
+      window.addEventListener('pagehide', this.setToStorage)
+    } else if (window.attachEvent) {
+      // 兼容老版本的ie
+      window.attachEvent('onbeforeunload', this.setToStorage)
+    } else {
+      window.onbeforeunload = this.setToStorage
+    }
   },
   beforeDestroy () {
   }

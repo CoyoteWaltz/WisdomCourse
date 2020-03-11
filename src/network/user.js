@@ -12,7 +12,6 @@ export default {
     let clsIdArr = classArr.map((value, index) => {
       return value.id
     })
-    console.log(clsIdArr)
     return request({
       method: 'post',
       url: '/classes/selection',

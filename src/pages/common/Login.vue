@@ -117,10 +117,10 @@ export default {
               current_semester: res.data.current_semester
             })
             this.$store.commit('bulletin/replaceMsg', res.data.bulletin_info)
-            // 处理token存入sessionStorage 第一个放身份
+            // 处理token存入localStorage 第一个放身份
             const token = res.data.user_info.privilege + res.data.token
             console.log(token)
-            window.sessionStorage.setItem('token', token)
+            window.localStorage.setItem('token', token)
 
             this.$q.notify({
               message: '登录成功~欢迎',
