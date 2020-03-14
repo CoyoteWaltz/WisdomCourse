@@ -17,9 +17,7 @@ function semester2Value (name) {
   }
   seasons.forEach((value, index) => {
     for (let c of name) {
-      console.log(c === value)
       if (c === value) {
-        console.log(parseInt(year[1] + index))
         result = parseInt(year[1] + index)
       }
     }

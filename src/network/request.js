@@ -20,7 +20,6 @@ export function request (config) {
       config.headers.Authorization = 'JWT ' + token.slice(1)
     }
     config.headers['content-type'] = 'application/json'
-    console.log(config)
     return config
   }, err => {
     // window.console.log(err)

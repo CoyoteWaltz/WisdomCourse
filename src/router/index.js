@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueParticles from 'vue-particles'
-import routes from './routes'
+import Routes from './routes'
+import {createRoutes} from './premission'
 
-import {Notify} from 'quasar'
+// import Utils from 'common/utils'
+// import {Notify} from 'quasar'
 
 Vue.use(VueRouter)
 Vue.use(VueParticles)
@@ -11,11 +13,11 @@ Vue.use(VueParticles)
  * If not building with SSR mode, you can
  * directly export the Router instantiation
 */
+
 export default function (/* { store, ssrContext } */) {
-  window.console.log(process.env)
   const Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
-    routes,
+    routes: Routes.commonRoutes,
 
     // Leave these as is and change from quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
@@ -23,28 +25,36 @@ export default function (/* { store, ssrContext } */) {
     // base: process.env.VUE_ROUTER_BASE_URL
     base: '/wisdom/'
   })
+  // 闭包 是否添加过路由
+  let addRouteFlag = false
+  // 仅需要在添加路由之后改变
+  // global.routeItems = Routes.commonRoutes[2].children
   // 添加全局守卫
   Router.beforeEach((to, _, next) => {
-    if (!to.meta.requiresAuth) {
-      // 这些页面不拦截
+    const allowPath = ['/login', '/index', '/about']
+    if (allowPath.includes(to.path)) {
       return next()
     }
+    // 从token获取用户的身份
     const token = window.sessionStorage.getItem('token')
     if (!token) {
       // 检查是否有token
       return next('/login')
     }
-    // 检查to的route是否满足当前身份
-    const userId = parseInt(token[0])
-    if (to.meta.allowed.includes(userId)) {
-      next()
-    } else {
-      Notify.create({
-        message: 'No privilege to enter',
-        color: 'red-12'
-      })
-      next('/index')
+    // 如果没有动态生成过路由 就add路由
+    if (!addRouteFlag) {
+      addRouteFlag = true
+      const userId = parseInt(token[0])
+      // 根据身份过滤一下routes
+      let addRoutes = createRoutes(Routes.fullRoutes, userId)
+      // 在global存一个路由 wisdom-course unique
+      global.routeItems = addRoutes[0].children
+      // 为Router对象加入 routes 过滤后的
+      Router.addRoutes(addRoutes)
+      // 重新去走一次这个路由 会重新进入钩子
+      return Router.push({ path: to.path })
     }
+    next()
   })
 
   return Router
