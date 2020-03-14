@@ -53,6 +53,7 @@ export default {
       }
       // 跳转到登录页面
       this.$router.replace('/login')
+      window.location.reload()
     }
   }
 }

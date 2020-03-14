@@ -11,13 +11,17 @@ export default {
   name: 'App',
   methods: {
     setToStorage () {
-      if (window.sessionStorage.getItem('token')) {
+      const token = window.sessionStorage.getItem('token')
+      if (token) {
         // 有token的时候存
         const userStr = JSON.stringify(this.$store.state.user)
         const semesterStr = JSON.stringify(this.$store.state.semester)
         const teacherStr = JSON.stringify(this.$store.state.teacher)
         const collegeStr = JSON.stringify(this.$store.state.college)
         const bulletinStr = JSON.stringify(this.$store.state.bulletin)
+        // 重置token
+        const newToken = this.$store.state.user.info.identity + token.slice(1)
+        window.sessionStorage.setItem('token', newToken)
         window.sessionStorage.setItem('bulletinState', bulletinStr)
         window.sessionStorage.setItem('userState', userStr)
         window.sessionStorage.setItem('semesterState', semesterStr)
@@ -37,6 +41,7 @@ export default {
       const collegeState = window.sessionStorage.getItem('collegeState')
       const bulletinState = window.sessionStorage.getItem('bulletinState')
       // 随即只保留一个token
+      // window.sessionStorage.clear()
       window.sessionStorage.removeItem('userState')
       window.sessionStorage.removeItem('semesterState')
       window.sessionStorage.removeItem('teacherState')

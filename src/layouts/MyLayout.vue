@@ -66,7 +66,6 @@ export default {
     }
   },
   created () {
-    // console.log(this.$store.getters['user/isLogin'])
   }
 }
 </script>
