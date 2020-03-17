@@ -9,7 +9,7 @@
         format-model="string"
         v-model="newInfo.selectionStart"
         :error="selectionError"
-        float-label="选课开始日期"
+        float-label="选课开始日期(小于登分开始时间！)"
         clearable
       />
     </q-field>
@@ -34,7 +34,7 @@
         format-model="string"
         v-model="newInfo.registerStart"
         :error="registerError"
-        float-label="登分开始日期"
+        float-label="登分开始日期(大于选课开始时间！)"
         clearable
       />
     </q-field>
@@ -82,9 +82,34 @@ export default {
     }
   },
   methods: {
+    check_form () {
+      for (let i in this.newInfo) {
+        if (!this.newInfo[i]) {
+          this.$q.notify({
+            message: '信息未完善',
+            color: 'red-12'
+          })
+          return false
+        }
+      }
+      if (!(this.newInfo.selectionStart < this.newInfo.selectionEnd &&
+          this.newInfo.registerStart < this.newInfo.registerEnd &&
+          this.newInfo.selectionStart < this.newInfo.registerStart)) {
+        this.$q.notify({
+          message: '时间信息不正确',
+          color: 'red-12',
+          icon: 'clock'
+        })
+        return false
+      }
+      return true
+    },
     create () {
       console.log('新建学期')
       // 网络请求
+      if (!this.check_form()) {
+        return
+      }
       semester.newSemester({
         name: this.newInfo.name,
         selection_start: this.newInfo.selectionStart,

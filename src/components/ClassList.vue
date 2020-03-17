@@ -166,7 +166,7 @@ export default {
         return
       }
       semester.getClasses(targetId).then(res => {
-        console.log(res)
+        // console.log(res)
         this.$store.commit('semester/addClassList', {
           id: targetId,
           data: res.data
@@ -201,7 +201,7 @@ export default {
       // 发起网络请求
       semester.get().then(res => {
         if (res.code === '0') {
-          console.log(res.msg)
+          // console.log(res.msg)
           this.$store.commit('semester/init', res.data)
           // 更新绑定的学期id
           this.assignSemester(
@@ -216,6 +216,7 @@ export default {
         this.$store.state.semester.current_semester.class_list
       )
     }
+    console.log(this.selectedSemester)
   }
 }
 </script>

@@ -66,7 +66,7 @@ export default {
           icon: 'add',
           color: 'secondary',
           btnClick: courseObj => {
-            console.log('添加课程')
+            // console.log('添加课程')
             this.addToOpen(courseObj)
           }
         }

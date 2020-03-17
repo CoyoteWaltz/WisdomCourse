@@ -50,10 +50,10 @@ export default {
         // 清空token in sessionStorage
         window.sessionStorage.clear()
         this.$store.commit('user/logout')
+        window.location.reload()
       }
       // 跳转到登录页面
       this.$router.replace('/login')
-      window.location.reload()
     }
   }
 }

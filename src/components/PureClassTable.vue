@@ -39,7 +39,7 @@
             <q-btn label="失败" color="negative" size="sm" disable />
           </q-td>
           <q-td key="state" v-else :props="props">
-            <q-btn label="尚未开始" color="grey" size="sm" disable />
+            <q-btn label="等待选课" color="grey" size="sm" disable />
           </q-td>
           <q-td key="info" :props="props">{{ props.row.info ? props.row.info: '选课信息' }}</q-td>
           <q-td key="className" :props="props">{{ props.row.name}}</q-td>
@@ -50,7 +50,7 @@
           <q-td key="capacity" :props="props">{{ props.row.selected_num }} /{{ props.row.capacity }}</q-td>
           <q-td key="selectedNum" :props="props">{{ props.row.selected_num }}</q-td>
           <q-td key="classroom" :props="props">{{ props.row.classroom }}</q-td>
-          <q-td key="collegeName" :props="props">{{ props.row.college_name }}</q-td>
+          <q-td key="college" :props="props">{{ props.row.college_name }}</q-td>
           <q-td key="area" :props="props">{{ props.row.area }}</q-td>
           <q-td key="grade" :props="props" v-if="props.row.grade"></q-td>
           <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
@@ -159,7 +159,7 @@ export default {
           field: 'selectedNum'
         },
         {
-          name: 'collegeName',
+          name: 'classroom',
           label: '教室',
           align: 'center',
           field: 'classroom',
@@ -170,6 +170,7 @@ export default {
           label: '学院',
           align: 'left',
           field: 'college',
+          required: true,
           sortable: true
         },
         {

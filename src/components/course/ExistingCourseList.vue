@@ -122,13 +122,12 @@ export default {
     newCourse (newValue) {
       // 根据学院id加入allCourses里面
       // 创建成功得到的后端返回 对象 要包含展示的所有信息 index在下面的代码里面处理
-      console.log('发生变化')
-      console.log(newValue)
-      console.log(this.allCourseItems)
+      // console.log('发生变化')
+      // console.log(newValue)
+      // console.log(this.allCourseItems)
       for (let college of this.allCourseItems) {
-        console.log(college)
+        // console.log(college)
         if (newValue.college_id === college.id) {
-          console.log('插入' + college.college_name)
           newValue.index = college.course_list.length + 1
           // 同时要考虑是不是currentCollege
           if (newValue.college_id === this.currentCollege.value) {

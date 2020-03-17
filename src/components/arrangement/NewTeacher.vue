@@ -44,12 +44,22 @@ export default {
         name: '',
         user_no: '',
         collegeId: null,
-        sex: 1
+        sex: null
       }
     }
   },
   methods: {
+    check_form () {
+      return this.newInfo.name && this.newInfo.user_no && this.newInfo.collegeId && this.newInfo.sex
+    },
     create () {
+      if (!this.check_form()) {
+        this.$q.notify({
+          message: '信息未完善',
+          color: 'red-12'
+        })
+        return
+      }
       this.sending = true
       const data = {
         name: this.newInfo.name,

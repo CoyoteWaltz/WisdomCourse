@@ -73,7 +73,6 @@ export default{
           // TODO 对对应学期的课程添加！
           for (let i of res.data.success) {
             this.$store.commit('user/removeSelection', i)
-            this.$store.commit('')
           }
           this.$store.commit('user/updateSelectionStatus', res.data.failed)
         }

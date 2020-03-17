@@ -62,20 +62,30 @@ export default {
       console.log(this.operatedCls)
       if (this.$store.getters['semester/canRegister']) {
         let updateInfo = {id: this.operatedCls.id}
-        updateInfo.scoreList = this.operatedCls.students.map(item => {
+        updateInfo.scoreList = this.operatedCls.students.filter(item => {
+          return item.usual_score >= 0 && item.usual_score <= 100 && item.exam_score >= 0 && item.exam_score <= 100
+        }).map(item => {
           return {
+            // id是选课记录的id
             id: item.id,
             usual_score: item.usual_score,
             exam_score: item.exam_score
           }
         })
-        openClass.updateScore(updateInfo).then(res => {
-          if (res.code === '0') {
-            this.$q.notify({
-              message: '提交成功，总评分稍后更新'
-            })
-          }
-        })
+        if (updateInfo) {
+          openClass.updateScore(updateInfo).then(res => {
+            if (res.code === '0') {
+              this.$q.notify({
+                message: '提交成功，总评分稍后更新'
+              })
+            }
+          })
+        } else {
+          this.$q.notify({
+            message: '数据为空或者数据错误',
+            color: 'red-12'
+          })
+        }
       } else {
         this.$q.notify({
           message: '没有到录入时间！',

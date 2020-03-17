@@ -4,11 +4,11 @@
       <div id="available_semester">
         查询所在学期：{{availableSemester.name}}
       </div>
-      <q-search icon="poll" float-label="课程号" placeholder="课程号" v-model.lazy="searchInfo.classNo" style="margin-right:10%;margin-bottom:10px"/>
-      <q-search icon="pages" float-label="课程名" placeholder="课程名" v-model.lazy="searchInfo.className" style="margin-bottom:10px" />
+      <q-search icon="poll" float-label="课程号" placeholder="课程号" v-model="searchInfo.classNo" style="margin-right:10%;margin-bottom:10px"/>
+      <q-search icon="pages" float-label="课程名" placeholder="课程名" v-model="searchInfo.className" style="margin-bottom:10px" />
       <q-search icon="person" float-label="教师名" placeholder="教师名" v-model.lazy="searchInfo.teacherName" style="margin-right:10%;" />
       <div class="under-development">
-        <div class="under-development-word">以上的搜索条件可选，均为精确搜索<br>以下搜索功能仍在开发中</div>
+        <div class="under-development-word">以上的搜索条件可选，均支持模糊搜索<br>以下搜索功能仍在开发中</div>
         <q-search icon="reorder" float-label="学分" placeholder="学分" v-model.lazy.number="searchInfo.credit" />
         <q-search icon="timer" float-label="时间(格式一1-2)" placeholder="时间(格式一1-2)" v-model="searchInfo.time" style="margin-right:10%;"/>
         <q-select
@@ -40,6 +40,7 @@ AddSelection 负责渲染table 操作 保存
 import AddSelection from './AddSelection'
 import {AREAINDEX} from 'common/const'
 import openClass from 'network/openClass'
+
 export default {
   name: 'SearchClasses',
   components: {
@@ -53,8 +54,10 @@ export default {
   },
   methods: {
     search () {
-      console.log('to search')
-      console.log(this.searchInfo)
+      // console.log(this.searchInfo)
+      if (!this.checkForm()) {
+        return
+      }
       if (this.searchInfo.area !== null) {
         const area = this.areaSelectOptions.filter((value, index) => {
           return this.searchInfo.area === value.id
@@ -62,8 +65,6 @@ export default {
         this.searchInfo.area = area[0].label
       }
       openClass.searchClasses(this.searchInfo).then(res => {
-        // TODO
-        console.log(res)
         if (res.code === '0') {
           this.searchResult = res.data
         }
@@ -79,6 +80,22 @@ export default {
         time: null,
         area: null
       }
+    },
+    checkForm () {
+      for (let i in this.searchInfo) {
+        // 这两个选择绑定的不要管他
+        if (i === 'area' || i === 'semesterId') {
+          continue
+        }
+        if (this.searchInfo[i]) {
+          return true
+        }
+      }
+      this.$q.notify({
+        message: '搜索内容不能为空',
+        color: 'red-12'
+      })
+      return false
     }
   },
   data () {

@@ -129,6 +129,18 @@ export default {
         courseObj: null
       }
     },
+    check_form () {
+      for (let i in this.openInfo) {
+        if (!this.openInfo[i]) {
+          this.$q.notify({
+            message: '请完善信息',
+            color: 'red-12'
+          })
+          return false
+        }
+      }
+      return true
+    },
     openCourse () {
       if (!this.openInfo.area) {
         this.$q.notify({
