@@ -101,12 +101,12 @@
 </style>
 <script>
 import SelectedClasses from 'components/autoxk/SelectedClasses.vue'
-import toc from '../../components/Tocs.vue'
+import Toc from 'components/autoxk/Tocs.vue'
 export default {
   name: 'AutoXk',
   components: {
     SelectedClasses,
-    toc
+    Toc
   },
   data () {
     return {

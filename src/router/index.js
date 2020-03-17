@@ -31,6 +31,7 @@ export default function (/* { store, ssrContext } */) {
   // global.routeItems = Routes.commonRoutes[2].children
   // 添加全局守卫
   Router.beforeEach((to, _, next) => {
+    // console.log(to.path)
     const allowPath = ['/login', '/index', '/about']
     if (allowPath.includes(to.path)) {
       return next()
@@ -45,6 +46,10 @@ export default function (/* { store, ssrContext } */) {
     if (!addRouteFlag) {
       addRouteFlag = true
       const userId = parseInt(token[0])
+      if (isNaN(userId)) {
+        // token不符合标准就去登录
+        return next('/login')
+      }
       // 根据身份过滤一下routes
       let addRoutes = createRoutes(Routes.fullRoutes, userId)
       // 在global存一个路由 wisdom-course unique

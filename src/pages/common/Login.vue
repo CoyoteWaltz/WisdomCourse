@@ -119,7 +119,6 @@ export default {
             this.$store.commit('bulletin/replaceMsg', res.data.bulletin_info)
             // 处理token存入sessionStorage 第一个放身份
             const token = res.data.user_info.privilege + res.data.token
-            console.log(token)
             window.sessionStorage.setItem('token', token)
 
             this.$q.notify({

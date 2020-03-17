@@ -2,9 +2,7 @@
   <div>
     <q-slide-transition>
       <div style="margin:1vh 0;" class="flex justify-around selection-prompt" v-if="$store.state.user.selectedClasses.length > 0">
-        <div
-          class="selection-prompt-word col-4"
-        >
+        <div class="selection-prompt-word col-4">
           <div id="outer-word">
             已选：{{$store.state.user.selectedClasses.length}} 门
             <div id="inner-word">

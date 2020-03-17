@@ -48,10 +48,26 @@ export default {
         hour: null
       }
     },
+    check_form () {
+      for (let i in this.newInfo) {
+        if (!this.newInfo[i]) {
+          this.$q.notify({
+            message: '没有完成信息',
+            icon: 'close',
+            color: 'red-12'
+          })
+          return false
+        }
+      }
+      return true
+    },
     create () {
       // 检查参数是否都完全
       // 发起网络请求之前 先检查是否有空缺
       // 创建成功之后 通知外部组件 更新已有课程list
+      if (!this.check_form()) {
+        return
+      }
       course.newCourse({
         course_name: this.newInfo.courseName,
         hour: this.newInfo.hour,
