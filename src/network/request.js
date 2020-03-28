@@ -3,8 +3,8 @@ import {Notify} from 'quasar'
 // 如果以后要换框架，直接修改下面的函数体 重新用Promise封装就好了
 
 // 本地
-// const serverUrl = 'http://127.0.0.1:8380/wisdomapi/v1.0'
-const serverUrl = 'http://118.25.153.140:88/wisdomapi/v1.0'
+const serverUrl = 'http://127.0.0.1:8380/wisdomapi/v1.0'
+// const serverUrl = 'http://118.25.153.140:88/wisdomapi/v1.0'
 
 export function request (config) {
   const instance = axios.create({
