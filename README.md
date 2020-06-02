@@ -12,7 +12,7 @@
 
 ### 如何运行
 
-#### 前端(本仓库)
+#### 前端(本仓库https://github.com/CoyoteWaltz/WisdomCourse)
 
 ##### 需要的依赖
 
@@ -145,7 +145,6 @@ teacher2course:
     area 				String 校区
     classroom			String
     score_ratio			Decimal(2,1) 平时分数所占比例
-    unique_hash			String 解决重复开课的唯一标识 unique
     course_name  		String 冗余字段课程名字
     teacher_name		String 冗余字段教师名字
     teacher_id			Int 外键：上课教师 user
@@ -1031,15 +1030,114 @@ returns:
 
 
 
+#### 后端设计
 
+* 主要就是对数据库的CRUD业务
+* 对请求返回的json封装
+* 登录JWT体系
+* Flask框架中自定义RedPrint进行对路由的二次封装
+
+##### 数据库
+
+###### 存储过程
+
+* 类似在数据库中封装一个函数，调用这些语句不用每次都编译，仅编译一次，加快处理速度
+* 做了一个学生选课时候的存储过程，更新选课记录中的选课人数，并且判断是否可以选课（用with update for锁避免超卖情况）
+
+```mysql
+-- 选课存储过程stored procedure
+-- 接收参数 o_id user_id
+-- 返回查询结果 success: -2:没有开这门课, -1: 重复选课， 0:选课人数限制, 1: 选课成功
+use wisdom_db;
+drop procedure if exists select_class;
+delimiter //
+create procedure select_class (in o_id int, in u_id int, out success tinyint(1))
+begin
+declare selected int;
+declare cap int;
+declare s_id int;
+declare selection_id int;
+select selected_num, capacity, semester_id into selected, cap, s_id
+from teacher2course where id = o_id for update;
+-- select selected, cap, s_id, user_id, o_id;
+if selected is null or cap is null then
+set success = -2;
+-- 判断该user是否选过这个课
+elseif o_id in (select open_course_id from student2course where user_id = u_id) then
+set success = -1;
+elseif selected < cap then
+-- insert into student2course values (now(), now(), null, u_id, o_id, null, null, null, null, null, s_id);
+insert into student2course(
+    create_time,
+    update_time,
+    user_id,
+    open_course_id,
+    semester_id
+) value (now(), now(), u_id, o_id, s_id);
+update teacher2course set selected_num = selected+1 where id = o_id;
+set success = 1;
+else
+set success = 0;
+end if;
+end //
+delimiter ;
+```
+
+可见这段SQL语句还是比较复杂的。
+
+其实对于退课操作也可以做一个类似的存储过程。
+
+###### 触发器
+
+* 触发器的目的是在教师修改学生的两个成绩（平时分数和考试成绩）的环节触发自动计算总评分数
+
+```mysql
+use wisdom_db;
+drop trigger if exists wisdom_db.calc_final_score;
+delimiter //
+create trigger `calc_final_score` before update on student2course
+for each row begin
+declare ratio decimal(2, 1);
+set ratio = (select score_ratio from teacher2course where id=old.open_course_id);
+-- cast函数转换为有符号整型
+set new.final_score = (select cast((new.usual_score * ratio + (1 - ratio) * new.exam_score) as SIGNED));
+end //
+delimiter ;
+```
+
+## 遇到的困难
+
+### 前端
+
+#### 根据身份动态路由
+
+* 最初我的做法是在layout组件写了所有路由选项的信息
+  * 然后在route中懒加载了所有路由
+  * 登录后将身份信息放入webStorage，在路由全局钩子中检查身份
+  * 这么做之后输入其他身份对应的url也可以进入页面（×）
+  * 修改webStorage的身份会撬门而入（×）
+* 修改为真正动态路由
+  * route一开始只加载基础的路由（首页，关于），layout中也写死这两个路由信息
+  * 路由钩子中利用闭包，外层函数的addRouteFlag判断是否加载过路由
+  * 钩子函数中判断登录后利用webStorage的身份第一次加载对应身份的路由（router.addRoute([...])），修改addRouteFlag，同时在window对象下加入动态路由的信息
+  * layout中渲染的导航栏是计算属性，加入window的路由信息
+
+#### 利用webStorage缓存Vuex数据解决刷新刷新页面Vue实例
+
+* 在刷新页面的时候webStorage相当于一个cache作为缓存，刷新完Vue读取
+* IOS系统发现不能适配，原因是没有onbeforeunload事件，于是搜了半天IOS只有onpagehide事件，于是。
 
 ## 问题存在
 
 * es6迷惑 for (let i in obj) {obj.i 是undef?? obj[i]是可以的}，而且obj.i的时候eslint告诉你i没被使用
 
-
+...
 
 ## TODO
 
-表单提交的**正确性**校验
+前端表单提交的**正确性**校验
+
+课程开设的校验
+
+...
 

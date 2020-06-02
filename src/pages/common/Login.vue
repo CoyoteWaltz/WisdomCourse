@@ -98,7 +98,8 @@ export default {
         username: 'admin111',
         password: '111111',
         identity: null
-      }
+      },
+      timeInterval: null
     }
   },
   methods: {
@@ -158,10 +159,14 @@ export default {
   },
   created () {
     // 展示时间
-    setInterval(() => {
+    this.timeInterval = setInterval(() => {
       const now = new Date()
       this.timeShow = now.toLocaleString()
     }, 1000)
+  },
+  beforeDestroy () {
+    clearInterval(this.timeInterval)
+    this.timeInterval = null
   }
 }
 
