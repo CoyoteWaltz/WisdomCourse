@@ -53,7 +53,7 @@ export default function (/* { store, ssrContext } */) {
       // 根据身份过滤一下routes
       let addRoutes = createRoutes(Routes.fullRoutes, userId)
       // 在global存一个路由 wisdom-course unique
-      global.routeItems = addRoutes[0].children
+      window.routeItems = addRoutes[0].children
       // 为Router对象加入 routes 过滤后的
       Router.addRoutes(addRoutes)
       // 重新去走一次这个路由 会重新进入钩子

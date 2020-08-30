@@ -3,17 +3,19 @@
   "version": "1.1.0",
   "private": true,
   "description": "A Quasar Framework app",
-  "author": "aoru45 <479192742@qq.com>",
+  "author": "CoyoteWaltz <coyote_waltz@163.com> & aoru45 <479192742@qq.com>",
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
     "@quasar/extras": "^1.5.1",
     "ajv": "^6.9.1",
     "axios": "^0.18.0",
     "fibers": "^4.0.2",
-    "quasar": "^1.8.4",
+    "quasar": "^1.0.0",
     "sass": "^1.3.0",
     "vuex": "^3.1.2",
     "webpack": "^4.36.0"

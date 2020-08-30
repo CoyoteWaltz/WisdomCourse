@@ -18,7 +18,7 @@
                       </li>
                       <li>
                         <q-icon name="keyboard_arrow_right" color="white" />
-                        擅长：机器视觉、web前端
+                        擅长：机器视觉、Web 前端
                       </li>
                       <li>
                         <q-icon name="keyboard_arrow_right" color="white" />
@@ -36,11 +36,11 @@
                     <ul>
                       <li>
                         <q-icon name="keyboard_arrow_right" color="white" />
-                        后端：李经纬
+                        前端、后端：李经纬
                       </li>
                       <li>
                         <q-icon name="keyboard_arrow_right" color="white" />
-                        擅长：test
+                        擅长：Web 前端、Python flask
                       </li>
                       <li>
                         <q-icon name="keyboard_arrow_right" color="white" />

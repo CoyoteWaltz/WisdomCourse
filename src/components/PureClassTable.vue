@@ -12,7 +12,7 @@
         :color="color"
         :hide-bottom="hideBottom"
         :pagination.sync="paginationControl"
-        table-style="max-height: 45vh"
+        :table-style="tableStyle"
         rows-per-page-label="每页显示行数"
 
       >
@@ -41,9 +41,12 @@
           <q-td key="state" v-else :props="props">
             <q-btn label="等待选课" color="grey" size="sm" disable />
           </q-td>
-          <q-td key="info" :props="props">{{ props.row.info ? props.row.info: '选课信息' }}</q-td>
+          <!-- 下面的顺序也必须和 column 的顺序一样 -->
+          <q-td key="info" :props="props">{{ props.row.info ? props.row.info: '暂无选课信息' }}</q-td>
           <q-td key="className" :props="props">{{ props.row.name}}</q-td>
           <q-td key="classNo" :props="props">{{ props.row.course_no }}</q-td>
+          <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
+          <q-td key="area" :props="props">{{ props.row.area }}</q-td>
           <q-td key="teacherName" :props="props">{{ props.row.teacher_name }}</q-td>
           <q-td key="teacherNo" :props="props">{{ props.row.teacher_no }}</q-td>
           <q-td key="time" :props="props">{{ props.row.time }}</q-td>
@@ -51,9 +54,7 @@
           <q-td key="selectedNum" :props="props">{{ props.row.selected_num }}</q-td>
           <q-td key="classroom" :props="props">{{ props.row.classroom }}</q-td>
           <q-td key="college" :props="props">{{ props.row.college_name }}</q-td>
-          <q-td key="area" :props="props">{{ props.row.area }}</q-td>
           <q-td key="grade" :props="props" v-if="props.row.grade"></q-td>
-          <q-td key="credit" :props="props">{{ props.row.credit }}</q-td>
         </q-tr>
       </q-table>
     </div>
@@ -69,10 +70,10 @@ export default {
       // 直接调给父组件
       this.$emit('classOperation', clsObj)
       // clsObj: {
-      //   className,
-      //   classNo,
-      //   teacherName,
-      //   teacherNo,
+      //   name,
+      //   course_no,
+      //   teacher_name,
+      //   teacher_no,
       //   collegeName,
       //   selectedNum,
       //   capacity,
@@ -89,6 +90,7 @@ export default {
     return {
       // selected: [],
       paginationControl: { rowsPerPage: 0, page: 1 }, // 这里给0就会展示所有
+      // columns 的顺序决定了在 table 中 th 的顺序
       columns: [
         {
           name: 'operation',
@@ -122,6 +124,21 @@ export default {
           align: 'left',
           field: 'classNo',
           sortable: true,
+          required: true
+        },
+        {
+          name: 'credit',
+          label: '学分',
+          align: 'center',
+          field: 'credit',
+          sortable: true,
+          required: true
+        },
+        {
+          name: 'area',
+          label: '校区',
+          align: 'center',
+          field: 'area',
           required: true
         },
         {
@@ -173,22 +190,6 @@ export default {
           required: true,
           sortable: true
         },
-        {
-          name: 'area',
-          label: '校区',
-          align: 'center',
-          field: 'area',
-          required: true
-        },
-        {
-          name: 'credit',
-          label: '学分',
-          align: 'center',
-          field: 'credit',
-          sortable: true,
-          required: true
-        },
-
         {
           name: 'grade',
           label: '成绩',
@@ -248,6 +249,12 @@ export default {
           label: '',
           isDisabled: false
         }
+      }
+    },
+    tableStyle: {
+      type: String,
+      default () {
+        return 'max-height: 45vh;'
       }
     }
   }

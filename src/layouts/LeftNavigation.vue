@@ -39,10 +39,10 @@ export default {
   },
   computed: {
     items () {
-      if (global.routeItems) {
+      if (window.routeItems) {
         // 登录之后会加入新的路由 此时将其放在上面两个item的中间
         let temp = this.baseItems
-        temp.splice(1, 0, ...global.routeItems)
+        temp.splice(1, 0, ...window.routeItems)
         return temp
       }
       return this.baseItems

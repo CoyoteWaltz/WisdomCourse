@@ -134,7 +134,7 @@ export default {
   },
   watch: {
     removedClass (newValue) {
-      console.log(newValue)
+      // console.log(newValue)
       // 完成删除课程的操作
       if (newValue.semesterId === this.selectedSemester.id) {
         // splice响应式

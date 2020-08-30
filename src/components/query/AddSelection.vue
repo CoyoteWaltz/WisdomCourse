@@ -90,8 +90,8 @@ export default {
   methods: {
     addSelection (clsObj) {
       // 保存到store.state.user.selectedClasses
-      console.log('TODO 加入待选')
-      console.log(clsObj)
+      // console.log('TODO 加入待选')
+      // console.log(clsObj)
       this.$store.commit('user/addSelection', clsObj)
     }
   },

@@ -37,7 +37,7 @@
               v-model="settings.times"
               float-label="选课时间段"
               radio
-             :options="selectTimes"
+              :options="selectTimes"
             />
             </q-field>
             <q-field
@@ -48,7 +48,7 @@
               v-model="settings.errors"
               float-label="课程冲突处理"
               radio
-             :options="selectErrors"
+              :options="selectErrors"
             />
             </q-field>
           </div>
