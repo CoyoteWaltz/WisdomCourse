@@ -3,10 +3,11 @@
   "version": "1.1.0",
   "private": true,
   "description": "A Quasar Framework app",
-  "author": "aoru45 <479192742@qq.com>",
+  "author": "CoyoteWaltz <coyote_waltz@163.com> & aoru45 <479192742@qq.com>",
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev"
   },
   "dependencies": {
     "@quasar/extras": "^1.5.1",

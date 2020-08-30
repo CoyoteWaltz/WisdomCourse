@@ -1,5 +1,5 @@
 <template>
-  <q-page id="bg">
+  <q-page id="recommendation">
     版块开发中，敬请期待...
   </q-page>
 </template>

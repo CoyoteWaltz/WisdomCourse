@@ -8,7 +8,7 @@
                 上大智课 Ver 1.0
               </div>
               <transition class="slide-fade">
-                <div v-if="showHidden" id="hiden" ref="hiden">
+                <div v-if="showHidden" id="hidden" ref="hidden">
                   <span id="hidden-title">
                     测试账号:
                   </span>
@@ -95,8 +95,8 @@ export default {
       timeShow: null,
       showHidden: false,
       userInfo: {
-        username: 'admin111',
-        password: '111111',
+        username: 'stu111',
+        password: 'stu111',
         identity: null
       },
       timeInterval: null
@@ -228,8 +228,6 @@ export default {
   overflow: hidden;
 }
 #hidden {
-  transition: color 1s, transform 1s;
-  transform: rotate(180deg);
   color: #1122f1;
 }
 p:hover {
