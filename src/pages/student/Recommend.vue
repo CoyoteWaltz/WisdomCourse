@@ -1,9 +1,9 @@
 <template>
   <q-page id="recommendation">
-    <div class="flex justify-center list-head">
+    <div class="container">
       <h2>为您推荐的课程</h2>
       <pure-class-table
-        :tableStyle="'width: 92vw; max-height: 75vh;'"
+        :tableStyle="'width: 100%; margin-top: 12vh; max-height: 75vh;'"
         :tableData="tableData"
         :visible-columns="visibleColumns"
         :operationBtn="operationBtn"
@@ -139,9 +139,23 @@ export default {
 </script>
 
 <style scoped>
-h2 {
+
+.container {
+  width: 100%;
+  position: relative;
+  overflow: scroll;
+}
+
+.container h2 {
   color: #1c857bc2;
-  font-size: 30px;
+  font-size: 24px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 </style>
